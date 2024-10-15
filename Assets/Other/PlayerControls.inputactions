@@ -3,30 +3,30 @@
     "maps": [
         {
             "name": "Player",
-            "id": "7791df58-9740-4133-8c99-fc5ef8349c06",
+            "id": "fc558b1a-7a37-4b85-9120-5d155d50ee07",
             "actions": [
                 {
-                    "name": "MOVE",
+                    "name": "Move",
                     "type": "Value",
-                    "id": "f65102cc-da4f-4e87-8bc9-e560f525c700",
+                    "id": "c39c5216-5700-498b-9121-6c18cc7b8360",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "JUMP",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "0adbdfd0-e37a-49c2-97e7-94b24841d5e2",
+                    "id": "aaa6d895-5bb3-4c7b-9af6-2d28d5ede7a1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SLASH",
+                    "name": "Slash",
                     "type": "Button",
-                    "id": "1687c120-a1e8-4e72-8d1a-b6c160418717",
+                    "id": "0b1331a0-e524-44f8-bad7-ec30933363a9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -35,79 +35,62 @@
             ],
             "bindings": [
                 {
-                    "name": "MOVE",
-                    "id": "0fb671e2-296a-4bf7-b21c-304a16ff9e15",
+                    "name": "2D Vector",
+                    "id": "c7e72ba5-84b0-4dba-96fb-10f6efa48a38",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MOVE",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "left",
-                    "id": "7a154b8f-830f-477d-af8e-d14a8ed6589e",
+                    "id": "62dd9636-ede5-4b4c-ab45-95d30dca6b6b",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MOVE",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "a3d5ac60-f256-405f-892c-907872a46113",
+                    "id": "98a13b23-f8f1-4085-aef3-a6255ff884b1",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MOVE",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
-                    "id": "99ca4df0-c354-4c05-8b81-1e1b2ec78408",
+                    "id": "97b76f13-f085-4245-abd1-cf0ed3f164a3",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "JUMP",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8fc8b8db-a1c3-489c-b173-251b22b31be1",
+                    "id": "fc57aec3-45c4-462d-a033-2fae7d1c7677",
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SLASH",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "Keyboard",
-            "bindingGroup": "Keyboard",
-            "devices": [
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }
