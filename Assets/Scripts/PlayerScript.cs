@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class controls : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     public float moveSpeed;
     public float jumpForce;
@@ -15,9 +15,15 @@ public class controls : MonoBehaviour
 
     public float rayDistance = 0.1f; 
     public LayerMask GroundLayer;
+    public float lastGroundY;
 
     public bool updateCamera;
+    public float maxLookAhead;
+    public float lookSpeed;
+    public float lookTurnDampening;
+    public Vector2 playerLookAhead;
 
+    public float lookDown; //FOR TESTING
 
     public GameObject slashPrefab;
     public float slashDuration = 0.3f;
@@ -30,41 +36,60 @@ public class controls : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
         slashPosition = new Vector3(1, 0, 0);
+        playerLookAhead = Vector2.zero;
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-       
+        CheckForGround();
+        CheckForWalls();
+
+        if (cooldownSlash < 0.5f)
+        {
+            cooldownSlash += 0.02f; // fixed update is every 1/50th of a second
+        }
+
+
+        Vector3 moveVector = new Vector3(moveDirection.x * moveSpeed, rb.velocity.y);
+        rb.velocity = moveVector;
+
+        if (moveDirection.x > 0)
+        {
+            sp.flipX = false;
+            slashPosition.x = 1;
+            if (Mathf.Abs(playerLookAhead.x) < maxLookAhead) { playerLookAhead.x += lookSpeed; } // for camera movement
+            if (playerLookAhead.x < 0) { playerLookAhead.x *= lookTurnDampening; }
+
+        }
+        else if (moveDirection.x < 0)
+        {
+            sp.flipX = true;
+            slashPosition.x = -1;
+            if (Mathf.Abs(playerLookAhead.x) < maxLookAhead) { playerLookAhead.x -= lookSpeed; }
+            if (playerLookAhead.x > 0) { playerLookAhead.x *= lookTurnDampening; }
+
+        }
+        else
+        {
+            playerLookAhead.x *= 0.95f;
+        }
+
+        //FOR TESTING
+        if (moveDirection.y < 0)
+        {
+            playerLookAhead.y = -lookDown;
+        } else
+        {
+            playerLookAhead.y = 0f;
+        }
     }
 
 
     public void Update()
     {
-        CheckForGround();
-        CheckForWalls();
 
-        if(cooldownSlash < 0.5f)
-        {
-            cooldownSlash += Time.deltaTime;
-        }
-
-        if(moveDirection.x > 0)
-        {
-            sp.flipX = false;
-            slashPosition.x = 1;
-
-        }
-        else if(moveDirection.x < 0)
-        {
-            sp.flipX = true;
-            slashPosition.x = -1;
-        }
     }
 
-
-
-  
 
     private void SpawnSlash()
     {
@@ -84,6 +109,7 @@ public class controls : MonoBehaviour
         if (hit.collider != null)
         {
             isGrounded = true;
+            lastGroundY = transform.position.y;
         }
         else
         {
@@ -108,9 +134,6 @@ public class controls : MonoBehaviour
     }
 
 
-
-
-
     //INPUT MANAGING
 
     public void OnMove(InputAction.CallbackContext context)
@@ -118,6 +141,7 @@ public class controls : MonoBehaviour
         if (context.performed)
         {
             moveDirection = context.ReadValue<Vector2>();
+
         }
         else if (context.canceled)
         {
