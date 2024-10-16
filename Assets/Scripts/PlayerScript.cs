@@ -16,7 +16,9 @@ public class PlayerScript : MonoBehaviour
     public float rayDistance = 0.1f; 
     public LayerMask GroundLayer;
     public float lastGroundY;
+    
 
+    //CAMERA
     public bool updateCamera;
     public float maxLookAhead;
     public float lookSpeed;
@@ -24,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     public Vector2 playerLookAhead;
 
     public float lookDown; //FOR TESTING
+
 
     public GameObject slashPrefab;
     public float slashDuration = 0.3f;
@@ -71,7 +74,7 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            playerLookAhead.x *= 0.95f;
+            //playerLookAhead.x *= 0.95f;
         }
 
         //FOR TESTING
