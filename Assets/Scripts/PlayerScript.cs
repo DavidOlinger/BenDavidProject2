@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
+    //Movement
     public float moveSpeed;
     public float jumpForce;
 
@@ -13,13 +14,16 @@ public class PlayerScript : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     private bool isGrounded = true;
 
-    public float rayDistance = 0.1f; 
+
+    //RayCasting
+    private float xRayDistance; 
     public LayerMask GroundLayer;
     public float lastGroundY;
     
 
     //CAMERA
     public bool updateCamera;
+    public bool lookingRight;
     public float maxLookAhead;
     public float lookSpeed;
     public float lookTurnDampening;
@@ -28,6 +32,7 @@ public class PlayerScript : MonoBehaviour
     public float lookDown; //FOR TESTING
 
 
+    //Slash
     public GameObject slashPrefab;
     public float slashDuration = 0.3f;
     public float cooldownSlash;
@@ -40,6 +45,7 @@ public class PlayerScript : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
+        xRayDistance = (transform.localScale.x / 2) + 0.05f;
     }
 
     private void FixedUpdate()
@@ -56,26 +62,35 @@ public class PlayerScript : MonoBehaviour
         Vector3 moveVector = new Vector3(moveDirection.x * moveSpeed, rb.velocity.y);
         rb.velocity = moveVector;
 
+
         if (moveDirection.x > 0)
         {
             sp.flipX = false;
             slashPosition.x = 1;
-            if (Mathf.Abs(playerLookAhead.x) < maxLookAhead) { playerLookAhead.x += lookSpeed; } // for camera movement
-            if (playerLookAhead.x < 0) { playerLookAhead.x *= lookTurnDampening; }
-
+            lookingRight = true;
         }
         else if (moveDirection.x < 0)
         {
             sp.flipX = true;
             slashPosition.x = -1;
+            lookingRight = false;
+        }
+
+
+        if (lookingRight)
+        {
+            if (Mathf.Abs(playerLookAhead.x) < maxLookAhead) { playerLookAhead.x += lookSpeed; } // for camera movement
+            if (playerLookAhead.x < 0) { playerLookAhead.x *= lookTurnDampening; }
+        }
+        else if (!lookingRight)
+        {
             if (Mathf.Abs(playerLookAhead.x) < maxLookAhead) { playerLookAhead.x -= lookSpeed; }
             if (playerLookAhead.x > 0) { playerLookAhead.x *= lookTurnDampening; }
+        }
 
-        }
-        else
-        {
-            //playerLookAhead.x *= 0.95f;
-        }
+
+
+        
 
         //FOR TESTING
         if (moveDirection.y < 0)
@@ -87,11 +102,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-    public void Update()
-    {
-
-    }
 
 
     private void SpawnSlash()
@@ -108,8 +118,17 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckForGround()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayDistance, GroundLayer);
-        if (hit.collider != null)
+        Vector3 Xoffset = Vector3.zero;
+        Xoffset.x = transform.localScale.x / 2;
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + Xoffset, Vector2.down, xRayDistance, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position - Xoffset, Vector2.down, xRayDistance, GroundLayer);
+
+        if (rightSide.collider != null)
+        {
+            isGrounded = true;
+            lastGroundY = transform.position.y;
+        }
+        else if(leftSide.collider != null)
         {
             isGrounded = true;
             lastGroundY = transform.position.y;
@@ -120,10 +139,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+   
     private void CheckForWalls()
     {
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, rayDistance, GroundLayer);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, rayDistance, GroundLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, GroundLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, GroundLayer);
 
         if (hitLeft.collider != null)
         {
@@ -151,7 +171,6 @@ public class PlayerScript : MonoBehaviour
             moveDirection = Vector2.zero;
         }
     }
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started && isGrounded)
@@ -165,7 +184,6 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("Jump Released");
         }
     }
-
     public void OnSlash(InputAction.CallbackContext context)
     {
         if (context.started)

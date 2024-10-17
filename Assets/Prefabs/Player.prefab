@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1507394657786250774}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95, y: -3.08, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -129,14 +129,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 15
-  rayDistance: 0.6
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 128
+  lastGroundY: 0
   updateCamera: 0
-  maxLookAhead: 3
-  lookSpeed: 0.08
-  lookTurnDampening: 0.5
+  lookingRight: 0
+  maxLookAhead: 1
+  lookSpeed: 0.05
+  lookTurnDampening: 0.99
   playerLookAhead: {x: 0, y: 0}
   lookDown: 3.5
   slashPrefab: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
@@ -229,7 +230,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1507394657786250774}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a1705dbf733da134b93d14f44cb8448c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

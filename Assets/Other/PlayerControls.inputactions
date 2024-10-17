@@ -36,7 +36,7 @@
             "bindings": [
                 {
                     "name": "2D Vector",
-                    "id": "c7e72ba5-84b0-4dba-96fb-10f6efa48a38",
+                    "id": "803090f8-c03b-4ba4-81af-932e9c89af3b",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -46,8 +46,30 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "up",
+                    "id": "9a950a6f-53ad-4a36-ab1b-2014ac98defc",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "06d80989-e34e-4ae7-9601-4d20d6aff280",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "left",
-                    "id": "62dd9636-ede5-4b4c-ab45-95d30dca6b6b",
+                    "id": "18648352-20f5-47ca-904a-b4b626e76550",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -58,19 +80,8 @@
                 },
                 {
                     "name": "right",
-                    "id": "98a13b23-f8f1-4085-aef3-a6255ff884b1",
+                    "id": "bab1d83e-897a-42d1-9c32-bce75b848c3e",
                     "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "3ad250dc-3eef-4bd9-88c5-f450774df352",
-                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
