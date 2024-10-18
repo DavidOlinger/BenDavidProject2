@@ -11,14 +11,18 @@ public class PlayerScript : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sp;
+    public Transform tr;
     private Vector2 moveDirection = Vector2.zero;
     private bool isGrounded = true;
 
 
     //RayCasting
     private float xRayDistance; 
+    public LayerMask WallLayer;
     public LayerMask GroundLayer;
     public float lastGroundY;
+    Vector3 leftOffset;
+    Vector3 rightOffset;
     
 
     //CAMERA
@@ -35,10 +39,18 @@ public class PlayerScript : MonoBehaviour
     //Slash
     public GameObject slashPrefab;
     public float slashDuration = 0.3f;
-    public float cooldownSlash;
-
+    float cooldownSlash;
+    public float coolDown;
     Vector3 slashPosition;
 
+    //Health
+    public float currHP;
+    public float maxHP;
+    public bool Invincible;
+    public bool cantMove;
+
+
+    //General Starting an Upkeep
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,8 +58,14 @@ public class PlayerScript : MonoBehaviour
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
-    }
 
+        leftOffset = Vector3.zero;
+        rightOffset = Vector3.zero;
+        leftOffset.x = -(transform.localScale.x / 2);
+        leftOffset.y = -(transform.localScale.y / 2);
+        rightOffset.x = transform.localScale.x / 2;
+        rightOffset.y = -(transform.localScale.y / 2);
+    }
     private void FixedUpdate()
     {
         CheckForGround();
@@ -58,9 +76,14 @@ public class PlayerScript : MonoBehaviour
             cooldownSlash += 0.02f; // fixed update is every 1/50th of a second
         }
 
+        if (!cantMove)
+        {
+            Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+            rb.velocity = moveVector;
+        }
 
-        Vector3 moveVector = new Vector3(moveDirection.x * moveSpeed, rb.velocity.y);
-        rb.velocity = moveVector;
+        
+       
 
 
         if (moveDirection.x > 0)
@@ -96,14 +119,15 @@ public class PlayerScript : MonoBehaviour
         if (moveDirection.y < 0)
         {
             playerLookAhead.y = -lookDown;
-        } else
+        }
+        else
         {
             playerLookAhead.y = 0f;
         }
     }
 
 
-
+    //Combat?
     private void SpawnSlash()
     {
 
@@ -112,23 +136,61 @@ public class PlayerScript : MonoBehaviour
         Destroy(slash, slashDuration);
     }
 
+    public void takeDamage(GameObject other)
+    {
+        currHP--;
+        if (currHP <= 0)
+        {
+            Debug.Log("DEAD");
+        }
+
+
+        Invincible = true;
+        Invoke("endInvincible", 2f);
+        cantMove = true;
+        Invoke("endCantMove", 0.5f);
+        sp.color = Color.magenta;
+
+
+        rb.velocity = Vector2.zero;  //COULD MAKE THIS A HIT STOP BY HAVING THE FORCES BE A DELAYED METHOD CALL AND THE ZERO LAST LONGER? (would also have to stop gravity?)
+
+
+        float hitLaunch = transform.position.x - other.transform.position.x;
+        if (hitLaunch > 0)
+        {
+            rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(-5, 10), ForceMode2D.Impulse);
+        }
+    }
+
+    private void endInvincible()
+    {
+        Invincible = false;
+        sp.color = Color.white; //just a thing for now to see when invincible
+
+    }
+    private void endCantMove()
+    {
+        cantMove = false;
+    }
 
 
     //RAYCASTING STUFF
 
     private void CheckForGround()
     {
-        Vector3 Xoffset = Vector3.zero;
-        Xoffset.x = transform.localScale.x / 2;
-        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + Xoffset, Vector2.down, xRayDistance, GroundLayer);
-        RaycastHit2D leftSide = Physics2D.Raycast(transform.position - Xoffset, Vector2.down, xRayDistance, GroundLayer);
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .02f, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .02f, GroundLayer);
 
-        if (rightSide.collider != null)
+        if (rightSide.collider != null && rb.velocity.y == 0)
         {
             isGrounded = true;
             lastGroundY = transform.position.y;
         }
-        else if(leftSide.collider != null)
+        else if(leftSide.collider != null && rb.velocity.y == 0)
         {
             isGrounded = true;
             lastGroundY = transform.position.y;
@@ -138,23 +200,23 @@ public class PlayerScript : MonoBehaviour
             isGrounded = false;
         }
     }
-
-   
     private void CheckForWalls()
     {
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, GroundLayer);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, GroundLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, WallLayer);
 
         if (hitLeft.collider != null)
         {
-            Debug.Log("leftWall");
+            //Debug.Log("leftWall");
         }
 
         if (hitRight.collider != null)
         {
-            Debug.Log("rightWall");
+            //Debug.Log("rightWall");
         }
     }
+
+    
 
 
     //INPUT MANAGING
@@ -181,22 +243,20 @@ public class PlayerScript : MonoBehaviour
         else if (context.canceled && rb.velocity.y > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-            Debug.Log("Jump Released");
         }
     }
     public void OnSlash(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            Debug.Log("Slash Started");
-            if(cooldownSlash > 0.48f)
+            if(cooldownSlash > coolDown)
             {
                 SpawnSlash();
             }
         }
         else if (context.canceled)
         {
-            Debug.Log("Slash Released");
+
         }
     }
 

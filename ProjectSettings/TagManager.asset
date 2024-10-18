@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Slash
+  - PlayerDmg
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,28 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1359578567
+    locked: 0
+  - name: Ground1
+    uniqueID: 3281782849
+    locked: 0
+  - name: Ground 2
+    uniqueID: 2882954043
+    locked: 0
+  - name: Ground 3
+    uniqueID: 1511730691
+    locked: 0
+  - name: Enemy
+    uniqueID: 76160661
+    locked: 0
+  - name: Projectile
+    uniqueID: 1587870087
+    locked: 0
+  - name: Player
+    uniqueID: 63965337
+    locked: 0
+  - name: Foreground
+    uniqueID: 3665204369
     locked: 0
