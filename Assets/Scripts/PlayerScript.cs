@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
-        if (cooldownSlash < 0.5f)
+        if (cooldownSlash < coolDown)
         {
             cooldownSlash += 0.02f; // fixed update is every 1/50th of a second
         }
@@ -126,11 +126,13 @@ public class PlayerScript : MonoBehaviour
         //FOR TESTING
         if (moveDirection.y < 0)
         {
-            playerLookAhead.y = -lookDown;
+           // playerLookAhead.y = -lookDown;
+
+            //need to be holding down for like a second, use a time counter for this
         }
         else
         {
-            playerLookAhead.y = 0f;
+           // playerLookAhead.y = 0f;
         }
     }
 
@@ -186,21 +188,22 @@ public class PlayerScript : MonoBehaviour
     public void slashKnockback(float hitLaunch)
     {
         cantMove = true;
-        Invoke("endCantMove", 0.08f);
+        Invoke("endCantMove", 0.12f);
 
         rb.velocity = Vector2.zero;
 
         if (hitLaunch > 0)
         {
-            rb.AddForce(new Vector2(-1, 0), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-1.8f, 0), ForceMode2D.Impulse);
         }
         else
         {
-            rb.AddForce(new Vector2(1, 0), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(1.8f, 0), ForceMode2D.Impulse);
         }
 
 
-    }
+    } //might need to make slashKnockback public til we find a good amount to feel right
+    // also might be better to just teleport the player a bit? or just set their velocity super high for a few frames
 
     private void endInvincible()
     {
@@ -285,7 +288,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started)
         {
-            if(cooldownSlash > coolDown)
+            if(cooldownSlash >= coolDown)
             {
                 SpawnSlash();
             }

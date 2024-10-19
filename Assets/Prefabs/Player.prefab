@@ -213,11 +213,11 @@ MonoBehaviour:
   lookDown: 3.5
   slashPrefab: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
   slashDuration: 0.15
-  coolDown: 0
+  coolDown: 0.5
   slashOffX: 0.6
   slashOffY: 0.8
-  currHP: 0
-  maxHP: 0
+  currHP: 3
+  maxHP: 3
   Invincible: 0
   cantMove: 0
 --- !u!114 &8608152268744990662

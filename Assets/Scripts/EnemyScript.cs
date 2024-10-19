@@ -5,19 +5,26 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     //Basic Variables
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private SpriteRenderer sp;
+
     PlayerScript playerScript;
     public float hpMax;
     public float hitCounter;
 
-    //Movement
+    //Movement public
     public float moveSpeed;
-    int direction = -1;
-    float distanceToPlayer = 0;
-    private bool cantMove = false;
+    public float fastMoveSpeed;
+    public Vector2 activateMoveDistance;
+    public Vector2 activateAttackDistance;
 
-    //Enemy-type bools
-    public bool mover;
+
+    //movement privates
+    int directionMove = -1;
+    float distanceToPlayerX = 0;
+    float distanceToPlayerY = 0;
+    int directionToPlayer = 0;
+    private bool cantMove = false;
 
     //RayCasting
     private float xRayDistance;
@@ -26,13 +33,20 @@ public class EnemyScript : MonoBehaviour
     Vector3 leftOffset;
     Vector3 rightOffset;
 
-
-
-
+    //Enemy-type bools
+    public bool stillGrounded;
+    public bool stillFloating;
+    public bool HoriMover;
+    public bool standFollow;
+    public bool floatFollow;
+    public bool slasher;
+    public bool shooter;
+    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sp = GetComponent<SpriteRenderer>();
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
 
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
@@ -43,6 +57,11 @@ public class EnemyScript : MonoBehaviour
         leftOffset.y = -(transform.localScale.y / 2);
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
+
+        if(stillFloating || floatFollow)
+        {
+            rb.gravityScale = 0;
+        }
     }
 
     private void FixedUpdate()
@@ -50,28 +69,33 @@ public class EnemyScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
-        distanceToPlayer = playerScript.transform.position.x - transform.position.x;
+        distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
+        distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
 
-        if(Mathf.Abs(distanceToPlayer) < 3)
+        if(distanceToPlayerX < 0)
         {
-            moveSpeed = 2; //this is rly crude for now but we can adjust all this to make good enemy patterns
+            directionToPlayer = -1;
         }
         else
         {
-            moveSpeed = 1; // again stupid for rn but there is an idea here lol
+            directionToPlayer = 1;
         }
 
-        if(Mathf.Abs(distanceToPlayer) < 1)
+
+        if (Mathf.Abs(distanceToPlayerX) < activateMoveDistance.x && Mathf.Abs(distanceToPlayerY) < activateMoveDistance.y)
+        {
+            CycleMove(true);
+        }
+        else
+        {
+            CycleMove(false);
+        }
+
+
+
+        if (Mathf.Abs(distanceToPlayerX) < activateAttackDistance.x && Mathf.Abs(distanceToPlayerY) < activateAttackDistance.y)
         {
             Attack();
-        }
-
-        if (!cantMove)
-        {
-            if (mover)
-            {
-                rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
-            }
         }
         
 
@@ -82,6 +106,51 @@ public class EnemyScript : MonoBehaviour
     {
         // idk just spawn a hurtbox in the direction the player is, make speed 0 while doing so
         // might need like a bool to keep it from triggering multiple times?
+    }
+
+    private void CycleMove(bool isClose)
+    {
+        if (!cantMove)
+        {
+            if (stillGrounded)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            if (stillFloating)
+            {
+                rb.velocity = Vector2.zero;
+            }
+            if (HoriMover)
+            {
+                rb.velocity = new Vector2(moveSpeed * directionMove, rb.velocity.y);
+            }
+            if (standFollow)
+            {
+                if (isClose)
+                {
+                    sp.color = Color.yellow;
+                    rb.velocity = new Vector2(moveSpeed * directionToPlayer, rb.velocity.y);
+                }
+                else
+                {
+                    sp.color = Color.red;
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+            }
+            if (floatFollow)
+            {
+                if (isClose)
+                {
+                    sp.color = Color.yellow;
+                    rb.velocity = new Vector2(moveSpeed * directionMove, moveSpeed * directionMove); // need to make a direction x and y
+                }
+                else
+                {
+                    sp.color = Color.red;
+                    rb.velocity = Vector2.zero;
+                }
+            }
+        }
     }
 
 
@@ -95,11 +164,11 @@ public class EnemyScript : MonoBehaviour
 
         if (rightSide.collider == null && rb.velocity.y == 0)
         {
-            direction = -1;
+            directionMove = -1;
         }
         else if (leftSide.collider == null && rb.velocity.y == 0)
         {
-            direction = 1;
+            directionMove = 1;
         }
         
     }
@@ -110,12 +179,12 @@ public class EnemyScript : MonoBehaviour
 
         if (hitLeft.collider != null)
         {
-            direction = 1;
+            directionMove = 1;
         }
 
         if (hitRight.collider != null)
         {
-            direction = -1;
+            directionMove = -1;
         }
     }
 
@@ -162,8 +231,6 @@ public class EnemyScript : MonoBehaviour
         }
 
     }
-
-
 
     private void endCantMove()
     {
