@@ -49,7 +49,7 @@ public class EnemyScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
-        distanceToPlayer = playerScript.tr.position.x - transform.position.x;
+        distanceToPlayer = playerScript.transform.position.x - transform.position.x;
 
         if(Mathf.Abs(distanceToPlayer) < 3)
         {

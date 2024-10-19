@@ -11,7 +11,6 @@ public class PlayerScript : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sp;
-    public Transform tr;
     private Vector2 moveDirection = Vector2.zero;
     private bool isGrounded = true;
 
@@ -42,6 +41,8 @@ public class PlayerScript : MonoBehaviour
     float cooldownSlash;
     public float coolDown;
     Vector3 slashPosition;
+    public float slashOffX;
+    public float slashOffY;
 
     //Health
     public float currHP;
@@ -89,14 +90,20 @@ public class PlayerScript : MonoBehaviour
         if (moveDirection.x > 0)
         {
             sp.flipX = false;
-            slashPosition.x = 1;
             lookingRight = true;
-        }
-        else if (moveDirection.x < 0)
+        } else if (moveDirection.x < 0)
         {
             sp.flipX = true;
-            slashPosition.x = -1;
             lookingRight = false;
+        }
+
+        if (lookingRight)
+        {
+            slashPosition = new Vector3(slashOffX, 0, 0);
+        } else
+        {
+            slashPosition = new Vector3(-slashOffX, 0, 0);
+
         }
 
 
@@ -131,9 +138,18 @@ public class PlayerScript : MonoBehaviour
     private void SpawnSlash()
     {
 
+        
+        if (moveDirection.y > 0) { 
+            slashPosition = new Vector3(0, slashOffY, 0); 
+        } else if (moveDirection.y < 0)
+        {
+            slashPosition = new Vector3(0, -slashOffY, 0);
+
+        }
+
         GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+        slash.GetComponent<SlashScript>().slashPosition = slashPosition;
         cooldownSlash = 0;
-        Destroy(slash, slashDuration);
     }
 
     public void takeDamage(GameObject other)
