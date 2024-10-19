@@ -67,6 +67,7 @@ public class PlayerScript : MonoBehaviour
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
     }
+
     private void FixedUpdate()
     {
         CheckForGround();
@@ -134,7 +135,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    //Combat?
+    //Combat
     private void SpawnSlash()
     {
 
@@ -180,6 +181,25 @@ public class PlayerScript : MonoBehaviour
         {
             rb.AddForce(new Vector2(-5, 10), ForceMode2D.Impulse);
         }
+    }
+
+    public void slashKnockback(float hitLaunch)
+    {
+        cantMove = true;
+        Invoke("endCantMove", 0.08f);
+
+        rb.velocity = Vector2.zero;
+
+        if (hitLaunch > 0)
+        {
+            rb.AddForce(new Vector2(-1, 0), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(1, 0), ForceMode2D.Impulse);
+        }
+
+
     }
 
     private void endInvincible()

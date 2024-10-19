@@ -14,6 +14,7 @@ public class EnemyScript : MonoBehaviour
     public float moveSpeed;
     int direction = -1;
     float distanceToPlayer = 0;
+    private bool cantMove = false;
 
     //Enemy-type bools
     public bool mover;
@@ -53,7 +54,7 @@ public class EnemyScript : MonoBehaviour
 
         if(Mathf.Abs(distanceToPlayer) < 3)
         {
-            moveSpeed = 3; //this is rly crude for now but we can adjust all this to make good enemy patterns
+            moveSpeed = 2; //this is rly crude for now but we can adjust all this to make good enemy patterns
         }
         else
         {
@@ -65,10 +66,14 @@ public class EnemyScript : MonoBehaviour
             Attack();
         }
 
-        if (mover)
+        if (!cantMove)
         {
-            rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
+            if (mover)
+            {
+                rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
+            }
         }
+        
 
     }
 
@@ -115,19 +120,40 @@ public class EnemyScript : MonoBehaviour
     }
 
 
-
+    //COMBAT
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Slash"))
         {
-            Debug.Log("hit detected");
+
+            float hitLaunch = transform.position.x - collision.transform.position.x;
+
+            playerScript.slashKnockback(hitLaunch);
+
             hitCounter++;
-            if(hitCounter >= hpMax)
+
+            if (hitCounter >= hpMax)
             {
                 Destroy(gameObject);
             }
-        }
 
+
+            cantMove = true;
+            Invoke("endCantMove", 0.2f);
+
+            rb.velocity = Vector2.zero;
+
+
+            if (hitLaunch > 0)
+            {
+                rb.AddForce(new Vector2(2, 0), ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(new Vector2(-2, 0), ForceMode2D.Impulse);
+            }
+
+        }
 
         if (collision.CompareTag("PlayerDmg") && !playerScript.Invincible)
         {
@@ -135,9 +161,14 @@ public class EnemyScript : MonoBehaviour
 
         }
 
-
     }
 
+
+
+    private void endCantMove()
+    {
+        cantMove = false;
+    }
 
 
 
