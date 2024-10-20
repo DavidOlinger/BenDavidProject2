@@ -13,6 +13,9 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer sp;
     private Vector2 moveDirection = Vector2.zero;
     private bool isGrounded = true;
+    private bool isLeftWallTouching;
+    private bool isRightWallTouching;
+    private bool firstTouchWall;
 
 
     //RayCasting
@@ -43,6 +46,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 slashPosition;
     public float slashOffX;
     public float slashOffY;
+    public float knockbackOnHit;
 
     //Health
     public float currHP;
@@ -50,8 +54,13 @@ public class PlayerScript : MonoBehaviour
     public bool Invincible;
     public bool cantMove;
 
+    //Vault Variables
+    public float vaultRise;
+    public float vaultDistance;
+    public float vaultTime;
 
-    //General Starting an Upkeep
+
+    //General Starting and Upkeep
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -92,16 +101,17 @@ public class PlayerScript : MonoBehaviour
         {
             sp.flipX = false;
             lookingRight = true;
-        } else if (moveDirection.x < 0)
+        }
+        else if (moveDirection.x < 0)
         {
             sp.flipX = true;
             lookingRight = false;
         }
-
         if (lookingRight)
         {
             slashPosition = new Vector3(slashOffX, 0, 0);
-        } else
+        }
+        else
         {
             slashPosition = new Vector3(-slashOffX, 0, 0);
 
@@ -154,6 +164,38 @@ public class PlayerScript : MonoBehaviour
         slash.GetComponent<SlashScript>().slashPosition = slashPosition;
         cooldownSlash = 0;
     }
+    private void SpawnVault()
+    {
+
+        if (sp.flipX)
+        {
+            slashPosition = new Vector3(-0.6f, -0.7f, 0);
+            GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+        }
+        else
+        {
+            slashPosition = new Vector3(0.6f, -0.7f, 0);
+            GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+        }
+    }
+    public void VaultLaunch()
+    {
+        cantMove = true;
+
+        rb.velocity = Vector2.zero;
+
+        Invoke("endCantMove", vaultTime);
+
+
+        if (sp.flipX)
+        {
+            rb.velocity = new Vector2(-vaultDistance, vaultRise);
+        }
+        else
+        {
+            rb.velocity = new Vector2(vaultDistance, vaultRise);
+        }
+    }
 
     public void takeDamage(GameObject other)
     {
@@ -188,9 +230,9 @@ public class PlayerScript : MonoBehaviour
     public void slashKnockback(float hitLaunch)
     {
         cantMove = true;
-        Invoke("endCantMove", 0.12f);
+        Invoke("endCantMove", 0.14f);
 
-        rb.velocity = Vector2.zero;
+        rb.velocity = new Vector2(0, rb.velocity.y);
 
         if (hitLaunch > 0)
         {
@@ -202,8 +244,7 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-    } //might need to make slashKnockback public til we find a good amount to feel right
-    // also might be better to just teleport the player a bit? or just set their velocity super high for a few frames
+    } //currently is never used
 
     private void endInvincible()
     {
@@ -244,14 +285,35 @@ public class PlayerScript : MonoBehaviour
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, WallLayer);
 
-        if (hitLeft.collider != null)
+        if (hitLeft.collider != null && moveDirection.x < 0)
         {
-            //Debug.Log("leftWall");
-        }
+            if (firstTouchWall)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                firstTouchWall = false;
+            }
+            rb.gravityScale = 0.9f;
+            isLeftWallTouching = true;
+            isRightWallTouching = false;
 
-        if (hitRight.collider != null)
+        }
+        else if (hitRight.collider != null && moveDirection.x > 0)
         {
-            //Debug.Log("rightWall");
+            if (firstTouchWall)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                firstTouchWall = false;
+            }
+            rb.gravityScale = 0.9f; // need to also adjust linear drag to some value that will cause no acceleration
+            isRightWallTouching = true;
+            isLeftWallTouching = false;
+        }
+        else
+        {
+            rb.gravityScale = 2.65f;
+            isLeftWallTouching = false;
+            isRightWallTouching = false;
+            firstTouchWall = true;
         }
     }
 
@@ -279,9 +341,23 @@ public class PlayerScript : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
         }
-        else if (context.canceled && rb.velocity.y > 0)
+        else if (context.canceled && rb.velocity.y > 0 && !cantMove) // added the cantMove part to stop weird sudden velocity stopping
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
+        else if(context.started && !isGrounded && isLeftWallTouching)
+        {
+            cantMove = true;
+            Invoke("endCantMove", 0.18f);
+            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(7, jumpForce);
+        }
+        else if (context.started && !isGrounded && isRightWallTouching)
+        {
+            cantMove = true;
+            Invoke("endCantMove", 0.18f);
+            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(-7, jumpForce);
         }
     }
     public void OnSlash(InputAction.CallbackContext context)
@@ -298,6 +374,14 @@ public class PlayerScript : MonoBehaviour
 
         }
     }
+    public void OnVault(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SpawnVault(); // need to replace this with something with its own script to check for a collision
+            VaultLaunch();
+        }
 
+    }
 
 }

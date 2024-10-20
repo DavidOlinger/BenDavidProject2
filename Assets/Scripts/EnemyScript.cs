@@ -9,8 +9,8 @@ public class EnemyScript : MonoBehaviour
     private SpriteRenderer sp;
 
     PlayerScript playerScript;
-    public float hpMax;
-    public float hitCounter;
+    public int hpMax;
+    public int hitCounter;
 
     //Movement public
     public float moveSpeed;
@@ -84,11 +84,11 @@ public class EnemyScript : MonoBehaviour
 
         if (Mathf.Abs(distanceToPlayerX) < activateMoveDistance.x && Mathf.Abs(distanceToPlayerY) < activateMoveDistance.y)
         {
-            CycleMove(true);
+            CycleMove(true); // true = the player is close
         }
         else
         {
-            CycleMove(false);
+            CycleMove(false); // false = the player is not close, (still activates move cycle, but only does the idle move cycle)
         }
 
 
@@ -197,7 +197,7 @@ public class EnemyScript : MonoBehaviour
 
             float hitLaunch = transform.position.x - collision.transform.position.x;
 
-            playerScript.slashKnockback(hitLaunch);
+            //playerScript.slashKnockback(hitLaunch);
 
             hitCounter++;
 
@@ -208,18 +208,18 @@ public class EnemyScript : MonoBehaviour
 
 
             cantMove = true;
-            Invoke("endCantMove", 0.2f);
+            Invoke("endCantMove", 0.06f);
 
-            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
 
-            if (hitLaunch > 0)
+            if (playerScript.lookingRight)
             {
-                rb.AddForce(new Vector2(2, 0), ForceMode2D.Impulse);
+                rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
             }
             else
             {
-                rb.AddForce(new Vector2(-2, 0), ForceMode2D.Impulse);
+                rb.velocity = new Vector2(-(playerScript.knockbackOnHit), rb.velocity.y);
             }
 
         }

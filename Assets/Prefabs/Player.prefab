@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2186619379336110007}
   m_Layer: 0
   m_Name: DamageTrigger
-  m_TagString: Untagged
+  m_TagString: PlayerDmg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 6000981431108293191}
   - component: {fileID: 8608152268744990662}
   - component: {fileID: 759066250880498503}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0.3
   m_AngularDrag: 0.05
-  m_GravityScale: 2.64
+  m_GravityScale: 2.65
   m_Material: {fileID: 6200000, guid: a1705dbf733da134b93d14f44cb8448c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -216,10 +216,14 @@ MonoBehaviour:
   coolDown: 0.5
   slashOffX: 0.6
   slashOffY: 0.8
-  currHP: 3
-  maxHP: 3
+  knockbackOnHit: 20
+  currHP: 5
+  maxHP: 5
   Invincible: 0
   cantMove: 0
+  vaultRise: 0
+  vaultDistance: 0
+  vaultTime: 0
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0
