@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sp;
-    private Vector2 moveDirection = Vector2.zero;
+    public Vector2 moveDirection = Vector2.zero;
     private bool isGrounded = true;
     private bool isLeftWallTouching;
     private bool isRightWallTouching;
@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
 
     //Slash
     public GameObject slashPrefab;
+    public GameObject vaultPrefab; //idk if we are doing this right but it should work for now
     public float slashDuration = 0.3f;
     float cooldownSlash;
     public float coolDown;
@@ -170,12 +171,12 @@ public class PlayerScript : MonoBehaviour
         if (sp.flipX)
         {
             slashPosition = new Vector3(-0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+            GameObject slash = Instantiate(vaultPrefab, transform.position + slashPosition, Quaternion.identity, transform);
         }
         else
-        {
+        { 
             slashPosition = new Vector3(0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+            GameObject slash = Instantiate(vaultPrefab, transform.position + slashPosition, Quaternion.identity, transform);
         }
     }
     public void VaultLaunch()
@@ -189,11 +190,25 @@ public class PlayerScript : MonoBehaviour
 
         if (sp.flipX)
         {
-            rb.velocity = new Vector2(-vaultDistance, vaultRise);
+            if (isLeftWallTouching)
+            {
+                rb.velocity = new Vector2(vaultDistance, vaultRise);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-vaultDistance, vaultRise);
+            }
         }
         else
         {
-            rb.velocity = new Vector2(vaultDistance, vaultRise);
+            if (isRightWallTouching)
+            {
+                rb.velocity = new Vector2(-vaultDistance, vaultRise);
+            }
+            else
+            {
+                rb.velocity = new Vector2(vaultDistance, vaultRise);
+            }
         }
     }
 
@@ -285,26 +300,25 @@ public class PlayerScript : MonoBehaviour
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, WallLayer);
 
-        if (hitLeft.collider != null && moveDirection.x < 0)
+        if (hitLeft.collider != null && moveDirection.x < 0 && !isGrounded && rb.velocity.y < 0)
         {
             if (firstTouchWall)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 firstTouchWall = false;
             }
-            rb.gravityScale = 0.9f;
+            rb.gravityScale = 1;
             isLeftWallTouching = true;
             isRightWallTouching = false;
-
         }
-        else if (hitRight.collider != null && moveDirection.x > 0)
+        else if (hitRight.collider != null && moveDirection.x > 0 && !isGrounded && rb.velocity.y < 0)
         {
             if (firstTouchWall)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 firstTouchWall = false;
             }
-            rb.gravityScale = 0.9f; // need to also adjust linear drag to some value that will cause no acceleration
+            rb.gravityScale = 1; // need to also adjust linear drag to some value that will cause no acceleration
             isRightWallTouching = true;
             isLeftWallTouching = false;
         }
@@ -341,23 +355,23 @@ public class PlayerScript : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
         }
-        else if (context.canceled && rb.velocity.y > 0 && !cantMove) // added the cantMove part to stop weird sudden velocity stopping
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
         else if(context.started && !isGrounded && isLeftWallTouching)
         {
             cantMove = true;
-            Invoke("endCantMove", 0.18f);
+            Invoke("endCantMove", 0.16f);
             rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(7, jumpForce);
+            rb.velocity = new Vector2(7, jumpForce - 1);
         }
         else if (context.started && !isGrounded && isRightWallTouching)
         {
             cantMove = true;
-            Invoke("endCantMove", 0.18f);
+            Invoke("endCantMove", 0.16f);
             rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(-7, jumpForce);
+            rb.velocity = new Vector2(-7, jumpForce - 1);
+        }
+        else if (context.canceled && rb.velocity.y > 0 && !cantMove) // added the cantMove part to stop weird sudden velocity stopping
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
     }
     public void OnSlash(InputAction.CallbackContext context)
@@ -376,10 +390,9 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnVault(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !cantMove)
         {
             SpawnVault(); // need to replace this with something with its own script to check for a collision
-            VaultLaunch();
         }
 
     }

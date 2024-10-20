@@ -212,8 +212,15 @@ public class EnemyScript : MonoBehaviour
 
             rb.velocity = new Vector2(0, rb.velocity.y);
 
-
-            if (playerScript.lookingRight)
+            if(playerScript.moveDirection.y > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, playerScript.knockbackOnHit);
+            }
+            else if(playerScript.moveDirection.y < 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -playerScript.knockbackOnHit);
+            }
+            else if (playerScript.lookingRight)
             {
                 rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
             }
@@ -235,6 +242,7 @@ public class EnemyScript : MonoBehaviour
     private void endCantMove()
     {
         cantMove = false;
+        rb.velocity = Vector2.zero;
     }
 
 

@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 15
+  moveDirection: {x: 0, y: 0}
   WallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -212,6 +213,7 @@ MonoBehaviour:
   playerLookAhead: {x: 0, y: 0}
   lookDown: 3.5
   slashPrefab: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
+  vaultPrefab: {fileID: 7216549755187832511, guid: 72a1894237e3fca48b4b3f74f1731d51, type: 3}
   slashDuration: 0.15
   coolDown: 0.5
   slashOffX: 0.6
@@ -221,9 +223,9 @@ MonoBehaviour:
   maxHP: 5
   Invincible: 0
   cantMove: 0
-  vaultRise: 0
-  vaultDistance: 0
-  vaultTime: 0
+  vaultRise: 9.5
+  vaultDistance: 13
+  vaultTime: 0.65
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +299,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0b1331a0-e524-44f8-bad7-ec30933363a9
     m_ActionName: Player/Slash[/Keyboard/j]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6000981431108293191}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnVault
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9f390bbf-c4ca-4ea5-ae0e-f66fc0b8fa38
+    m_ActionName: Player/Vault[/Keyboard/o]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
