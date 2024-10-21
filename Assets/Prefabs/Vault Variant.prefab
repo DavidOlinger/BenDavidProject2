@@ -78,3 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d987ae26c73c9459b1bc7658cc3de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationLength: 0
+  vaultPosition: {x: 0, y: 0, z: 0}
+  vaultWindow: 0.04

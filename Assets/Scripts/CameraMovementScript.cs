@@ -6,6 +6,7 @@ public class CameraMovementScript : MonoBehaviour
 {
     private Rigidbody2D camBody; //get references to everything
     public GameObject target;
+    public GameObject fadeOutPrefab;
     private Camera cam;
 
     public float pullForce = 5.0f; //the strength of the force that pulls the player to the cursor
@@ -66,8 +67,14 @@ public class CameraMovementScript : MonoBehaviour
 
         camBody.velocity = ((new Vector3(directionToTarget.x, directionToTarget.y, 0f)) * pullForce * distanceToTarget);
 
-
        
     }
 
+    public void fadeToBlack()
+    {
+        FadeObjectScript fade = Instantiate(fadeOutPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FadeObjectScript>();
+        fade.fadeInTime = 0.25f;
+        fade.fadeOutTime = 0.1f;
+        fade.lingerTime = 0.25f;
+    }
 }

@@ -6,28 +6,50 @@ using UnityEngine.InputSystem;
 public class PlayerScript : MonoBehaviour
 {
     //Movement
+    private Rigidbody2D rb;
+    private SpriteRenderer sp;
+    
+    public bool momentLock; 
+    public bool cantMove;
+
     public float moveSpeed;
     public float jumpForce;
 
-    private Rigidbody2D rb;
-    private SpriteRenderer sp;
+    public float wallJumpXForce;
+    public float wallJumpYForce;
+
+
+    
     public Vector2 moveDirection = Vector2.zero;
+
     private bool isGrounded = true;
     private bool isLeftWallTouching;
     private bool isRightWallTouching;
     private bool firstTouchWall;
 
+    float groundingTimer;
+    public float groundingCountDown;
+
+    //Animation
+    Animator animator;
 
     //RayCasting
     private float xRayDistance; 
     public LayerMask WallLayer;
     public LayerMask GroundLayer;
     public float lastGroundY;
+    public Vector3 lastGroundPoint;
     Vector3 leftOffset;
     Vector3 rightOffset;
+    public float groundCheckDist;
     
+    //Vault Variables
+    public float vaultRise;
+    public float vaultDistance;
+    public float vaultTime;
 
     //CAMERA
+    GameObject cam;
     public bool updateCamera;
     public bool lookingRight;
     public float maxLookAhead;
@@ -41,31 +63,34 @@ public class PlayerScript : MonoBehaviour
     //Slash
     public GameObject slashPrefab;
     public GameObject vaultPrefab; //idk if we are doing this right but it should work for now
+
     public float slashDuration = 0.3f;
-    float cooldownSlash;
-    public float coolDown;
+    float slashCooldown;
+    public float maxSlashCoolDown;
+
     Vector3 slashPosition;
     public float slashOffX;
     public float slashOffY;
+
     public float knockbackOnHit;
 
     //Health
     public float currHP;
     public float maxHP;
-    public bool Invincible;
-    public bool cantMove;
+    public bool invincible;
+    
 
-    //Vault Variables
-    public float vaultRise;
-    public float vaultDistance;
-    public float vaultTime;
+   
 
 
     //General Starting and Upkeep
     void Start()
     {
+        momentLock = true;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
@@ -83,20 +108,27 @@ public class PlayerScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
-        if (cooldownSlash < coolDown)
+        if (slashCooldown < maxSlashCoolDown)
         {
-            cooldownSlash += 0.02f; // fixed update is every 1/50th of a second
+            slashCooldown += 0.02f; // fixed update is every 1/50th of a second
         }
 
-        if (!cantMove)
+        if (!cantMove || !momentLock)
         {
             Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-            rb.velocity = moveVector;
+            if (momentLock && moveVector.x != 0)
+            {
+                momentLock = false;
+            }
+
+            if (!momentLock)
+            {
+                rb.velocity = moveVector;
+            }
+
+            
+            
         }
-
-        
-       
-
 
         if (moveDirection.x > 0)
         {
@@ -118,6 +150,18 @@ public class PlayerScript : MonoBehaviour
 
         }
 
+        animator.SetFloat("speed", Mathf.Abs(moveDirection.x));
+        if (animator.GetBool("ascending") && rb.velocity.y < 0)
+        {
+            animator.SetBool("ascending", false);
+            animator.SetBool("descending", true);
+        }
+        if (animator.GetBool("grounded"))
+        {
+            animator.SetBool("ascending", false);
+            animator.SetBool("descending", false);
+        }
+
 
         if (lookingRight)
         {
@@ -131,8 +175,15 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-
         
+        if (groundingTimer < groundingCountDown)
+        {
+            groundingTimer += 0.02f;
+        }else
+        {
+            groundingTimer = 0;
+            Invoke("SetGroundPoint", 0.5f);
+        }
 
         //FOR TESTING
         if (moveDirection.y < 0)
@@ -163,7 +214,7 @@ public class PlayerScript : MonoBehaviour
 
         GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
         slash.GetComponent<SlashScript>().slashPosition = slashPosition;
-        cooldownSlash = 0;
+        slashCooldown = 0;
     }
     private void SpawnVault()
     {
@@ -181,7 +232,9 @@ public class PlayerScript : MonoBehaviour
     }
     public void VaultLaunch()
     {
+        animator.SetBool("ascending", true);
         cantMove = true;
+        momentLock = true;
 
         rb.velocity = Vector2.zero;
 
@@ -221,11 +274,12 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-        Invincible = true;
+        invincible = true;
         Invoke("endInvincible", 2f);
         cantMove = true;
+        momentLock = true;
         Invoke("endCantMove", 0.5f);
-        sp.color = Color.magenta;
+        sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
 
 
         rb.velocity = Vector2.zero;  //COULD MAKE THIS A HIT STOP BY HAVING THE FORCES BE A DELAYED METHOD CALL AND THE ZERO LAST LONGER? (would also have to stop gravity?)
@@ -245,6 +299,7 @@ public class PlayerScript : MonoBehaviour
     public void slashKnockback(float hitLaunch)
     {
         cantMove = true;
+        momentLock = true;
         Invoke("endCantMove", 0.14f);
 
         rb.velocity = new Vector2(0, rb.velocity.y);
@@ -263,7 +318,7 @@ public class PlayerScript : MonoBehaviour
 
     private void endInvincible()
     {
-        Invincible = false;
+        invincible = false;
         sp.color = Color.white; //just a thing for now to see when invincible
 
     }
@@ -277,21 +332,25 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckForGround()
     {
-        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .02f, GroundLayer);
-        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .02f, GroundLayer);
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, groundCheckDist, GroundLayer);
 
         if (rightSide.collider != null && rb.velocity.y == 0)
         {
+            animator.SetBool("grounded", true);
             isGrounded = true;
-            lastGroundY = transform.position.y;
+            momentLock = false;
         }
         else if(leftSide.collider != null && rb.velocity.y == 0)
         {
+            animator.SetBool("grounded", true);
+
             isGrounded = true;
-            lastGroundY = transform.position.y;
+            momentLock = false;
         }
         else
         {
+            animator.SetBool("grounded", false);
             isGrounded = false;
         }
     }
@@ -304,6 +363,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (firstTouchWall)
             {
+                momentLock = false;
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 firstTouchWall = false;
             }
@@ -314,7 +374,7 @@ public class PlayerScript : MonoBehaviour
         else if (hitRight.collider != null && moveDirection.x > 0 && !isGrounded && rb.velocity.y < 0)
         {
             if (firstTouchWall)
-            {
+            {   momentLock = false;
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 firstTouchWall = false;
             }
@@ -345,6 +405,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.canceled)
         {
+
             moveDirection = Vector2.zero;
         }
     }
@@ -354,20 +415,28 @@ public class PlayerScript : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
+            animator.SetBool("ascending", true);
+
         }
         else if(context.started && !isGrounded && isLeftWallTouching)
         {
             cantMove = true;
+            momentLock = true;
             Invoke("endCantMove", 0.16f);
             rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(7, jumpForce - 1);
+            rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
+            animator.SetBool("ascending", true);
+
         }
         else if (context.started && !isGrounded && isRightWallTouching)
         {
             cantMove = true;
+            momentLock = true;
             Invoke("endCantMove", 0.16f);
             rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(-7, jumpForce - 1);
+            rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
+            animator.SetBool("ascending", true);
+
         }
         else if (context.canceled && rb.velocity.y > 0 && !cantMove) // added the cantMove part to stop weird sudden velocity stopping
         {
@@ -378,7 +447,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started)
         {
-            if(cooldownSlash >= coolDown)
+            if(slashCooldown >= maxSlashCoolDown)
             {
                 SpawnSlash();
             }
@@ -397,4 +466,35 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    void SetGroundPoint()
+    {
+        if (isGrounded && !invincible) {lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
+        
+    }
+
+    public void HitKillzone()
+    {
+        currHP--;
+        sp.enabled = false;
+        rb.velocity = Vector2.zero;
+        Invoke("ResetPlayerPos", 0.1f);
+        invincible = true;
+        sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
+        Invoke("endInvincible", 1.5f);
+        cam.GetComponent<CameraMovementScript>().fadeToBlack();
+
+    }
+
+    void ResetPlayerPos()
+    {
+        cantMove = true;
+        transform.position = lastGroundPoint;
+        Invoke("enableSprite", 0.5f);
+        Invoke("endCantMove", 2f);
+    }
+
+    void enableSprite()
+    {
+        sp.enabled = true;
+    }
 }

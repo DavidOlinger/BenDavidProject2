@@ -231,7 +231,7 @@ public class EnemyScript : MonoBehaviour
 
         }
 
-        if (collision.CompareTag("PlayerDmg") && !playerScript.Invincible)
+        if (collision.CompareTag("PlayerDmg") && !playerScript.invincible)
         {
             playerScript.takeDamage(gameObject);
 

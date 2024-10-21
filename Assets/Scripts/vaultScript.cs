@@ -9,28 +9,31 @@ public class vaultScript : MonoBehaviour
     SpriteRenderer sp;
     Animator animator;
     public float animationLength;
-    public Vector3 slashPosition;
+    public Vector3 vaultPosition;
+    public float vaultWindow;
+    private bool hasVaulted;
 
     PlayerScript playerScript;
 
     void Start()
     {
-
-        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        hasVaulted = false;
+        
 
 
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
+        playerScript = player.GetComponent<PlayerScript>();
         sp = gameObject.GetComponent<SpriteRenderer>();
-        if (slashPosition.x > 0)
+        if (vaultPosition.x > 0)
         {
             sp.flipX = true;
         }
-        else if (slashPosition.y < 0)
+        else if (vaultPosition.y < 0)
         {
             transform.Rotate(new Vector3(0, 0, 90));
         }
-        else if (slashPosition.y > 0)
+        else if (vaultPosition.y > 0)
         {
             transform.Rotate(new Vector3(0, 0, -90));
         }
@@ -46,13 +49,26 @@ public class vaultScript : MonoBehaviour
         Destroy(gameObject, animationLength);
     }
 
+    private void FixedUpdate()
+    {
+        vaultWindow -= 0.02f;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        playerScript.VaultLaunch();
+        if (vaultWindow > 0 && !hasVaulted) {
+            playerScript.VaultLaunch(); 
+            hasVaulted = true; 
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerScript.VaultLaunch();
+        if (vaultWindow > 0 && !hasVaulted) 
+        { 
+            playerScript.VaultLaunch(); 
+            hasVaulted = true; 
+        }
     }
 }
