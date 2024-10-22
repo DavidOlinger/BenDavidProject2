@@ -18,17 +18,7 @@ public class SlashScript : MonoBehaviour
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
         sp = gameObject.GetComponent<SpriteRenderer>();
-
-        // Get the Animator component
-        animator = GetComponent<Animator>();
-
-        // Get the length of the current animation clip
-        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
-        animationLength = clipInfo[0].clip.length;
-
-        // Destroy the object after the animation finishes
-        Destroy(gameObject, animationLength);
     }
-
+    public void DestroySelf() { Destroy(gameObject); }
     
 }

@@ -573,8 +573,6 @@ public class PlayerScript : MonoBehaviour
     {
         isAttacking = true;
         animator.SetBool("attacking", true);
-        yield return new WaitForSeconds(0.01f);
-        SpawnSlash();
         yield return null;
     }
 
