@@ -65,7 +65,7 @@ public class vaultScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (vaultWindow > 0 && !hasVaulted) 
+        if (vaultWindow > 0 && !hasVaulted)  
         { 
             playerScript.VaultLaunch(); 
             hasVaulted = true; 

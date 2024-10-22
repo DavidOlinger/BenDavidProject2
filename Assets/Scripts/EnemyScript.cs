@@ -12,11 +12,12 @@ public class EnemyScript : MonoBehaviour
     public int hpMax;
     public int hitCounter;
 
-    //Movement public
+    //publics
     public float moveSpeed;
     public float fastMoveSpeed;
     public Vector2 activateMoveDistance;
     public Vector2 activateAttackDistance;
+    public float dmgHitStun;
 
 
     //movement privates
@@ -41,7 +42,11 @@ public class EnemyScript : MonoBehaviour
     public bool floatFollow;
     public bool slasher;
     public bool shooter;
-    
+
+    //other
+    private Coroutine CantMoveCoroutine;
+
+
 
     private void Start()
     {
@@ -195,54 +200,81 @@ public class EnemyScript : MonoBehaviour
         if (collision.CompareTag("Slash"))
         {
 
-            float hitLaunch = transform.position.x - collision.transform.position.x;
+            //float hitLaunch = transform.position.x - collision.transform.position.x;
 
             //playerScript.slashKnockback(hitLaunch);
+            playerScript.hitStop();
 
             hitCounter++;
 
-            if (hitCounter >= hpMax)
-            {
-                Destroy(gameObject);
-            }
+            
+
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
+
+            sp.color = Color.white; // to simulate the white flash for now lol
 
 
-            cantMove = true;
-            Invoke("endCantMove", 0.06f);
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            CantMoveCoroutine = StartCoroutine(endCantMove(0.08f + playerScript.stunOnHit)); // ends cantMove after 4 frames + how long the hitStun will be
 
-            rb.velocity = new Vector2(0, rb.velocity.y);
 
-            if(playerScript.moveDirection.y > 0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, playerScript.knockbackOnHit);
-            }
-            else if(playerScript.moveDirection.y < 0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -playerScript.knockbackOnHit);
-            }
-            else if (playerScript.lookingRight)
-            {
-                rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
-            }
-            else
-            {
-                rb.velocity = new Vector2(-(playerScript.knockbackOnHit), rb.velocity.y);
-            }
 
+            // rb.velocity = new Vector2(0, rb.velocity.y);
+
+            Invoke("dmgLaunch", playerScript.stunOnHit); // this should prob be a coroutine thing too lol
+            //essentially activates the knockback after the stun time wears off
         }
 
         if (collision.CompareTag("PlayerDmg") && !playerScript.invincible)
         {
-            playerScript.takeDamage(gameObject);
+            playerScript.takeDamage(gameObject, dmgHitStun);
 
         }
 
     }
 
-    private void endCantMove()
+    
+
+    private void dmgLaunch()
     {
+        if (hitCounter >= hpMax)
+        {
+            Destroy(gameObject);
+        }
+
+
+        rb.gravityScale = 1; //currently thats what all enemies have as their grav scale, (we could def change this to make it feel better)
+
+        sp.color = Color.red; // end the color flash (will be more complex with actual sprites)
+
+       
+        if (playerScript.hitLaunch < 0)
+        {
+            rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(-(playerScript.knockbackOnHit), rb.velocity.y);
+        }
+    }  //Applies the knockback from the players slash
+
+
+
+
+
+    private IEnumerator endCantMove(float duration)
+    {
+
+        cantMove = true;
+
+        yield return new WaitForSeconds(duration);
+
         cantMove = false;
-        rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
     }
 
 

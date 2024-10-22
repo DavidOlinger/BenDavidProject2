@@ -10,6 +10,9 @@ public class SlashScript : MonoBehaviour
     Animator animator;
     public float animationLength;
     public Vector3 slashPosition;
+
+
+
     void Start()
     {
         Transform parentTransform = transform.parent;
@@ -39,9 +42,5 @@ public class SlashScript : MonoBehaviour
         Destroy(gameObject, animationLength);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

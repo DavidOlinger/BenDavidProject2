@@ -73,14 +73,21 @@ public class PlayerScript : MonoBehaviour
     public float slashOffY;
 
     public float knockbackOnHit;
+    public float stunOnHit; // how much hitstun an enemy gets from an attack (not super fancy rn but can be improved)
 
     //Health
     public float currHP;
     public float maxHP;
     public bool invincible;
-    
 
-   
+    //Other
+    public float hitLaunch = 0; // this is so we don't have to pass it through parameters
+    private float grav = 2.65f; // this is so we can just change this one variable once if we wanna update all the gravity scale stuff
+    private Coroutine CantMoveCoroutine;
+    private Coroutine InvincibleCoroutine;
+    private bool hitStopActive = false;
+
+
 
 
     //General Starting and Upkeep
@@ -113,13 +120,15 @@ public class PlayerScript : MonoBehaviour
             slashCooldown += 0.02f; // fixed update is every 1/50th of a second
         }
 
-        if (!cantMove || !momentLock)
+        if (!cantMove) // removed the || !momentLock
         {
             Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
             if (momentLock && moveVector.x != 0)
             {
-                momentLock = false;
+              momentLock = false;
             }
+
+            momentLock = false; //just to solve bugs for now
 
             if (!momentLock)
             {
@@ -179,7 +188,8 @@ public class PlayerScript : MonoBehaviour
         if (groundingTimer < groundingCountDown)
         {
             groundingTimer += 0.02f;
-        }else
+        }
+        else
         {
             groundingTimer = 0;
             Invoke("SetGroundPoint", 0.5f);
@@ -191,7 +201,7 @@ public class PlayerScript : MonoBehaviour
            // playerLookAhead.y = -lookDown;
 
             //need to be holding down for like a second, use a time counter for this
-        }
+        } // make this only work when isGrounded and direction is held for about a second
         else
         {
            // playerLookAhead.y = 0f;
@@ -233,12 +243,17 @@ public class PlayerScript : MonoBehaviour
     public void VaultLaunch()
     {
         animator.SetBool("ascending", true);
-        cantMove = true;
-        momentLock = true;
+        
 
         rb.velocity = Vector2.zero;
 
-        Invoke("endCantMove", vaultTime);
+
+        if (CantMoveCoroutine != null)
+        {
+            StopCoroutine(CantMoveCoroutine);
+        }
+        // Start a new coroutine to handle the timing
+        CantMoveCoroutine = StartCoroutine(endCantMove(vaultTime));
 
 
         if (sp.flipX)
@@ -265,7 +280,8 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void takeDamage(GameObject other)
+    
+    public void takeDamage(GameObject other, float duration)
     {
         currHP--;
         if (currHP <= 0)
@@ -273,22 +289,41 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("DEAD");
         }
 
+        
 
-        invincible = true;
-        Invoke("endInvincible", 2f);
-        cantMove = true;
-        momentLock = true;
-        Invoke("endCantMove", 0.5f);
+        if (CantMoveCoroutine != null)
+        {
+            StopCoroutine(CantMoveCoroutine);
+        }
+        CantMoveCoroutine = StartCoroutine(endCantMove(duration + 0.5f));
+
+
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
+        hitStopActive = true;
+
+        if (InvincibleCoroutine != null)
+        {
+            StopCoroutine(InvincibleCoroutine);
+        }
+        InvincibleCoroutine = StartCoroutine(endInvincible(duration + 1.5f));
+
+        //momentLock = true;
+
         sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
+        hitLaunch = transform.position.x - other.transform.position.x;
 
 
-        rb.velocity = Vector2.zero;  //COULD MAKE THIS A HIT STOP BY HAVING THE FORCES BE A DELAYED METHOD CALL AND THE ZERO LAST LONGER? (would also have to stop gravity?)
+        Invoke("dmgLaunch", duration); // until this invoke resolves in "duration" time, the player is froze in place and should enter dmg animation
+    }
 
-
-        float hitLaunch = transform.position.x - other.transform.position.x;
+    private void dmgLaunch()
+    {
+        rb.gravityScale = grav;
+        hitStopActive = false;
         if (hitLaunch > 0)
         {
-            rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse); // prob want to replace with velocity!!!
         }
         else
         {
@@ -296,40 +331,69 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void slashKnockback(float hitLaunch)
-    {
-        cantMove = true;
-        momentLock = true;
-        Invoke("endCantMove", 0.14f);
 
-        rb.velocity = new Vector2(0, rb.velocity.y);
+
+    public void hitStop()
+    {
+
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
+        hitStopActive = true;
+
+
+        if (CantMoveCoroutine != null)
+        {
+            StopCoroutine(CantMoveCoroutine);
+        }
+        CantMoveCoroutine = StartCoroutine(endCantMove(0.08f + stunOnHit));
+
+
+        Invoke("slashKnockback", stunOnHit);
+    } // activates when you hit an enemy
+    private void slashKnockback()
+    {
+
+        rb.gravityScale = grav;
+        hitStopActive = false;
 
         if (hitLaunch > 0)
         {
-            rb.AddForce(new Vector2(-1.8f, 0), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(-7, rb.velocity.y);
         }
         else
         {
-            rb.AddForce(new Vector2(1.8f, 0), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(7, rb.velocity.y);
         }
 
 
-    } //currently is never used
+    } 
 
-    private void endInvincible()
+    private IEnumerator endInvincible(float duration)
     {
+        invincible = true;
+
+        yield return new WaitForSeconds(duration);
+
+
         invincible = false;
-        sp.color = Color.white; //just a thing for now to see when invincible
-
+        sp.color = Color.white;
     }
-    private void endCantMove()
+
+    private IEnumerator endCantMove(float duration)
     {
+
+        cantMove = true;
+        Debug.Log("Movement Disabled");
+
+        // Wait for the specified duration
+        yield return new WaitForSeconds(duration);
+
         cantMove = false;
+        Debug.Log("Movement Enabled");
     }
 
 
     //RAYCASTING STUFF
-
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
@@ -384,7 +448,10 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            rb.gravityScale = 2.65f;
+            if (!hitStopActive)
+            {
+                rb.gravityScale = grav;
+            }
             isLeftWallTouching = false;
             isRightWallTouching = false;
             firstTouchWall = true;
@@ -420,9 +487,12 @@ public class PlayerScript : MonoBehaviour
         }
         else if(context.started && !isGrounded && isLeftWallTouching)
         {
-            cantMove = true;
-            momentLock = true;
-            Invoke("endCantMove", 0.16f);
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            // Start a new coroutine to handle the timing
+            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
@@ -430,9 +500,12 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !isGrounded && isRightWallTouching)
         {
-            cantMove = true;
-            momentLock = true;
-            Invoke("endCantMove", 0.16f);
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            // Start a new coroutine to handle the timing
+            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
@@ -474,14 +547,27 @@ public class PlayerScript : MonoBehaviour
 
     public void HitKillzone()
     {
+        cam.GetComponent<CameraMovementScript>().fadeToBlack();
+
+
+        if (CantMoveCoroutine != null)
+        {
+            StopCoroutine(CantMoveCoroutine);
+        }
+        CantMoveCoroutine = StartCoroutine(endCantMove(1.5f));
+
         currHP--;
         sp.enabled = false;
         rb.velocity = Vector2.zero;
         Invoke("ResetPlayerPos", 0.1f);
-        invincible = true;
         sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
-        Invoke("endInvincible", 1.5f);
-        cam.GetComponent<CameraMovementScript>().fadeToBlack();
+
+        if (InvincibleCoroutine != null)
+        {
+            StopCoroutine(InvincibleCoroutine);
+        }
+        InvincibleCoroutine = StartCoroutine(endInvincible(2f));
+
 
     }
 
@@ -490,7 +576,6 @@ public class PlayerScript : MonoBehaviour
         cantMove = true;
         transform.position = lastGroundPoint;
         Invoke("enableSprite", 0.5f);
-        Invoke("endCantMove", 2f);
     }
 
     void enableSprite()
