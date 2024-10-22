@@ -204,6 +204,7 @@ MonoBehaviour:
   wallJumpYForce: 14
   moveDirection: {x: 0, y: 0}
   groundingCountDown: 0.5
+  isAttacking: 0
   WallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -230,9 +231,11 @@ MonoBehaviour:
   slashOffX: 0.6
   slashOffY: 0.8
   knockbackOnHit: 20
+  stunOnHit: 0
   currHP: 5
   maxHP: 5
   invincible: 0
+  hitLaunch: 0
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0

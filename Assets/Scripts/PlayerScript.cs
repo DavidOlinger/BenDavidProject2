@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
 
     //Animation
     Animator animator;
+    public bool isAttacking;
 
     //RayCasting
     private float xRayDistance; 
@@ -65,7 +66,6 @@ public class PlayerScript : MonoBehaviour
     public GameObject vaultPrefab; //idk if we are doing this right but it should work for now
 
     public float slashDuration = 0.3f;
-    float slashCooldown;
     public float maxSlashCoolDown;
 
     Vector3 slashPosition;
@@ -84,6 +84,7 @@ public class PlayerScript : MonoBehaviour
     public float hitLaunch = 0; // this is so we don't have to pass it through parameters
     private float grav = 2.65f; // this is so we can just change this one variable once if we wanna update all the gravity scale stuff
     private Coroutine CantMoveCoroutine;
+    private Coroutine PlayerAttackCoroutine;
     private Coroutine InvincibleCoroutine;
     private bool hitStopActive = false;
 
@@ -115,10 +116,6 @@ public class PlayerScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
-        if (slashCooldown < maxSlashCoolDown)
-        {
-            slashCooldown += 0.02f; // fixed update is every 1/50th of a second
-        }
 
         if (!cantMove) // removed the || !momentLock
         {
@@ -212,19 +209,12 @@ public class PlayerScript : MonoBehaviour
     //Combat
     private void SpawnSlash()
     {
-
-        
-        if (moveDirection.y > 0) { 
-            slashPosition = new Vector3(0, slashOffY, 0); 
-        } else if (moveDirection.y < 0)
-        {
-            slashPosition = new Vector3(0, -slashOffY, 0);
-
+        GameObject slash = Instantiate(slashPrefab, transform.position, Quaternion.identity, transform);
+        if (sp.flipX) 
+        { 
+            slash.GetComponent<SpriteRenderer>().flipX = true;
         }
-
-        GameObject slash = Instantiate(slashPrefab, transform.position + slashPosition, Quaternion.identity, transform);
         slash.GetComponent<SlashScript>().slashPosition = slashPosition;
-        slashCooldown = 0;
     }
     private void SpawnVault()
     {
@@ -232,12 +222,12 @@ public class PlayerScript : MonoBehaviour
         if (sp.flipX)
         {
             slashPosition = new Vector3(-0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(vaultPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+            GameObject slash = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
         }
         else
         { 
             slashPosition = new Vector3(0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(vaultPrefab, transform.position + slashPosition, Quaternion.identity, transform);
+            GameObject slash = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
         }
     }
     public void VaultLaunch()
@@ -520,14 +510,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started)
         {
-            if(slashCooldown >= maxSlashCoolDown)
+            if (!isAttacking)
             {
-                SpawnSlash();
+                PlayerAttackCoroutine = StartCoroutine(PlayerAttack());
             }
-        }
-        else if (context.canceled)
-        {
-
         }
     }
     public void OnVault(InputAction.CallbackContext context)
@@ -581,5 +567,20 @@ public class PlayerScript : MonoBehaviour
     void enableSprite()
     {
         sp.enabled = true;
+    }
+
+    IEnumerator PlayerAttack()
+    {
+        isAttacking = true;
+        animator.SetBool("attacking", true);
+        yield return new WaitForSeconds(0.01f);
+        SpawnSlash();
+        yield return null;
+    }
+
+    public void EndAttack()
+    {
+        isAttacking = false;
+        animator.SetBool("attacking", false);
     }
 }

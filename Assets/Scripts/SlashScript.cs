@@ -18,18 +18,6 @@ public class SlashScript : MonoBehaviour
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
         sp = gameObject.GetComponent<SpriteRenderer>();
-        if (slashPosition.x > 0)
-        {
-            sp.flipX = true;
-        }
-        else if (slashPosition.y < 0)
-        {
-            transform.Rotate(new Vector3(0, 0, 90));
-        }
-        else if (slashPosition.y > 0)
-        {
-            transform.Rotate(new Vector3(0, 0, -90));
-        }
 
         // Get the Animator component
         animator = GetComponent<Animator>();
