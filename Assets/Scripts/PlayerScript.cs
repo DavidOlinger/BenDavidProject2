@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviour
     //Animation
     Animator animator;
     public bool isAttacking;
+    public bool isVaulting;
 
     //RayCasting
     private float xRayDistance; 
@@ -48,6 +49,9 @@ public class PlayerScript : MonoBehaviour
     public float vaultRise;
     public float vaultDistance;
     public float vaultTime;
+    public float vaultCooldown;
+    public float maxVaultCooldown;
+
 
     //CAMERA
     GameObject cam;
@@ -192,6 +196,14 @@ public class PlayerScript : MonoBehaviour
             Invoke("SetGroundPoint", 0.5f);
         }
 
+        if (vaultCooldown > 0) // add audio cue
+        {
+            vaultCooldown -= 0.02f;
+        }
+       
+
+
+
         //FOR TESTING
         if (moveDirection.y < 0)
         {
@@ -206,30 +218,42 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    //Combat
+
+
+
+
+    //SPAWNING
     private void SpawnSlash()
     {
-        GameObject slash = Instantiate(slashPrefab, transform.position, Quaternion.identity, transform);
-        if (sp.flipX) 
-        { 
-            slash.GetComponent<SpriteRenderer>().flipX = true;
+        if (sp.enabled)
+        {
+            GameObject slash = Instantiate(slashPrefab, transform.position, Quaternion.identity, transform);
+            if (sp.flipX)
+            {
+                slash.transform.Rotate(0, 180, 0); ;
+            }
+            slash.GetComponent<SlashScript>().slashPosition = slashPosition;
         }
-        slash.GetComponent<SlashScript>().slashPosition = slashPosition;
+        
     }
     private void SpawnVault()
     {
-
-        if (sp.flipX)
+        if (sp.enabled)
         {
-            slashPosition = new Vector3(-0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
-        }
-        else
-        { 
-            slashPosition = new Vector3(0.6f, -0.7f, 0);
-            GameObject slash = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
+            GameObject vault = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
+            if (sp.flipX)
+            {
+                vault.transform.Rotate(0, 180, 0); ;
+            }
+            vault.GetComponent<VaultScript>().vaultPosition = slashPosition;
         }
     }
+
+
+
+
+
+    //COMBAT PHYSICS AND DAMAGE
     public void VaultLaunch()
     {
         animator.SetBool("ascending", true);
@@ -335,7 +359,7 @@ public class PlayerScript : MonoBehaviour
         {
             StopCoroutine(CantMoveCoroutine);
         }
-        CantMoveCoroutine = StartCoroutine(endCantMove(0.08f + stunOnHit));
+        CantMoveCoroutine = StartCoroutine(endCantMove(0.0f + stunOnHit));
 
 
         Invoke("slashKnockback", stunOnHit);
@@ -358,32 +382,11 @@ public class PlayerScript : MonoBehaviour
 
     } 
 
-    private IEnumerator endInvincible(float duration)
-    {
-        invincible = true;
-
-        yield return new WaitForSeconds(duration);
 
 
-        invincible = false;
-        sp.color = Color.white;
-    }
-
-    private IEnumerator endCantMove(float duration)
-    {
-
-        cantMove = true;
-        Debug.Log("Movement Disabled");
-
-        // Wait for the specified duration
-        yield return new WaitForSeconds(duration);
-
-        cantMove = false;
-        Debug.Log("Movement Enabled");
-    }
 
 
-    //RAYCASTING STUFF
+    //CHECKS
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
@@ -392,12 +395,17 @@ public class PlayerScript : MonoBehaviour
         if (rightSide.collider != null && rb.velocity.y == 0)
         {
             animator.SetBool("grounded", true);
+            animator.SetBool("ascending", false);
+            animator.SetBool("descending", false);
+
             isGrounded = true;
             momentLock = false;
         }
         else if(leftSide.collider != null && rb.velocity.y == 0)
         {
             animator.SetBool("grounded", true);
+            animator.SetBool("ascending", false);
+            animator.SetBool("descending", false);
 
             isGrounded = true;
             momentLock = false;
@@ -406,8 +414,14 @@ public class PlayerScript : MonoBehaviour
         {
             animator.SetBool("grounded", false);
             isGrounded = false;
+            if (rb.velocity.y < 0)
+            {
+                animator.SetBool("descending", true);
+
+            }
         }
     }
+
     private void CheckForWalls()
     {
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
@@ -451,7 +465,8 @@ public class PlayerScript : MonoBehaviour
     
 
 
-    //INPUT MANAGING
+
+    //INPUTS
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -466,16 +481,18 @@ public class PlayerScript : MonoBehaviour
             moveDirection = Vector2.zero;
         }
     }
+
+
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isGrounded)
+        if (context.started && isGrounded && !cantMove)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
             animator.SetBool("ascending", true);
 
         }
-        else if(context.started && !isGrounded && isLeftWallTouching)
+        else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
         {
             if (CantMoveCoroutine != null)
             {
@@ -488,7 +505,7 @@ public class PlayerScript : MonoBehaviour
             animator.SetBool("ascending", true);
 
         }
-        else if (context.started && !isGrounded && isRightWallTouching)
+        else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
         {
             if (CantMoveCoroutine != null)
             {
@@ -506,24 +523,40 @@ public class PlayerScript : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
     }
+
+
     public void OnSlash(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             if (!isAttacking)
             {
-                PlayerAttackCoroutine = StartCoroutine(PlayerAttack());
+                StartAttack();
             }
         }
     }
+
+
     public void OnVault(InputAction.CallbackContext context)
     {
-        if (context.started && !cantMove)
+        if (context.started)
         {
-            SpawnVault(); // need to replace this with something with its own script to check for a collision
+            if (!isVaulting && vaultCooldown <= 0)
+            {
+                StartVault();
+                vaultCooldown = maxVaultCooldown;
+            }
         }
 
     }
+
+
+
+
+
+
+
+    // RESPAWNING
 
     void SetGroundPoint()
     {
@@ -541,6 +574,7 @@ public class PlayerScript : MonoBehaviour
             StopCoroutine(CantMoveCoroutine);
         }
         CantMoveCoroutine = StartCoroutine(endCantMove(1.5f));
+        vaultCooldown = 1.5f;
 
         currHP--;
         sp.enabled = false;
@@ -564,21 +598,97 @@ public class PlayerScript : MonoBehaviour
         Invoke("enableSprite", 0.5f);
     }
 
+
+
+
+
+    // MOTIONS
+
+
+
+
+
+
+
+
+
+
+    //COROUTINES
+
+    private IEnumerator endInvincible(float duration)
+    {
+        invincible = true;
+
+        yield return new WaitForSeconds(duration);
+
+
+        invincible = false;
+        sp.color = Color.white;
+    }
+
+    private IEnumerator endCantMove(float duration)
+    {
+
+        cantMove = true;
+        Debug.Log("Movement Disabled");
+
+        // Wait for the specified duration
+        yield return new WaitForSeconds(duration);
+
+        cantMove = false;
+        Debug.Log("Movement Enabled");
+    }
+
+
+
+
+
+
+
+
+    //UTILITIES
+
     void enableSprite()
     {
         sp.enabled = true;
     }
 
-    IEnumerator PlayerAttack()
+    public void StartAttack()
     {
-        isAttacking = true;
-        animator.SetBool("attacking", true);
-        yield return null;
+        if (!isAttacking)
+        {
+            Debug.Log("Attack Started");
+            isAttacking = true;
+            animator.SetBool("attacking", true);
+        }
     }
 
     public void EndAttack()
     {
+        Debug.Log("Attack Ended");
         isAttacking = false;
         animator.SetBool("attacking", false);
+    }
+
+    public void StartVault()
+    {
+        if (!isVaulting)
+        {
+            Debug.Log("Vault Started");
+            isVaulting = true;
+            animator.SetBool("vaulting", true);
+        }
+    }
+
+    public void EndVault()
+    {
+        Debug.Log("Vault Ended");
+        isVaulting = false;
+        animator.SetBool("vaulting", false);
+    }
+
+    public void HaltVelocity()
+    {
+        rb.velocity = Vector2.zero;
     }
 }

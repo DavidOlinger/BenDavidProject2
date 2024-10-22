@@ -19,6 +19,10 @@ public class SlashScript : MonoBehaviour
         player = parentTransform.gameObject;
         sp = gameObject.GetComponent<SpriteRenderer>();
     }
+    public void DisableCollider()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+    }
     public void DestroySelf() { Destroy(gameObject); }
     
 }

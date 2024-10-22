@@ -9,6 +9,7 @@ public class EnemyScript : MonoBehaviour
     private SpriteRenderer sp;
 
     PlayerScript playerScript;
+    GameObject player;
     public int hpMax;
     public int hitCounter;
 
@@ -52,7 +53,8 @@ public class EnemyScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
-        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<PlayerScript>();
 
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
 
@@ -197,13 +199,16 @@ public class EnemyScript : MonoBehaviour
     //COMBAT
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Slash"))
+        if (collision.CompareTag("Slash") || collision.CompareTag("Vault"))
         {
 
             //float hitLaunch = transform.position.x - collision.transform.position.x;
 
             //playerScript.slashKnockback(hitLaunch);
-            playerScript.hitStop();
+            if (collision.CompareTag("Slash"))
+            {
+                playerScript.hitStop();
+            }
 
             hitCounter++;
 
@@ -251,8 +256,8 @@ public class EnemyScript : MonoBehaviour
 
         sp.color = Color.red; // end the color flash (will be more complex with actual sprites)
 
-       
-        if (playerScript.hitLaunch < 0)
+        float hitLaunch = player.transform.position.x - transform.position.x;
+        if (hitLaunch < 0)
         {
             rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
         }
@@ -274,7 +279,7 @@ public class EnemyScript : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
-        rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
+        //rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
     }
 
 

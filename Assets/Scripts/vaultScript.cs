@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class vaultScript : MonoBehaviour
+public class VaultScript : MonoBehaviour
 {
     // Start is called before the first frame update
     GameObject player;
     SpriteRenderer sp;
     Animator animator;
     public float animationLength;
-    public Vector3 vaultPosition;
-    public float vaultWindow;
     private bool hasVaulted;
+    public Vector3 vaultPosition;
 
     PlayerScript playerScript;
 
@@ -24,19 +23,7 @@ public class vaultScript : MonoBehaviour
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
         playerScript = player.GetComponent<PlayerScript>();
-        sp = gameObject.GetComponent<SpriteRenderer>();
-        if (vaultPosition.x > 0)
-        {
-            sp.flipX = true;
-        }
-        else if (vaultPosition.y < 0)
-        {
-            transform.Rotate(new Vector3(0, 0, 90));
-        }
-        else if (vaultPosition.y > 0)
-        {
-            transform.Rotate(new Vector3(0, 0, -90));
-        }
+
 
         // Get the Animator component
         animator = GetComponent<Animator>();
@@ -49,26 +36,33 @@ public class vaultScript : MonoBehaviour
         Destroy(gameObject, animationLength);
     }
 
-    private void FixedUpdate()
-    {
-        vaultWindow -= 0.02f;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (vaultWindow > 0 && !hasVaulted) {
-            playerScript.VaultLaunch(); 
-            hasVaulted = true; 
-        }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (!hasVaulted) {
+    //        playerScript.VaultLaunch(); 
+    //        hasVaulted = true; 
+    //    }
         
-    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (vaultWindow > 0 && !hasVaulted)  
+        if (!hasVaulted)  
         { 
             playerScript.VaultLaunch(); 
-            hasVaulted = true; 
+            hasVaulted = true;
+
+            if (collision.gameObject.GetComponent<SpikeScript>() != null || collision.gameObject.GetComponent<EnemyScript>() != null) //only resets the cooldown if vault hits an enemy or spikes.
+            {
+                playerScript.vaultCooldown = 0;
+            }
+            
         }
     }
+
+    public void DisableCollider()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+    }
+    public void DestroySelf() { Destroy(gameObject); }
 }
