@@ -88,6 +88,8 @@ public class PlayerScript : MonoBehaviour
 
     public float knockbackOnHit;
     public float stunOnHit; // how much hitstun an enemy gets from an attack (not super fancy rn but can be improved)
+    private float slashStun = 0.1f;
+    //made it private cuz we will only change it inside here for different attacks
 
     //Health
     public float currHP;
@@ -254,6 +256,10 @@ public class PlayerScript : MonoBehaviour
     //SPAWNING
     private void SpawnSlash()
     {
+
+        //slashStun = 0.1f;
+
+
         if (sp.enabled)
         {
             GameObject slash = Instantiate(slashPrefab, transform.position, Quaternion.identity, transform);
@@ -269,6 +275,9 @@ public class PlayerScript : MonoBehaviour
 
     private void SpawnHeavySlash()
     {
+        //slashStun = 0.25f;
+
+
         if (sp.enabled)
         {
             GameObject hslash = Instantiate(heavySlashPrefab, transform.position, Quaternion.identity, transform);
@@ -284,6 +293,9 @@ public class PlayerScript : MonoBehaviour
 
     private void SpawnVault()
     {
+       // slashStun = 0.15f;
+
+
         if (sp.enabled)
         {
             GameObject vault = Instantiate(vaultPrefab, transform.position, Quaternion.identity, transform);
@@ -409,10 +421,10 @@ public class PlayerScript : MonoBehaviour
         {
             StopCoroutine(CantMoveCoroutine);
         }
-        CantMoveCoroutine = StartCoroutine(endCantMove(0.0f + stunOnHit));
+        CantMoveCoroutine = StartCoroutine(endCantMove(0.0f + slashStun)); // make 0.0 greater than 0 to have slashKnovkback actually activate
 
 
-        Invoke("slashKnockback", stunOnHit);
+        Invoke("slashKnockback", slashStun);
     } // activates when you hit an enemy
     private void slashKnockback()
     {
@@ -518,7 +530,7 @@ public class PlayerScript : MonoBehaviour
 
     //INPUTS
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context) // Might want to remove the Vector2.zero part from this and put it somewhere else, could cause problems maybe
     {
         if (context.performed)
         {
@@ -533,13 +545,32 @@ public class PlayerScript : MonoBehaviour
     }
 
 
+    private bool wallJumping = false;
+    private bool isJumping = false;
+    private bool shortHop = false;
+    private void jumpLaunch() // just separated to make timing easier by calling this with invoke for jumpsquat timing
+    {
+        
+       
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        isGrounded = false;
+        isJumping = false;
+        animator.SetBool("ascending", true);
+
+        if (shortHop)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            shortHop = false;
+        }
+
+    }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isGrounded && !cantMove)
+        if (context.started && isGrounded && !cantMove && !isJumping)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isGrounded = false;
-            animator.SetBool("ascending", true);
+            isJumping = true;
+            //put the jump squat animation here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            Invoke("jumpLaunch", 0.04f);
 
         }
         else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
@@ -548,8 +579,9 @@ public class PlayerScript : MonoBehaviour
             {
                 StopCoroutine(CantMoveCoroutine);
             }
-            // Start a new coroutine to handle the timing
+            wallJumping = true;
             CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
@@ -561,16 +593,27 @@ public class PlayerScript : MonoBehaviour
             {
                 StopCoroutine(CantMoveCoroutine);
             }
-            // Start a new coroutine to handle the timing
+            wallJumping = true;
             CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
 
         }
-        else if (context.canceled && rb.velocity.y > 0 && !cantMove) // added the cantMove part to stop weird sudden velocity stopping
+        else if (context.canceled)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            if(rb.velocity.y > 0)
+            {
+                if (!cantMove || wallJumping)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                }
+            }
+            else if (isJumping)
+            {
+                shortHop = true;
+            }
         }
     }
 
@@ -668,15 +711,6 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    // MOTIONS
-
-
-
-
-
-
-
-
 
 
     //COROUTINES
@@ -694,15 +728,16 @@ public class PlayerScript : MonoBehaviour
 
     private IEnumerator endCantMove(float duration)
     {
-
         cantMove = true;
-        Debug.Log("Movement Disabled");
 
-        // Wait for the specified duration
+        //Debug.Log("Movement Disabled");
+
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
-        Debug.Log("Movement Enabled");
+        wallJumping = false; // this is my temp fix for wallJunmping
+
+        //Debug.Log("Movement Enabled");
     }
 
 
