@@ -146,8 +146,6 @@ public class PlayerScript : MonoBehaviour
                 rb.velocity = moveVector;
             }
 
-            
-            
         }
 
         if (moveDirection.x > 0 && !flipLock)

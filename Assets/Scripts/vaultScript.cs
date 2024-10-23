@@ -64,5 +64,7 @@ public class VaultScript : MonoBehaviour
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
-    public void DestroySelf() { Destroy(gameObject); }
+    public void DestroySelf() { 
+        Destroy(gameObject); 
+    }
 }

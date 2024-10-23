@@ -220,7 +220,7 @@ MonoBehaviour:
   vaultDistance: 13
   vaultTime: 0.65
   vaultCooldown: 0
-  maxVaultCooldown: 1
+  maxVaultCooldown: 0
   updateCamera: 0
   lookingRight: 0
   maxLookAhead: 1
