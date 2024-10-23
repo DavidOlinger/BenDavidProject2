@@ -767,6 +767,7 @@ public class PlayerScript : MonoBehaviour
         {
             flipLock = true;
             cantMove = true;
+            HaltVelocity();
             animator.SetBool("holdingSlash", true);
             isChargingSlash = true;
         }
