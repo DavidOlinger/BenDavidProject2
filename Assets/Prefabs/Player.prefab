@@ -206,6 +206,7 @@ MonoBehaviour:
   groundingCountDown: 0.5
   isAttacking: 0
   isVaulting: 0
+  flipLock: 0
   WallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -218,6 +219,7 @@ MonoBehaviour:
   vaultRise: 9.5
   vaultDistance: 13
   vaultTime: 0.65
+  vaultCooldown: 0
   maxVaultCooldown: 1
   updateCamera: 0
   lookingRight: 0
@@ -228,8 +230,15 @@ MonoBehaviour:
   lookDown: 3.5
   slashPrefab: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
   vaultPrefab: {fileID: 7216549755187832511, guid: 72a1894237e3fca48b4b3f74f1731d51, type: 3}
+  heavySlashPrefab: {fileID: 1277187901503284132, guid: def40b1d1cc10b84fb8884e85d2d7a77, type: 3}
   slashDuration: 0.15
   maxSlashCoolDown: 0
+  heavySlashCharge: 0
+  maxHeavySlashCharge: 0.45
+  isChargingSlash: 0
+  heavySlashCharged: 0
+  canChargeSlash: 0
+  isHeavySlashing: 0
   slashOffX: 0.6
   slashOffY: 0.8
   knockbackOnHit: 20

@@ -34,6 +34,7 @@ public class PlayerScript : MonoBehaviour
     Animator animator;
     public bool isAttacking;
     public bool isVaulting;
+    public bool flipLock;
 
     //RayCasting
     private float xRayDistance; 
@@ -68,9 +69,18 @@ public class PlayerScript : MonoBehaviour
     //Slash
     public GameObject slashPrefab;
     public GameObject vaultPrefab; //idk if we are doing this right but it should work for now
+    public GameObject heavySlashPrefab;
 
     public float slashDuration = 0.3f;
     public float maxSlashCoolDown;
+
+    public float heavySlashCharge;
+    public float maxHeavySlashCharge;
+    public bool isChargingSlash;
+    public bool heavySlashCharged;
+    public bool canChargeSlash;
+    public bool isHeavySlashing;
+
 
     Vector3 slashPosition;
     public float slashOffX;
@@ -140,12 +150,12 @@ public class PlayerScript : MonoBehaviour
             
         }
 
-        if (moveDirection.x > 0)
+        if (moveDirection.x > 0 && !flipLock)
         {
             sp.flipX = false;
             lookingRight = true;
         }
-        else if (moveDirection.x < 0)
+        else if (moveDirection.x < 0 && !flipLock)
         {
             sp.flipX = true;
             lookingRight = false;
@@ -200,7 +210,28 @@ public class PlayerScript : MonoBehaviour
         {
             vaultCooldown -= 0.02f;
         }
-       
+
+        if (isChargingSlash)
+        {
+            heavySlashCharge += 0.02f;
+            if (heavySlashCharge > maxHeavySlashCharge)
+            {
+                animator.SetBool("heavySlashCharged", true);
+                heavySlashCharged = true; //remove
+            }
+        }
+        else
+        {
+            heavySlashCharge = 0;
+            animator.SetBool("heavySlashCharged", false);
+            heavySlashCharged = false; //remove
+
+        }
+
+        if (isChargingSlash) 
+        {
+            cantMove = true;
+        }
 
 
 
@@ -236,6 +267,23 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
+
+
+    private void SpawnHeavySlash()
+    {
+        if (sp.enabled)
+        {
+            GameObject hslash = Instantiate(heavySlashPrefab, transform.position, Quaternion.identity, transform);
+            if (sp.flipX)
+            {
+                hslash.transform.Rotate(0, 180, 0); ;
+            }
+            hslash.GetComponent<HeavySlashScript>().slashPosition = slashPosition;
+        }
+
+    }
+
+
     private void SpawnVault()
     {
         if (sp.enabled)
@@ -298,6 +346,10 @@ public class PlayerScript : MonoBehaviour
     public void takeDamage(GameObject other, float duration)
     {
         currHP--;
+        if (isChargingSlash)
+        {
+            StopChargingSlash();
+        }
         if (currHP <= 0)
         {
             Debug.Log("DEAD");
@@ -532,7 +584,23 @@ public class PlayerScript : MonoBehaviour
             if (!isAttacking)
             {
                 StartAttack();
+                if (isGrounded)
+                {
+                    canChargeSlash = true;
+                }
+                
             }
+        }
+        else if (context.canceled)
+        {
+            canChargeSlash = false;
+            if (heavySlashCharged)
+            {
+                StartHeavySlash();
+            }
+
+            StopChargingSlash();
+            
         }
     }
 
@@ -690,5 +758,47 @@ public class PlayerScript : MonoBehaviour
     public void HaltVelocity()
     {
         rb.velocity = Vector2.zero;
+    }
+
+
+    public void StartChargingSlash()
+    {
+        if (canChargeSlash)
+        {
+            flipLock = true;
+            cantMove = true;
+            animator.SetBool("holdingSlash", true);
+            isChargingSlash = true;
+        }
+
+    }
+
+    public void StopChargingSlash()
+    {
+        flipLock = false;
+        cantMove = false;
+        animator.SetBool("holdingSlash", false);
+        heavySlashCharge = 0f;
+        heavySlashCharged = false;
+        animator.SetBool("heavySlashCharged", false);
+        isChargingSlash = false;
+    }
+
+
+    public void StartHeavySlash()
+    {
+        if (!isHeavySlashing)
+        {
+            Debug.Log("Heavy Slash Started");
+            isHeavySlashing = true;
+            animator.SetBool("heavySlashing", true);
+        }
+    }
+
+    public void EndHeavySlash()
+    {
+        Debug.Log("Heavy Slash Ended");
+        isHeavySlashing = false;
+        animator.SetBool("heavySlashing", false);
     }
 }

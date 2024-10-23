@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlashScript : MonoBehaviour
+public class HeavySlashScript : MonoBehaviour
 {
     // Start is called before the first frame update
     GameObject player;
@@ -24,8 +24,14 @@ public class SlashScript : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
     public void DestroySelf() {
-        player.GetComponent<PlayerScript>().StartChargingSlash();
+        Debug.Log("DESTROY HEAVY SLASH PREFAB");
         Destroy(gameObject); 
     }
-    
+
+    public void TestEvent()
+    {
+        Debug.Log("If you'rereading this it worked.");
+
+    }
+
 }
