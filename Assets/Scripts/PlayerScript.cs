@@ -111,7 +111,6 @@ public class PlayerScript : MonoBehaviour
     //General Starting and Upkeep
     void Start()
     {
-        momentLock = true;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
@@ -134,6 +133,11 @@ public class PlayerScript : MonoBehaviour
         CheckForGround();
         CheckForWalls();
 
+        if (isGrounded)
+        {
+            animator.SetBool("injured", false);
+        }
+
 
         if (!cantMove) // removed the || !momentLock
         {
@@ -143,8 +147,6 @@ public class PlayerScript : MonoBehaviour
               momentLock = false;
             }
 
-            momentLock = false; //just to solve bugs for now
-
             if (!momentLock)
             {
                 rb.velocity = moveVector;
@@ -152,12 +154,12 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        if (moveDirection.x > 0 && !flipLock)
+        if (moveDirection.x > 0 && !flipLock && !animator.GetBool("injured"))
         {
             sp.flipX = false;
             lookingRight = true;
         }
-        else if (moveDirection.x < 0 && !flipLock)
+        else if (moveDirection.x < 0 && !flipLock && !animator.GetBool("injured"))
         {
             sp.flipX = true;
             lookingRight = false;
@@ -352,6 +354,8 @@ public class PlayerScript : MonoBehaviour
                 rb.velocity = new Vector2(vaultDistance, vaultRise);
             }
         }
+        momentLock = true;
+        StartCoroutine(ApplyVaultVel(rb.velocity, 0.17f)); //testing
     }
 
     
@@ -384,9 +388,9 @@ public class PlayerScript : MonoBehaviour
         {
             StopCoroutine(InvincibleCoroutine);
         }
-        InvincibleCoroutine = StartCoroutine(endInvincible(duration + 1.5f));
+        InvincibleCoroutine = StartCoroutine(endInvincible(duration + 1f));
 
-        //momentLock = true;
+        momentLock = true;
 
         sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
         hitLaunch = transform.position.x - other.transform.position.x;
@@ -397,6 +401,8 @@ public class PlayerScript : MonoBehaviour
 
     private void dmgLaunch()
     {
+        animator.SetBool("ascending", true);
+        animator.SetBool("injured", true);
         rb.gravityScale = grav;
         hitStopActive = false;
         if (hitLaunch > 0)
@@ -691,7 +697,7 @@ public class PlayerScript : MonoBehaviour
         sp.enabled = false;
         rb.velocity = Vector2.zero;
         Invoke("ResetPlayerPos", 0.1f);
-        sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
+        sp.color = new Color(1, 0.65f, 0.65f, 0.7f);
 
         if (InvincibleCoroutine != null)
         {
@@ -742,9 +748,14 @@ public class PlayerScript : MonoBehaviour
         //Debug.Log("Movement Enabled");
     }
 
-
-
-
+    private IEnumerator ApplyVaultVel(Vector2 vel, float duration)
+    {
+        for (int i = 0; i < duration * 50; i++)
+        {
+            yield return new WaitForSeconds(0.02f);
+            rb.velocity = new Vector2(vel.x, rb.velocity.y);
+        }
+    }
 
 
 
@@ -854,5 +865,11 @@ public class PlayerScript : MonoBehaviour
         Debug.Log("Heavy Slash Ended");
         isHeavySlashing = false;
         animator.SetBool("heavySlashing", false);
+    }
+
+
+   public void InjuredStop()
+    {
+        animator.SetBool("injured", false );
     }
 }

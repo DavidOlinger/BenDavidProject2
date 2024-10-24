@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 446a3410ca298dd41809b8218da16923
+guid: 9d3a60ab2a01b2c4dad9c6c1768ca3f5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 400
@@ -70,9 +70,9 @@ TextureImporter:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 1
+    resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_0
+      name: RunCycle5_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 4736
-        width: 2048
-        height: 1184
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d904ba156466eac429d1d88abd096cee
-      internalID: -631273738
+      spriteID: 1ba731a9cce057a4b88abb1177e78e66
+      internalID: 1740748553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_1
+      name: RunCycle5_1
       rect:
         serializedVersion: 2
-        x: 2048
-        y: 4736
-        width: 2048
-        height: 1184
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad51b56bf44770746bd307476e0b3edd
-      internalID: -190702811
+      spriteID: 91c322a88d2e14b448cfa26d9a5728dc
+      internalID: -941329296
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_2
+      name: RunCycle5_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 3552
-        width: 2048
-        height: 1184
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,41 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06255771acb3e6944a5a7b5271217a75
-      internalID: -1419552551
+      spriteID: 967bcd26ed8efb34d991c1fce93daac2
+      internalID: -1168317708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_3
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 3552
-        width: 2048
-        height: 1184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b849b346a8d0cdc43afeb3f2ba50d14e
-      internalID: 1450089553
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerAttacksPoses 1_4
+      name: RunCycle5_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 2368
-        width: 2048
-        height: 1184
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15db1ca42317f2349b71dcda8fa9e33f
-      internalID: -945548822
+      spriteID: 7a27a89d4340ab447929772a003c71d2
+      internalID: 598927236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_5
+      name: RunCycle5_4
       rect:
         serializedVersion: 2
-        x: 2048
-        y: 2368
-        width: 2048
-        height: 1184
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cebb064fbe7def84499560da34d89d66
-      internalID: -1908298256
+      spriteID: 6a12d1324bc276249b5ef01f5054d25b
+      internalID: 816266026
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_6
+      name: RunCycle5_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1184
-        width: 2048
-        height: 1184
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,41 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47bda967d4171a843a32cac786338f3a
-      internalID: -467041450
+      spriteID: 6fe0b4e22e566804081396499134b4ee
+      internalID: 2110541413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerAttacksPoses 1_7
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 1184
-        width: 2048
-        height: 1184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e475c83c3d89f7409b7942900b26556
-      internalID: 471734662
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerAttacksPoses 1_8
+      name: RunCycle5_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 1184
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,8 +237,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d2d7082a45e4f44f8123c1b2930da55
-      internalID: 542611101
+      spriteID: 033d95ea14e3e164696975ed9e2e00ce
+      internalID: -2044096762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RunCycle5_7
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cec3278d7cd27ad43ba1a2b9ff24be69
+      internalID: -1759952989
       vertices: []
       indices: 
       edges: []
@@ -296,15 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerAttacksPoses 1_0: -631273738
-      PlayerAttacksPoses 1_1: -190702811
-      PlayerAttacksPoses 1_2: -1419552551
-      PlayerAttacksPoses 1_3: 1450089553
-      PlayerAttacksPoses 1_4: -945548822
-      PlayerAttacksPoses 1_5: -1908298256
-      PlayerAttacksPoses 1_6: -467041450
-      PlayerAttacksPoses 1_7: 471734662
-      PlayerAttacksPoses 1_8: 542611101
+      RunCycle5_0: 1740748553
+      RunCycle5_1: -941329296
+      RunCycle5_2: -1168317708
+      RunCycle5_3: 598927236
+      RunCycle5_4: 816266026
+      RunCycle5_5: 2110541413
+      RunCycle5_6: -2044096762
+      RunCycle5_7: -1759952989
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

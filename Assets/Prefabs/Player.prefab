@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   momentLock: 0
   cantMove: 0
-  moveSpeed: 5
+  moveSpeed: 6.5
   jumpForce: 15
   wallJumpXForce: 7
   wallJumpYForce: 14
