@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public float wallJumpXForce;
     public float wallJumpYForce;
 
+    private Vector2 lastStoredVelocity;
 
     
     public Vector2 moveDirection = Vector2.zero;
@@ -121,6 +122,7 @@ public class PlayerScript : MonoBehaviour
 
         leftOffset = Vector3.zero;
         rightOffset = Vector3.zero;
+        lastStoredVelocity = Vector2.zero;
         leftOffset.x = -(transform.localScale.x / 2);
         leftOffset.y = -(transform.localScale.y / 2);
         rightOffset.x = transform.localScale.x / 2;
@@ -792,6 +794,24 @@ public class PlayerScript : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
     }
+
+    public void SaveVelocity()
+    {
+        lastStoredVelocity = rb.velocity;
+        HaltVelocity();
+    }
+
+    public void LoadVelocity()
+    {
+        rb.velocity = lastStoredVelocity;
+    }
+
+    public void AddSavedVelocity()
+    {
+        rb.velocity = rb.velocity + lastStoredVelocity;
+    }
+
+
 
 
     public void StartChargingSlash()
