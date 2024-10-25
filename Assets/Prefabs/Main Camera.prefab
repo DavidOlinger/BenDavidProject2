@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  fadeOutPrefab: {fileID: 0}
   pullForce: 10
   distanceMod: 5
   yOffset: 0
