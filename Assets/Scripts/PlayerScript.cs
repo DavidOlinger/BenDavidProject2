@@ -99,7 +99,7 @@ public class PlayerScript : MonoBehaviour
 
     //Other
     public float hitLaunch = 0; // this is so we don't have to pass it through parameters
-    private float grav = 2.65f; // this is so we can just change this one variable once if we wanna update all the gravity scale stuff
+    public float grav;    // = 2.65f; // this is so we can just change this one variable once if we wanna update all the gravity scale stuff
     private Coroutine CantMoveCoroutine;
     private Coroutine PlayerAttackCoroutine;
     private Coroutine InvincibleCoroutine;
