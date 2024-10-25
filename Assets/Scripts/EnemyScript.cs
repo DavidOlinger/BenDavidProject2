@@ -58,7 +58,7 @@ public class EnemyScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
 
-        xRayDistance = (transform.localScale.x / 2) + 0.05f;
+        xRayDistance = (transform.localScale.x / 2) + 0.3f; // this is the variable used for the laser distance to check for walls
 
         leftOffset = Vector3.zero;
         rightOffset = Vector3.zero;
@@ -175,8 +175,8 @@ public class EnemyScript : MonoBehaviour
     //RAYCASTING STUFF
     private void CheckForGround()
     {
-        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .02f, GroundLayer);
-        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .02f, GroundLayer);
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .1f, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .1f, GroundLayer); // the offsets next to GroundLayer are how long the rays are
 
         if (rightSide.collider == null &&  leftSide.collider == null)
         {
