@@ -7,6 +7,7 @@ public class EnemyScript : MonoBehaviour
     //Basic Variables
     private Rigidbody2D rb;
     private SpriteRenderer sp;
+    Animator animator;
 
     PlayerScript playerScript;
     GameObject player;
@@ -51,6 +52,7 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -105,6 +107,13 @@ public class EnemyScript : MonoBehaviour
             Attack();
         }
         
+        if (Mathf.Abs(rb.velocity.x) > 0){
+            animator.SetBool("walking", true);
+        } else
+        {
+            animator.SetBool("walking", false);
+
+        }
 
     }
 
@@ -169,13 +178,23 @@ public class EnemyScript : MonoBehaviour
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .02f, GroundLayer);
         RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .02f, GroundLayer);
 
+        if (rightSide.collider == null &&  leftSide.collider == null)
+        {
+            animator.SetBool("grounded", false);
+        } else
+        {
+            animator.SetBool("grounded", true);
+        }
+
         if (rightSide.collider == null && rb.velocity.y == 0)
         {
             directionMove = -1;
+            sp.flipX = true;
         }
         else if (leftSide.collider == null && rb.velocity.y == 0)
         {
             directionMove = 1;
+            sp.flipX = false;
         }
         
     }
@@ -187,11 +206,15 @@ public class EnemyScript : MonoBehaviour
         if (hitLeft.collider != null)
         {
             directionMove = 1;
+            sp.flipX = false;
+
         }
 
         if (hitRight.collider != null)
         {
             directionMove = -1;
+            sp.flipX = true;
+
         }
     }
 
@@ -211,13 +234,13 @@ public class EnemyScript : MonoBehaviour
             }
 
             hitCounter++;
-
+            PlayDamagedAnim(0.4f);
             
 
             rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
 
-            sp.color = Color.white; // to simulate the white flash for now lol
+            sp.color = new Color(1, 1, 1, 0.5f); // to simulate the white flash for now lol
 
 
             if (CantMoveCoroutine != null)
@@ -251,10 +274,11 @@ public class EnemyScript : MonoBehaviour
             Destroy(gameObject);
         }
 
+        sp.color = Color.white;
 
         rb.gravityScale = 1; //currently thats what all enemies have as their grav scale, (we could def change this to make it feel better)
 
-        sp.color = Color.red; // end the color flash (will be more complex with actual sprites)
+        
 
         float hitLaunch = player.transform.position.x - transform.position.x;
         if (hitLaunch < 0)
@@ -282,7 +306,16 @@ public class EnemyScript : MonoBehaviour
         //rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
     }
 
+    private void PlayDamagedAnim(float duration)
+    {
+        animator.SetBool("hurt", true);
+        Invoke("CancelDamageAnim", duration);
+    }
 
+    private void CancelDamageAnim()
+    {
+        animator.SetBool("hurt", false);
+    }
 
 
 }
