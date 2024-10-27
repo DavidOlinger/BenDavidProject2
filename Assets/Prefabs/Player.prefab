@@ -99,7 +99,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2118128488554503596}
@@ -170,9 +170,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.3
+  m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2.65
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: a1705dbf733da134b93d14f44cb8448c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -199,7 +199,7 @@ MonoBehaviour:
   momentLock: 0
   cantMove: 0
   moveSpeed: 6.5
-  jumpForce: 15
+  jumpForce: 14
   wallJumpXForce: 7
   wallJumpYForce: 14
   moveDirection: {x: 0, y: 0}
@@ -216,8 +216,8 @@ MonoBehaviour:
   lastGroundY: 0
   lastGroundPoint: {x: 0, y: 0, z: 0}
   groundCheckDist: 0.07
-  vaultRise: 9.5
-  vaultDistance: 13
+  vaultRise: 10
+  vaultDistance: 11
   vaultTime: 0.65
   vaultCooldown: 0
   maxVaultCooldown: 0
@@ -242,11 +242,12 @@ MonoBehaviour:
   slashOffX: 0.6
   slashOffY: 0.8
   knockbackOnHit: 20
-  stunOnHit: 0
+  stunOnHit: 0.1
   currHP: 5
   maxHP: 5
   invincible: 0
   hitLaunch: 0
+  grav: 3
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0

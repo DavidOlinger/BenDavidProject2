@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
+    //use #region and #endregion to enclose things
+    //VARIABLES
+    #region
+
     //Movement
     private Rigidbody2D rb;
     private SpriteRenderer sp;
@@ -106,7 +110,7 @@ public class PlayerScript : MonoBehaviour
     private bool hitStopActive = false;
 
 
-
+    #endregion
 
     //General Starting and Upkeep
     void Start()
@@ -131,7 +135,7 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         CheckForGround();
-        CheckForWalls();
+        //CheckForWalls(); // commented cuz no wall jump for rn
 
         if (isGrounded)
         {
@@ -142,6 +146,8 @@ public class PlayerScript : MonoBehaviour
         if (!cantMove) // removed the || !momentLock
         {
             Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+
+
             if (momentLock && moveVector.x != 0)
             {
               momentLock = false;
@@ -153,6 +159,8 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
+        
+        #region
 
         if (moveDirection.x > 0 && !flipLock && !animator.GetBool("injured"))
         {
@@ -237,7 +245,7 @@ public class PlayerScript : MonoBehaviour
             cantMove = true;
         }
 
-
+        #endregion
 
         //FOR TESTING
         if (moveDirection.y < 0)
@@ -251,8 +259,6 @@ public class PlayerScript : MonoBehaviour
            // playerLookAhead.y = 0f;
         }
     }
-
-
 
 
 
@@ -275,8 +281,6 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
-
-
     private void SpawnHeavySlash()
     {
         //slashStun = 0.25f;
@@ -293,8 +297,6 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-
-
     private void SpawnVault()
     {
        // slashStun = 0.15f;
@@ -532,16 +534,27 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    
+
 
 
 
     //INPUTS
 
+    private float timeSinceStartMoving = 0;
     public void OnMove(InputAction.CallbackContext context) // Might want to remove the Vector2.zero part from this and put it somewhere else, could cause problems maybe
     {
         if (context.performed)
         {
+            if(timeSinceStartMoving < 0.1f)
+            {
+                moveSpeed = 6.5f - ((1 - timeSinceStartMoving * 10));
+                timeSinceStartMoving += 0.02f;
+            }
+            else
+            {
+                moveSpeed = 6.5f;
+            }
+
             moveDirection = context.ReadValue<Vector2>();
 
         }
@@ -549,6 +562,7 @@ public class PlayerScript : MonoBehaviour
         {
 
             moveDirection = Vector2.zero;
+            timeSinceStartMoving = 0;
         }
     }
 
@@ -635,20 +649,20 @@ public class PlayerScript : MonoBehaviour
                 StartAttack();
                 if (isGrounded)
                 {
-                    canChargeSlash = true;
+                   // canChargeSlash = true;
                 }
                 
             }
         }
         else if (context.canceled)
         {
-            canChargeSlash = false;
+           // canChargeSlash = false;
             if (heavySlashCharged)
             {
-                StartHeavySlash();
+               // StartHeavySlash();
             }
 
-            StopChargingSlash();
+           // StopChargingSlash();
             
         }
     }
@@ -670,11 +684,8 @@ public class PlayerScript : MonoBehaviour
 
 
 
-
-
-
     // RESPAWNING
-
+    #region
     void SetGroundPoint()
     {
         if (isGrounded && !invincible) {lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
@@ -715,14 +726,11 @@ public class PlayerScript : MonoBehaviour
         Invoke("enableSprite", 0.5f);
     }
 
-
-
-
-
+    #endregion
 
 
     //COROUTINES
-
+    #region
     private IEnumerator endInvincible(float duration)
     {
         invincible = true;
@@ -757,11 +765,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
+    #endregion
 
 
     //UTILITIES
-
+    #region
     void enableSprite()
     {
         sp.enabled = true;
@@ -872,4 +880,6 @@ public class PlayerScript : MonoBehaviour
     {
         animator.SetBool("injured", false );
     }
+
+    #endregion
 }
