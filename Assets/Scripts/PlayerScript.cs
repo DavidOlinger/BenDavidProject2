@@ -112,7 +112,8 @@ public class PlayerScript : MonoBehaviour
 
     #endregion
 
-    //General Starting and Upkeep
+    //General Starting and Update
+    #region
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -245,7 +246,6 @@ public class PlayerScript : MonoBehaviour
             cantMove = true;
         }
 
-        #endregion
 
         //FOR TESTING
         if (moveDirection.y < 0)
@@ -258,12 +258,16 @@ public class PlayerScript : MonoBehaviour
         {
            // playerLookAhead.y = 0f;
         }
+
+        #endregion
+
     }
 
 
-
+    #endregion
 
     //SPAWNING
+    #region
     private void SpawnSlash()
     {
 
@@ -313,11 +317,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-
+    #endregion
 
 
     //COMBAT PHYSICS AND DAMAGE
+    #region
     public void VaultLaunch()
     {
         animator.SetBool("ascending", true);
@@ -452,17 +456,19 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-    } 
+    }
 
+    #endregion
 
-
-
-
+    //RAYCASTING
+    #region
     //CHECKS
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
         RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, groundCheckDist, GroundLayer);
+        RaycastHit2D middle = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist + 0.5f, GroundLayer);
+
 
         if (rightSide.collider != null && rb.velocity.y == 0)
         {
@@ -473,12 +479,22 @@ public class PlayerScript : MonoBehaviour
             isGrounded = true;
             momentLock = false;
         }
-        else if(leftSide.collider != null && rb.velocity.y == 0)
+        else if (leftSide.collider != null && rb.velocity.y == 0)
         {
             animator.SetBool("grounded", true);
             animator.SetBool("ascending", false);
             animator.SetBool("descending", false);
 
+            isGrounded = true;
+            momentLock = false;
+        }
+        else if (middle.collider != null && rb.velocity.y == 0)  // this doesn't work for some reason
+        {
+            animator.SetBool("grounded", true);
+            animator.SetBool("ascending", false);
+            animator.SetBool("descending", false);
+
+            Debug.Log("AHHH");
             isGrounded = true;
             momentLock = false;
         }
@@ -534,10 +550,10 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    #endregion
 
-
-
-
+    //INPUTS
+    #region
     //INPUTS
 
     private float timeSinceStartMoving = 0;
@@ -629,7 +645,7 @@ public class PlayerScript : MonoBehaviour
             {
                 if (!cantMove || wallJumping)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
                 }
             }
             else if (isJumping)
@@ -682,7 +698,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
+    #endregion
 
     // RESPAWNING
     #region
