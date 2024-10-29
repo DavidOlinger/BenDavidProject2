@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-    //use #region and #endregion to enclose things
+
     //VARIABLES
     #region
 
@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour
     public bool cantMove;
 
     public float moveSpeed;
+    public float normalMoveSpeed;
     public float jumpForce;
 
     public float wallJumpXForce;
@@ -55,7 +56,7 @@ public class PlayerScript : MonoBehaviour
     
     //Vault Variables
     public float vaultRise;
-    public float vaultDistance;
+    public float vaultSpeed;
     public float vaultTime;
     public float vaultCooldown;
     public float maxVaultCooldown;
@@ -135,6 +136,8 @@ public class PlayerScript : MonoBehaviour
         rightOffset.y = -(transform.localScale.y / 2);
     }
 
+
+    private float maxSpeedHorizontalAllowed = 5.85f;
     private void FixedUpdate()
     {
         CheckForGround();
@@ -150,6 +153,20 @@ public class PlayerScript : MonoBehaviour
         if (!cantMove) // removed the || !momentLock
         {
             Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+
+
+            //experimental thing trying to make movement additive{{{
+
+            //Vector2 moveVector = new Vector2(rb.velocity.x, rb.velocity.y);
+            //if (rb.velocity.x < maxSpeedHorizontalAllowed)
+            //{
+            //    moveVector = new Vector2(rb.velocity.x + (moveDirection.x * moveSpeed), rb.velocity.y);
+
+            //}
+            //else
+            //{
+            //    rb.velocity.x = maxSpeedHorizontalAllowed;
+            //}
 
 
             if (momentLock && moveVector.x != 0)
@@ -330,6 +347,10 @@ public class PlayerScript : MonoBehaviour
         animator.SetBool("ascending", true);
 
         CheckForNearWallsVault();
+
+        flipLock = true; // to make it look cooler
+
+        //maxSpeedHorizontalAllowed = vaultSpeed;
         
 
         rb.velocity = Vector2.zero;
@@ -345,26 +366,26 @@ public class PlayerScript : MonoBehaviour
 
         if (sp.flipX)
         {
-            if (isLeftWallTouching || isNearWallVault)
+            if (isLeftWallTouching || LEFTisNearWallVault)
             {
-                rb.velocity = new Vector2(vaultDistance, vaultRise);
+                rb.velocity = new Vector2(vaultSpeed, vaultRise);
                 sp.flipX = false;
             }
             else
             {
-                rb.velocity = new Vector2(-vaultDistance, vaultRise);
+                rb.velocity = new Vector2(-vaultSpeed, vaultRise);
             }
         }
         else
         {
-            if (isRightWallTouching || isNearWallVault) // trying to make it always flip the launch
+            if (isRightWallTouching || RIGHTisNearWallVault) // trying to make it always flip the launch
             {
-                rb.velocity = new Vector2(-vaultDistance, vaultRise);
+                rb.velocity = new Vector2(-vaultSpeed, vaultRise);
                 sp.flipX = true;
             }
             else
             {
-                rb.velocity = new Vector2(vaultDistance, vaultRise);
+                rb.velocity = new Vector2(vaultSpeed, vaultRise);
             }
         }
         momentLock = true;
@@ -446,7 +467,7 @@ public class PlayerScript : MonoBehaviour
 
 
         Invoke("slashKnockback", slashStun);
-    } // activates when you hit an enemy
+    } // activates when you hit an enemy (BAD AND NEEDS TO BE CHANGED FOR TIME STOP VERSION
     private void slashKnockback()
     {
 
@@ -466,6 +487,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     #endregion
+
 
     //RAYCASTING
     #region
@@ -560,7 +582,9 @@ public class PlayerScript : MonoBehaviour
 
 
     public float wallVaultRaycastDistance;
-    public bool isNearWallVault = false;
+    private bool RIGHTisNearWallVault = false;
+    private bool LEFTisNearWallVault = false;
+
     private void CheckForNearWallsVault()
     {
         Vector3 yOffset = new Vector3(0, 0.15f, 0);
@@ -569,14 +593,16 @@ public class PlayerScript : MonoBehaviour
 
         if (hitLeft.collider != null && !isGrounded)
         {
-            isNearWallVault = true;
+            LEFTisNearWallVault = true;
         }
         else if (hitRight.collider != null && !sp.flipX && !isGrounded)
         {
-            isNearWallVault = true;        }
+            RIGHTisNearWallVault = true;
+        }
         else
         {
-            isNearWallVault = false;
+            RIGHTisNearWallVault = false;
+            LEFTisNearWallVault = false;
         }
 
     }
@@ -584,31 +610,61 @@ public class PlayerScript : MonoBehaviour
 
     #endregion
 
+
     //INPUTS
     #region
     //INPUTS
 
     private float timeSinceStartMoving = 0;
+    private Coroutine startRunning;
+    private IEnumerator startRunningCoroutine(float duration)
+    {
+        if(timeSinceStartMoving <= 1)
+        {
+            moveSpeed = 4.85f + timeSinceStartMoving;
+            timeSinceStartMoving += 0.1f;
+        }
+        else
+        {
+            moveSpeed = 5.85f;
+        }
+        
+        
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed = 5.85f;
+
+        //if (timeSinceStartMoving < 0.1f)
+        //{
+        //    moveSpeed = 6.5f - ((1 - timeSinceStartMoving * 10));
+        //    timeSinceStartMoving += 0.02f;
+        //}
+        //else
+        //{
+        //    moveSpeed = 6.5f;
+        //}
+
+    }
     public void OnMove(InputAction.CallbackContext context) // Might want to remove the Vector2.zero part from this and put it somewhere else, could cause problems maybe
     {
         if (context.performed)
         {
-            if(timeSinceStartMoving < 0.1f)
-            {
-                moveSpeed = 6.5f - ((1 - timeSinceStartMoving * 10));
-                timeSinceStartMoving += 0.02f;
-            }
-            else
-            {
-                moveSpeed = 6.5f;
-            }
+
+            
+
+            startRunning = StartCoroutine(startRunningCoroutine(0.12f));
 
             moveDirection = context.ReadValue<Vector2>();
+
+        //    {
+        //        StopCoroutine(CantMoveCoroutine);
+        //    }
+        //    wallJumping = true;
+        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
         }
         else if (context.canceled)
         {
-
             moveDirection = Vector2.zero;
             timeSinceStartMoving = 0;
         }
@@ -619,6 +675,30 @@ public class PlayerScript : MonoBehaviour
     {
         return Time.time - lastTimeGrounded <= coyoteTime;
     }
+    private IEnumerator delayedJump(float duration, InputAction.CallbackContext context)
+    {
+        float elapsedTime = 0;
+
+        while(elapsedTime < duration)
+        {
+            if((isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
+            {
+                if (context.canceled)
+                {
+                    shortHop = true;
+                }
+                isJumping = true;
+                Invoke("jumpLaunch", 0.06f);
+                yield break;
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+    }
+
 
     private bool wallJumping = false;
     private bool isJumping = false;
@@ -634,7 +714,7 @@ public class PlayerScript : MonoBehaviour
 
         if (shortHop)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.45f);
             shortHop = false;
         }
 
@@ -647,6 +727,10 @@ public class PlayerScript : MonoBehaviour
             //put the jump squat animation here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             Invoke("jumpLaunch", 0.06f);
 
+        }
+        else if(context.started && !cantMove && !isJumping)
+        {
+            StartCoroutine(delayedJump(0.08f, context));
         }
         //else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
         //{
@@ -682,7 +766,7 @@ public class PlayerScript : MonoBehaviour
             {
                 if (!cantMove || wallJumping)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.55f);
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.45f);
                 }
             }
             else if (isJumping)
@@ -737,6 +821,7 @@ public class PlayerScript : MonoBehaviour
 
 
     #endregion
+
 
     // RESPAWNING
     #region
@@ -800,14 +885,13 @@ public class PlayerScript : MonoBehaviour
     {
         cantMove = true;
 
-        //Debug.Log("Movement Disabled");
-
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
         wallJumping = false; // this is my temp fix for wallJunmping
+        flipLock = false;
+        maxSpeedHorizontalAllowed = normalMoveSpeed;
 
-        //Debug.Log("Movement Enabled");
     }
 
     private IEnumerator ApplyVaultVel(Vector2 vel, float duration)
@@ -816,6 +900,7 @@ public class PlayerScript : MonoBehaviour
         {
             yield return new WaitForSeconds(0.02f);
             rb.velocity = new Vector2(vel.x, rb.velocity.y);
+           
         }
     }
 
