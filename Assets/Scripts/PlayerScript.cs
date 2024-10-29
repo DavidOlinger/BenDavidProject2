@@ -50,6 +50,8 @@ public class PlayerScript : MonoBehaviour
     Vector3 leftOffset;
     Vector3 rightOffset;
     public float groundCheckDist;
+    private float lastTimeGrounded;
+    public float coyoteTime;
     
     //Vault Variables
     public float vaultRise;
@@ -136,10 +138,11 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         CheckForGround();
-        //CheckForWalls(); // commented cuz no wall jump for rn
+        CheckForTouchingWalls(); // commented cuz no wall jump for rn
 
         if (isGrounded)
         {
+            lastTimeGrounded = Time.time;
             animator.SetBool("injured", false);
         }
 
@@ -325,6 +328,8 @@ public class PlayerScript : MonoBehaviour
     public void VaultLaunch()
     {
         animator.SetBool("ascending", true);
+
+        CheckForNearWallsVault();
         
 
         rb.velocity = Vector2.zero;
@@ -340,9 +345,10 @@ public class PlayerScript : MonoBehaviour
 
         if (sp.flipX)
         {
-            if (isLeftWallTouching)
+            if (isLeftWallTouching || isNearWallVault)
             {
                 rb.velocity = new Vector2(vaultDistance, vaultRise);
+                sp.flipX = false;
             }
             else
             {
@@ -351,9 +357,10 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            if (isRightWallTouching)
+            if (isRightWallTouching || isNearWallVault) // trying to make it always flip the launch
             {
                 rb.velocity = new Vector2(-vaultDistance, vaultRise);
+                sp.flipX = true;
             }
             else
             {
@@ -462,7 +469,8 @@ public class PlayerScript : MonoBehaviour
 
     //RAYCASTING
     #region
-    //CHECKS
+
+
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
@@ -510,7 +518,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void CheckForWalls()
+    private void CheckForTouchingWalls()
     {
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, WallLayer);
@@ -550,6 +558,30 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+
+    public float wallVaultRaycastDistance;
+    public bool isNearWallVault = false;
+    private void CheckForNearWallsVault()
+    {
+        Vector3 yOffset = new Vector3(0, 0.15f, 0);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + yOffset, Vector2.left, wallVaultRaycastDistance, WallLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + yOffset, Vector2.right, wallVaultRaycastDistance, WallLayer);
+
+        if (hitLeft.collider != null && !isGrounded)
+        {
+            isNearWallVault = true;
+        }
+        else if (hitRight.collider != null && !sp.flipX && !isGrounded)
+        {
+            isNearWallVault = true;        }
+        else
+        {
+            isNearWallVault = false;
+        }
+
+    }
+
+
     #endregion
 
     //INPUTS
@@ -583,6 +615,11 @@ public class PlayerScript : MonoBehaviour
     }
 
 
+    private bool wasGroundedCoyote()
+    {
+        return Time.time - lastTimeGrounded <= coyoteTime;
+    }
+
     private bool wallJumping = false;
     private bool isJumping = false;
     private bool shortHop = false;
@@ -604,48 +641,48 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isGrounded && !cantMove && !isJumping)
+        if (context.started && (isGrounded  || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
         {
             isJumping = true;
             //put the jump squat animation here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            Invoke("jumpLaunch", 0.04f);
+            Invoke("jumpLaunch", 0.06f);
 
         }
-        else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
-        {
-            if (CantMoveCoroutine != null)
-            {
-                StopCoroutine(CantMoveCoroutine);
-            }
-            wallJumping = true;
-            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+        //else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
+        //{
+        //    if (CantMoveCoroutine != null)
+        //    {
+        //        StopCoroutine(CantMoveCoroutine);
+        //    }
+        //    wallJumping = true;
+        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
-            rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
-            animator.SetBool("ascending", true);
+        //    rb.velocity = Vector2.zero;
+        //    rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
+        //    animator.SetBool("ascending", true);
 
-        }
-        else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
-        {
-            if (CantMoveCoroutine != null)
-            {
-                StopCoroutine(CantMoveCoroutine);
-            }
-            wallJumping = true;
-            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+        //}
+        //else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
+        //{
+        //    if (CantMoveCoroutine != null)
+        //    {
+        //        StopCoroutine(CantMoveCoroutine);
+        //    }
+        //    wallJumping = true;
+        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
-            rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
-            animator.SetBool("ascending", true);
+        //    rb.velocity = Vector2.zero;
+        //    rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
+        //    animator.SetBool("ascending", true);
 
-        }
+        //}
         else if (context.canceled)
         {
             if(rb.velocity.y > 0)
             {
                 if (!cantMove || wallJumping)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.55f);
                 }
             }
             else if (isJumping)
@@ -686,6 +723,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnVault(InputAction.CallbackContext context)
     {
+        
         if (context.started)
         {
             if (!isVaulting && vaultCooldown <= 0)

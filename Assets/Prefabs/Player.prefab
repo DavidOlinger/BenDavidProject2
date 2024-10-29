@@ -216,7 +216,8 @@ MonoBehaviour:
   lastGroundY: 0
   lastGroundPoint: {x: 0, y: 0, z: 0}
   groundCheckDist: 0.07
-  vaultRise: 10
+  coyoteTime: 0.06
+  vaultRise: 10.8
   vaultDistance: 11
   vaultTime: 0.65
   vaultCooldown: 0
@@ -248,6 +249,7 @@ MonoBehaviour:
   invincible: 0
   hitLaunch: 0
   grav: 3
+  wallVaultRaycastDistance: 0
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0
