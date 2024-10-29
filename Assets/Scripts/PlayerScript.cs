@@ -730,7 +730,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if(context.started && !cantMove && !isJumping)
         {
-            StartCoroutine(delayedJump(0.08f, context));
+            StartCoroutine(delayedJump(0.12f, context));
         }
         //else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
         //{
