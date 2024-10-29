@@ -111,6 +111,7 @@ public class PlayerScript : MonoBehaviour
     private Coroutine PlayerAttackCoroutine;
     private Coroutine InvincibleCoroutine;
     private bool hitStopActive = false;
+    public float maxGravSpeed;
 
 
     #endregion
@@ -281,6 +282,16 @@ public class PlayerScript : MonoBehaviour
 
         #endregion
 
+
+        if(rb.velocity.y < -maxGravSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x,  -maxGravSpeed);
+        }
+
+
+
+
+    
     }
 
 
@@ -587,7 +598,7 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckForNearWallsVault()
     {
-        Vector3 yOffset = new Vector3(0, 0.15f, 0);
+        Vector3 yOffset = new Vector3(0, -0.1f, 0); // this is what is changing the height of where we check to bounce off walls
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + yOffset, Vector2.left, wallVaultRaycastDistance, WallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position + yOffset, Vector2.right, wallVaultRaycastDistance, WallLayer);
 

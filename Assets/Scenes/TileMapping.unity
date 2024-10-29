@@ -90227,11 +90227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4715007861208846210, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.69
+      value: -7.2
       objectReference: {fileID: 0}
     - target: {fileID: 4715007861208846210, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8
+      value: 21.8
       objectReference: {fileID: 0}
     - target: {fileID: 4715007861208846210, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: m_LocalPosition.z
@@ -90280,6 +90280,10 @@ PrefabInstance:
     - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: vaultSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
+      propertyPath: maxGravSpeed
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: vaultDistance
