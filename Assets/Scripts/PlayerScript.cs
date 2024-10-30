@@ -96,7 +96,6 @@ public class PlayerScript : MonoBehaviour
 
     public float knockbackOnHit;
     public float stunOnHit; // how much hitstun an enemy gets from an attack (not super fancy rn but can be improved)
-    private float slashStun = 0.1f;
     //made it private cuz we will only change it inside here for different attacks
 
     //Health
@@ -113,6 +112,8 @@ public class PlayerScript : MonoBehaviour
     private bool hitStopActive = false;
     public float maxGravSpeed;
 
+    public TimeManagerScript timeScript;
+
 
     #endregion
 
@@ -124,6 +125,7 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
         cam = GameObject.FindGameObjectWithTag("MainCamera");
+        timeScript = GameObject.FindWithTag("TimeManager").GetComponent<TimeManagerScript>();
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
@@ -462,28 +464,15 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public void hitStop()
+    public void hitStop(float duration)
     {
-
-        rb.gravityScale = 0;
-        rb.velocity = Vector2.zero;
-        hitStopActive = true;
-
-
-        if (CantMoveCoroutine != null)
-        {
-            StopCoroutine(CantMoveCoroutine);
-        }
-        CantMoveCoroutine = StartCoroutine(endCantMove(0.0f + slashStun)); // make 0.0 greater than 0 to have slashKnovkback actually activate
-
-
-        Invoke("slashKnockback", slashStun);
-    } // activates when you hit an enemy (BAD AND NEEDS TO BE CHANGED FOR TIME STOP VERSION
-    private void slashKnockback()
+        Debug.Log("Time Should have stopped - player");
+        timeScript.TimeStop(duration);
+    } 
+    public void slashKnockback()
     {
 
         rb.gravityScale = grav;
-        hitStopActive = false;
 
         if (hitLaunch > 0)
         {

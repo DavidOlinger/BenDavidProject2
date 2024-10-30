@@ -8,6 +8,7 @@ TagManager:
   - Slash
   - PlayerDmg
   - Vault
+  - TimeManager
   layers:
   - Default
   - TransparentFX
