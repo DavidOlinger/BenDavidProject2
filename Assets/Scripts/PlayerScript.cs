@@ -748,38 +748,38 @@ public class PlayerScript : MonoBehaviour
             Invoke("jumpLaunch", 0.06f);
 
         }
-        else if(context.started && !cantMove && !isJumping)
+        else if (context.started && !isGrounded && isLeftWallTouching && !cantMove)
+        {
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            wallJumping = true;
+            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+
+            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
+            animator.SetBool("ascending", true);
+
+        }
+        else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
+        {
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            wallJumping = true;
+            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+
+            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
+            animator.SetBool("ascending", true);
+
+        }
+        else if (context.started && !cantMove && !isJumping)
         {
             StartCoroutine(delayedJump(0.12f, context));
         }
-        //else if(context.started && !isGrounded && isLeftWallTouching && !cantMove)
-        //{
-        //    if (CantMoveCoroutine != null)
-        //    {
-        //        StopCoroutine(CantMoveCoroutine);
-        //    }
-        //    wallJumping = true;
-        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
-
-        //    rb.velocity = Vector2.zero;
-        //    rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
-        //    animator.SetBool("ascending", true);
-
-        //}
-        //else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
-        //{
-        //    if (CantMoveCoroutine != null)
-        //    {
-        //        StopCoroutine(CantMoveCoroutine);
-        //    }
-        //    wallJumping = true;
-        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
-
-        //    rb.velocity = Vector2.zero;
-        //    rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
-        //    animator.SetBool("ascending", true);
-
-        //}
         else if (context.canceled)
         {
             if(rb.velocity.y > 0)
@@ -806,20 +806,20 @@ public class PlayerScript : MonoBehaviour
                 StartAttack();
                 if (isGrounded)
                 {
-                   // canChargeSlash = true;
+                   // canChargeSlash = true; //
                 }
                 
             }
         }
         else if (context.canceled)
         {
-           // canChargeSlash = false;
+           // canChargeSlash = false;//
             if (heavySlashCharged)
             {
-               // StartHeavySlash();
+               // StartHeavySlash();//
             }
 
-           // StopChargingSlash();
+           // StopChargingSlash();//
             
         }
     }
