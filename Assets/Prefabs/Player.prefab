@@ -199,6 +199,7 @@ MonoBehaviour:
   momentLock: 0
   cantMove: 0
   moveSpeed: 6.5
+  normalMoveSpeed: 0
   jumpForce: 14
   wallJumpXForce: 7
   wallJumpYForce: 14
@@ -218,8 +219,8 @@ MonoBehaviour:
   groundCheckDist: 0.07
   coyoteTime: 0.06
   vaultRise: 10.8
-  vaultDistance: 11
-  vaultTime: 0.65
+  vaultSpeed: 0
+  vaultTime: 0.3
   vaultCooldown: 0
   maxVaultCooldown: 0
   updateCamera: 0
@@ -249,6 +250,9 @@ MonoBehaviour:
   invincible: 0
   hitLaunch: 0
   grav: 3
+  maxGravSpeed: 0
+  moveDecayCoef: 0.5
+  timeScript: {fileID: 0}
   wallVaultRaycastDistance: 0
 --- !u!114 &8608152268744990662
 MonoBehaviour:

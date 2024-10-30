@@ -27,6 +27,7 @@ public class PlayerScript : MonoBehaviour
 
     
     public Vector2 moveDirection = Vector2.zero;
+    Vector2 moveVector;
 
     private bool isGrounded = true;
     private bool isLeftWallTouching;
@@ -109,8 +110,10 @@ public class PlayerScript : MonoBehaviour
     private Coroutine CantMoveCoroutine;
     private Coroutine PlayerAttackCoroutine;
     private Coroutine InvincibleCoroutine;
-    private bool hitStopActive = false;
+    private bool hitMoveLock = false;
     public float maxGravSpeed;
+
+    public float moveDecayCoef;
 
     public TimeManagerScript timeScript;
 
@@ -155,7 +158,7 @@ public class PlayerScript : MonoBehaviour
 
         if (!cantMove) // removed the || !momentLock
         {
-            Vector2 moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+            moveVector = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
 
 
             //experimental thing trying to make movement additive{{{
@@ -172,14 +175,33 @@ public class PlayerScript : MonoBehaviour
             //}
 
 
-            if (momentLock && moveVector.x != 0)
+            if (rb.velocity.x == 0 || isGrounded) //if grounded or not travelling in either direction
             {
-              momentLock = false;
+              momentLock = false; //turn off moment lock
             }
 
             if (!momentLock)
             {
                 rb.velocity = moveVector;
+            } else
+            {
+                if (moveVector.x > 0 && rb.velocity.x < 0) //if holding right while moving left while momentlock is on
+                {
+                    Debug.Log("Decaying Vault Velocity");
+                    rb.velocity = new Vector2(rb.velocity.x + moveDecayCoef, rb.velocity.y); //decay leftward movement
+                    if (rb.velocity.x > 0) //dont overshoot
+                    {
+                        rb.velocity = new Vector2(0, rb.velocity.y);
+                    }
+                }
+                if (moveVector.x < 0 && rb.velocity.x > 0) //if holding leftt while moving right while momentlock is on
+                {
+                    rb.velocity = new Vector2(rb.velocity.x - moveDecayCoef, rb.velocity.y); //decay rightward movement
+                    if (rb.velocity.x < 0) //dont overshoot
+                    {
+                        rb.velocity = new Vector2(0, rb.velocity.y);
+                    }
+                }
             }
 
         }
@@ -419,17 +441,13 @@ public class PlayerScript : MonoBehaviour
         }
 
         
+        //causing sliding...
+        //if (CantMoveCoroutine != null)
+        //{
+        //    StopCoroutine(CantMoveCoroutine);
+        //}
+        //CantMoveCoroutine = StartCoroutine(endCantMove(duration + 0.5f));
 
-        if (CantMoveCoroutine != null)
-        {
-            StopCoroutine(CantMoveCoroutine);
-        }
-        CantMoveCoroutine = StartCoroutine(endCantMove(duration + 0.5f));
-
-
-        rb.gravityScale = 0;
-        rb.velocity = Vector2.zero;
-        hitStopActive = true;
 
         if (InvincibleCoroutine != null)
         {
@@ -451,7 +469,7 @@ public class PlayerScript : MonoBehaviour
         animator.SetBool("ascending", true);
         animator.SetBool("injured", true);
         rb.gravityScale = grav;
-        hitStopActive = false;
+        hitMoveLock = false;
         if (hitLaunch > 0)
         {
             rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse); // prob want to replace with velocity!!!
@@ -900,9 +918,31 @@ public class PlayerScript : MonoBehaviour
     {
         for (int i = 0; i < duration * 50; i++)
         {
+            
             yield return new WaitForSeconds(0.02f);
-            rb.velocity = new Vector2(vel.x, rb.velocity.y);
-           
+            if (vel.x > 0) // if travelling right
+            {
+                if (moveVector.x > 0) //if holding right
+                {
+                    rb.velocity = new Vector2(vel.x, rb.velocity.y); //keep applying velocity
+                }
+                else if (moveVector.x < 0) //if holding left
+                {
+                    break; //stop applying velocity
+                }
+            } else if (vel.x < 0) //if travelling left
+            {
+                if (moveVector.x < 0) //if holding left
+                {
+                    rb.velocity = new Vector2(vel.x, rb.velocity.y); //keep applying velocity
+                }
+                else if (moveVector.x > 0) //if holding right
+                {
+                    break; //stop applying velocity
+                }
+            }
+
+
         }
     }
 
