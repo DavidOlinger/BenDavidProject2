@@ -556,6 +556,7 @@ public class PlayerScript : MonoBehaviour
             rb.gravityScale = 1;
             isLeftWallTouching = true;
             isRightWallTouching = false;
+            animator.SetBool("touchingWall", true);
         }
         else if (hitRight.collider != null && moveDirection.x > 0 && !isGrounded && rb.velocity.y < 0)
         {
@@ -567,16 +568,17 @@ public class PlayerScript : MonoBehaviour
             rb.gravityScale = 1; // need to also adjust linear drag to some value that will cause no acceleration
             isRightWallTouching = true;
             isLeftWallTouching = false;
+            animator.SetBool("touchingWall", true);
+
         }
         else
         {
-            if (!hitStopActive)
-            {
-                rb.gravityScale = grav;
-            }
+            rb.gravityScale = grav;
             isLeftWallTouching = false;
             isRightWallTouching = false;
             firstTouchWall = true;
+            animator.SetBool("touchingWall", false);
+
         }
     }
 
