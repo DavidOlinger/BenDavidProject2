@@ -230,7 +230,7 @@ public class EnemyScript : MonoBehaviour
             //playerScript.slashKnockback(hitLaunch);
             if (collision.CompareTag("Slash"))
             {
-                playerScript.hitStop(0.05f, 0.01f);
+                playerScript.hitStop(0.1f, 0.01f);
             } else
             {
                 playerScript.hitStop(0.2f, 0.01f);

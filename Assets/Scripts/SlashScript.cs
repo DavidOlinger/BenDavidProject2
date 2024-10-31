@@ -53,21 +53,27 @@ public class SlashScript : MonoBehaviour
         );
 
         // Get the angle between player and target in degrees
-        float angleToTarget = 180f - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angleToTarget = Random.Range(-10f, 10f) + 180f - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Debug.Log("angle to target: " + angleToTarget);
 
         
         ParticleSystem sparks1 = Instantiate(sparkParticle, target.transform.position, Quaternion.Euler(180f, 0f, angleToTarget - 90f));
         ParticleSystem sparks2 = Instantiate(sparkParticle, target.transform.position, Quaternion.Euler(180f, 0f, angleToTarget + 90f));
+        ParticleSystem flare = Instantiate(flareParticle, target.transform.position, Quaternion.Euler(0f, 0f, 0f));
+
         Debug.Log("particle system rotation x:" + sparks1.transform.rotation.x + " y:" + sparks1.transform.rotation.y + " z:" + sparks1.transform.rotation.z);
+        flare.Stop();
         sparks1.Stop();
         sparks2.Stop();
         sparks1.Clear();
         sparks2.Clear();
+        flare.Clear();
         sparks1.Play();
         sparks2.Play();
+        flare.Play();
         Destroy(sparks1.gameObject, 0.5f);
         Destroy(sparks2.gameObject, 0.5f);
+        Destroy(flare.gameObject, 0.5f);
     }
 
 }
