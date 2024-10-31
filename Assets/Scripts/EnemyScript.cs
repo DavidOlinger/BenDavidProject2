@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    #region
     //Basic Variables
     private Rigidbody2D rb;
     private SpriteRenderer sp;
@@ -49,7 +50,10 @@ public class EnemyScript : MonoBehaviour
     private Coroutine CantMoveCoroutine;
 
 
+    #endregion
 
+    //start + update
+    #region
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -117,12 +121,11 @@ public class EnemyScript : MonoBehaviour
 
     }
 
+    #endregion
 
-    private void Attack()
-    {
-        // idk just spawn a hurtbox in the direction the player is, make speed 0 while doing so
-        // might need like a bool to keep it from triggering multiple times?
-    }
+    //Movement
+    #region
+   
 
     private void CycleMove(bool isClose)
     {
@@ -169,10 +172,11 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-
+    #endregion
 
 
     //RAYCASTING STUFF
+    #region
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .1f, GroundLayer);
@@ -218,8 +222,10 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    #endregion
 
     //COMBAT
+    #region
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Slash") || collision.CompareTag("Vault"))
@@ -233,14 +239,14 @@ public class EnemyScript : MonoBehaviour
                 playerScript.hitStop(0.1f, 0.01f);
             } else
             {
-                playerScript.hitStop(0.2f, 0.01f);
+                playerScript.hitStop(0.2f, 0.01f); // this part needs to be made so it actually just checks for vault
             }
 
             hitCounter++;
             PlayDamagedAnim(0.4f);
             
 
-            rb.gravityScale = 0;
+            //rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
 
             sp.color = new Color(1, 1, 1, 0.5f); // to simulate the white flash for now lol
@@ -264,7 +270,7 @@ public class EnemyScript : MonoBehaviour
         {
             playerScript.takeDamage(gameObject, dmgHitStun);
             Debug.Log("Time Should have stopped - enemy");
-            playerScript.hitStop(0.1f, 0.01f);
+            playerScript.hitStop(0.2f, 0.01f);
 
         }
 
@@ -281,12 +287,12 @@ public class EnemyScript : MonoBehaviour
 
         sp.color = Color.white;
 
-        rb.gravityScale = 1; //currently thats what all enemies have as their grav scale, (we could def change this to make it feel better)
+        //rb.gravityScale = 1; 
 
         
 
-        float hitLaunch = player.transform.position.x - transform.position.x;
-        if (hitLaunch < 0)
+        float PlayerToEnemyPosition = player.transform.position.x - transform.position.x;
+        if (PlayerToEnemyPosition < 0)
         {
             rb.velocity = new Vector2(playerScript.knockbackOnHit, rb.velocity.y);
         }
@@ -297,8 +303,15 @@ public class EnemyScript : MonoBehaviour
     }  //Applies the knockback from the players slash
 
 
+    private void Attack()
+    {
+        // idk just spawn a hurtbox in the direction the player is, make speed 0 while doing so
+        // might need like a bool to keep it from triggering multiple times?
+    }
+    #endregion
 
-
+    //Other stuff
+    #region
 
     private IEnumerator endCantMove(float duration)
     {
@@ -322,5 +335,5 @@ public class EnemyScript : MonoBehaviour
         animator.SetBool("hurt", false);
     }
 
-
+    #endregion
 }
