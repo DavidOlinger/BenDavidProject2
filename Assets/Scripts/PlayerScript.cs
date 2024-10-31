@@ -482,10 +482,10 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public void hitStop(float duration)
+    public void hitStop(float duration, float delay)
     {
         Debug.Log("Time Should have stopped - player");
-        timeScript.TimeStop(duration);
+        timeScript.TimeStop(duration, delay);
     } 
     public void slashKnockback()
     {

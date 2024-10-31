@@ -230,10 +230,10 @@ public class EnemyScript : MonoBehaviour
             //playerScript.slashKnockback(hitLaunch);
             if (collision.CompareTag("Slash"))
             {
-                playerScript.hitStop(0.1f);
+                playerScript.hitStop(0.05f, 0.01f);
             } else
             {
-                playerScript.hitStop(0.25f);
+                playerScript.hitStop(0.2f, 0.01f);
             }
 
             hitCounter++;
@@ -264,7 +264,7 @@ public class EnemyScript : MonoBehaviour
         {
             playerScript.takeDamage(gameObject, dmgHitStun);
             Debug.Log("Time Should have stopped - enemy");
-            playerScript.hitStop(0.1f);
+            playerScript.hitStop(0.1f, 0.01f);
 
         }
 

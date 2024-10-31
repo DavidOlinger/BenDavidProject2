@@ -16,13 +16,14 @@ public class TimeManagerScript : MonoBehaviour
 
     }
 
-    public void TimeStop(float realtimeDuration)
+    public void TimeStop(float realtimeDuration, float delay)
     {
-        StartCoroutine(TimeStopCoroutine(realtimeDuration));
+        StartCoroutine(TimeStopCoroutine(realtimeDuration, delay));
     }
 
-    IEnumerator TimeStopCoroutine(float realtimeDuration)
+    IEnumerator TimeStopCoroutine(float realtimeDuration, float delay)
     {
+        yield return new WaitForSeconds(delay);
         Debug.Log("Time Stopped");
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(realtimeDuration);

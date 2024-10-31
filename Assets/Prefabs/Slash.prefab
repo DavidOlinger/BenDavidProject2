@@ -146,6 +146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationLength: 0
   slashPosition: {x: 0, y: 0, z: 0}
+  sparkParticle: {fileID: 363242132506034540, guid: 4524b055ceefff4479780303ee14ff4e, type: 3}
+  flareParticle: {fileID: 7031102633971108222, guid: c3e3d738074d7ca40be411dbacf845a3, type: 3}
 --- !u!95 &344258588764020747
 Animator:
   serializedVersion: 5
