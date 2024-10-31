@@ -110,7 +110,7 @@ public class PlayerScript : MonoBehaviour
     private Coroutine CantMoveCoroutine;
     private Coroutine PlayerAttackCoroutine;
     private Coroutine InvincibleCoroutine;
-    private bool hitMoveLock = false;
+    //private bool hitMoveLock = false;
     public float maxGravSpeed;
 
     public float moveDecayCoef;
@@ -469,7 +469,7 @@ public class PlayerScript : MonoBehaviour
         animator.SetBool("ascending", true);
         animator.SetBool("injured", true);
         rb.gravityScale = grav;
-        hitMoveLock = false;
+        //hitMoveLock = false;
         if (hitLaunch > 0)
         {
             rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse); // prob want to replace with velocity!!!
@@ -490,7 +490,7 @@ public class PlayerScript : MonoBehaviour
     public void slashKnockback()
     {
 
-        rb.gravityScale = grav;
+        //rb.gravityScale = grav;
 
         if (hitLaunch > 0)
         {
