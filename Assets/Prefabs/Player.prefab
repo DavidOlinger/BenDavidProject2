@@ -251,7 +251,7 @@ MonoBehaviour:
   invincible: 0
   hitLaunch: 0
   grav: 3
-  maxGravSpeed: 22
+  maxGravSpeed: 20.5
   moveDecayCoef: 0.8
   timeScript: {fileID: 0}
   wallVaultRaycastDistance: 1.85

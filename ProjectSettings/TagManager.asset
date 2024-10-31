@@ -9,6 +9,7 @@ TagManager:
   - PlayerDmg
   - Vault
   - TimeManager
+  - Ground
   layers:
   - Default
   - TransparentFX

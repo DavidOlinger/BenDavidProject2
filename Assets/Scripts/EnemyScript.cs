@@ -236,10 +236,10 @@ public class EnemyScript : MonoBehaviour
             //playerScript.slashKnockback(hitLaunch);
             if (collision.CompareTag("Slash"))
             {
-                playerScript.hitStop(0.1f, 0.01f);
+                playerScript.hitStop(0.08f, 0.01f);
             } else
             {
-                playerScript.hitStop(0.2f, 0.01f); // this part needs to be made so it actually just checks for vault
+                playerScript.hitStop(0.02f, 0.01f); // this part needs to be made so it actually just checks for vault
             }
 
             hitCounter++;
