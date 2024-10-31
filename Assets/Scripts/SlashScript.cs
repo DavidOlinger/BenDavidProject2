@@ -6,6 +6,7 @@ public class SlashScript : MonoBehaviour
 {
     // Start is called before the first frame update
     GameObject player;
+    GameObject cam;
     SpriteRenderer sp;
     Animator animator;
     public float animationLength;
@@ -20,6 +21,7 @@ public class SlashScript : MonoBehaviour
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
         sp = gameObject.GetComponent<SpriteRenderer>();
+        cam = player.GetComponent<PlayerScript>().cam;
     }
     public void DisableCollider()
     {
@@ -71,6 +73,7 @@ public class SlashScript : MonoBehaviour
         sparks1.Play();
         sparks2.Play();
         flare.Play();
+        cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.1f, 0.90f);
         Destroy(sparks1.gameObject, 0.5f);
         Destroy(sparks2.gameObject, 0.5f);
         Destroy(flare.gameObject, 0.5f);

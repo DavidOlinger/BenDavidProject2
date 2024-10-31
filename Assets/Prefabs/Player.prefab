@@ -99,7 +99,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1.21, y: 1.21, z: 1.21}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2118128488554503596}
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   momentLock: 0
   cantMove: 0
-  moveSpeed: 6.5
-  normalMoveSpeed: 0
+  moveSpeed: 5.85
+  normalMoveSpeed: 5.85
   jumpForce: 14
   wallJumpXForce: 7
   wallJumpYForce: 14
@@ -217,12 +217,13 @@ MonoBehaviour:
   lastGroundY: 0
   lastGroundPoint: {x: 0, y: 0, z: 0}
   groundCheckDist: 0.07
-  coyoteTime: 0.06
-  vaultRise: 10.8
-  vaultSpeed: 0
+  coyoteTime: 0.04
+  vaultRise: 11.2
+  vaultSpeed: 10
   vaultTime: 0.3
   vaultCooldown: 0
   maxVaultCooldown: 0
+  cam: {fileID: 0}
   updateCamera: 0
   lookingRight: 0
   maxLookAhead: 1
@@ -250,10 +251,10 @@ MonoBehaviour:
   invincible: 0
   hitLaunch: 0
   grav: 3
-  maxGravSpeed: 0
-  moveDecayCoef: 0.5
+  maxGravSpeed: 22
+  moveDecayCoef: 0.8
   timeScript: {fileID: 0}
-  wallVaultRaycastDistance: 0
+  wallVaultRaycastDistance: 1.85
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -64,7 +64,7 @@ public class PlayerScript : MonoBehaviour
 
 
     //CAMERA
-    GameObject cam;
+    public GameObject cam;
     public bool updateCamera;
     public bool lookingRight;
     public float maxLookAhead;

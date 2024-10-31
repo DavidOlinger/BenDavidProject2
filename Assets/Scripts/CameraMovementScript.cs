@@ -77,4 +77,29 @@ public class CameraMovementScript : MonoBehaviour
         fade.fadeOutTime = 0.1f;
         fade.lingerTime = 0.25f;
     }
+
+    public void CameraShake(float duration, float frequency, float amplitude, float decayFactor)
+    {
+        StartCoroutine(CameraShakeCoroutine(duration, frequency, amplitude, decayFactor));
+    }
+
+    /**
+     * Frequency is # of shakes per second
+     */
+    IEnumerator CameraShakeCoroutine(float duration, float frequency, float amplitude, float decayFactor)
+    {
+        Vector3 startPosition = transform.position; //save the initial position of the camera (CURRENTLY LOCKS CAM INTO POSITION)
+
+        float shakeTimer = 0;
+        float xAmp = amplitude; //max distance from startPosition the camera can teleport to.
+        float yAmp = amplitude * 9 / 16;//for screen scaling
+        while (shakeTimer < duration)
+        {
+            yield return new WaitForSecondsRealtime(1f/frequency); //run loop frequency times per second
+            shakeTimer += 1f / frequency; //count up time
+            transform.position = startPosition + new Vector3(Random.Range(-xAmp, xAmp), Random.Range(-yAmp, yAmp), 0); //teleport to random position within bounds
+            xAmp *= decayFactor; //decay bounds
+            yAmp *= decayFactor;
+        }
+    }
 }
