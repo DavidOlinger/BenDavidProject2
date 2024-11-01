@@ -65,6 +65,8 @@ public class VaultScript : MonoBehaviour
             {
                 Debug.Log("hitparticle collided");
                 HitParticles(collision.gameObject);
+
+                
             }
             
 

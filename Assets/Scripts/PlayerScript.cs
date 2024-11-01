@@ -399,6 +399,12 @@ public class PlayerScript : MonoBehaviour
         CantMoveCoroutine = StartCoroutine(endCantMove(vaultTime));
 
 
+        if (InvincibleCoroutine != null)
+        {
+            StopCoroutine(InvincibleCoroutine);
+        }
+        InvincibleCoroutine = StartCoroutine(endInvincible(0.08f));
+
         if (sp.flipX)
         {
             if (isLeftWallTouching || LEFTisNearWallVault)
@@ -440,36 +446,38 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("DEAD");
         }
 
-        
+        hitStop(duration, 0.01f);
+
         //causing sliding...
-        //if (CantMoveCoroutine != null)
-        //{
-        //    StopCoroutine(CantMoveCoroutine);
-        //}
-        //CantMoveCoroutine = StartCoroutine(endCantMove(duration + 0.5f));
+        if (CantMoveCoroutine != null)
+        {
+            StopCoroutine(CantMoveCoroutine);
+        }
+        CantMoveCoroutine = StartCoroutine(endCantMove(0.5f));
 
 
         if (InvincibleCoroutine != null)
         {
             StopCoroutine(InvincibleCoroutine);
         }
-        InvincibleCoroutine = StartCoroutine(endInvincible(duration + 1f));
+        InvincibleCoroutine = StartCoroutine(endInvincible(1.5f));
 
         momentLock = true;
 
         sp.color = new Color(1, 0.7f, 0.7f, 0.4f);
         hitLaunch = transform.position.x - other.transform.position.x;
 
+        rb.velocity = Vector2.zero;
+        dmgLaunch();
 
-        Invoke("dmgLaunch", duration); // until this invoke resolves in "duration" time, the player is froze in place and should enter dmg animation
+        //Invoke("dmgLaunch", duration); // until this invoke resolves in "duration" time, the player is froze in place and should enter dmg animation
     }
 
     private void dmgLaunch()
     {
         animator.SetBool("ascending", true);
         animator.SetBool("injured", true);
-        rb.gravityScale = grav;
-        //hitMoveLock = false;
+
         if (hitLaunch > 0)
         {
             rb.AddForce(new Vector2(5, 10), ForceMode2D.Impulse); // prob want to replace with velocity!!!

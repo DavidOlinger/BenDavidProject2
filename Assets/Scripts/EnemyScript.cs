@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    //Variables
     #region
     //Basic Variables
     private Rigidbody2D rb;
@@ -269,8 +270,8 @@ public class EnemyScript : MonoBehaviour
         if (collision.CompareTag("PlayerDmg") && !playerScript.invincible)
         {
             playerScript.takeDamage(gameObject, dmgHitStun);
-            Debug.Log("Time Should have stopped - enemy");
-            playerScript.hitStop(0.2f, 0.01f);
+            //Debug.Log("Time Should have stopped - enemy");
+            //playerScript.hitStop(0.24f, 0.01f);
 
         }
 

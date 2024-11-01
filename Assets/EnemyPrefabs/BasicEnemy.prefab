@@ -178,7 +178,7 @@ MonoBehaviour:
   fastMoveSpeed: 0
   activateMoveDistance: {x: 0, y: 0}
   activateAttackDistance: {x: 0, y: 0}
-  dmgHitStun: 0
+  dmgHitStun: 0.1
   WallLayer:
     serializedVersion: 2
     m_Bits: 128
