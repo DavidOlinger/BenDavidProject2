@@ -116,6 +116,7 @@ public class PlayerScript : MonoBehaviour
     public float moveDecayCoef;
 
     public TimeManagerScript timeScript;
+    public LogicScript logicScript;
 
 
     #endregion
@@ -129,6 +130,7 @@ public class PlayerScript : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         cam = GameObject.FindGameObjectWithTag("MainCamera");
         timeScript = GameObject.FindWithTag("TimeManager").GetComponent<TimeManagerScript>();
+        logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
@@ -678,8 +680,6 @@ public class PlayerScript : MonoBehaviour
         if (context.performed)
         {
 
-            
-
             startRunning = StartCoroutine(startRunningCoroutine(0.12f));
 
             moveDirection = context.ReadValue<Vector2>();
@@ -698,7 +698,8 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
+    //JUMPING
+    #region
     private bool wasGroundedCoyote()
     {
         return Time.time - lastTimeGrounded <= coyoteTime;
@@ -803,11 +804,11 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-
+    #endregion
 
     public void OnSlash(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !logicScript.isPaused)
         {
             if (!isAttacking)
             {
@@ -836,7 +837,7 @@ public class PlayerScript : MonoBehaviour
     public void OnVault(InputAction.CallbackContext context)
     {
         
-        if (context.started)
+        if (context.started && !logicScript.isPaused)
         {
             if (!isVaulting && vaultCooldown <= 0)
             {
@@ -845,6 +846,21 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (!logicScript.isPaused)
+            {
+                logicScript.MenuPause();
+            }
+            else
+            {
+                logicScript.MenuUnPause();
+            }
+        }
     }
 
 
