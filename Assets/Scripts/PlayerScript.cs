@@ -471,7 +471,7 @@ public class PlayerScript : MonoBehaviour
 
         hitStop(duration, 0.01f);
 
-        //causing sliding...
+        //causing sliding..
         if (CantMoveCoroutine != null)
         {
             StopCoroutine(CantMoveCoroutine);
