@@ -990,6 +990,7 @@ public class PlayerScript : MonoBehaviour
                     break; //stop applying velocity
                 }
             }
+            //EndVault();
 
 
         }
@@ -1007,7 +1008,7 @@ public class PlayerScript : MonoBehaviour
 
     public void StartAttack()
     {
-        if (!isAttacking)
+        if (!isAttacking && !isVaulting && !animator.GetBool("injured"))
         {
             Debug.Log("Attack Started");
             isAttacking = true;
@@ -1024,8 +1025,9 @@ public class PlayerScript : MonoBehaviour
 
     public void StartVault()
     {
-        if (!isVaulting)
+        if (!isAttacking && !isVaulting && !animator.GetBool("injured"))
         {
+            EndAttack();
             Debug.Log("Vault Started");
             isVaulting = true;
             animator.SetBool("vaulting", true);
