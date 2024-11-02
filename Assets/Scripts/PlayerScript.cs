@@ -1087,4 +1087,26 @@ public class PlayerScript : MonoBehaviour
     }
 
     #endregion
+
+
+
+
+    //SAVING
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("SavePoint"))
+        {
+            logicScript.savePoint(collision.transform.position);
+        }
+        else if (collision.gameObject.CompareTag("money"))
+        {
+            logicScript.addMoney();
+            Destroy(collision.gameObject);
+        }
+    }
+
+
+
+
 }

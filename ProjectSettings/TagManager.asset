@@ -10,6 +10,8 @@ TagManager:
   - Vault
   - TimeManager
   - Ground
+  - SavePoint
+  - money
   layers:
   - Default
   - TransparentFX
