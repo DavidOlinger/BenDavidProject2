@@ -118,6 +118,10 @@ public class PlayerScript : MonoBehaviour
     public TimeManagerScript timeScript;
     public LogicScript logicScript;
 
+    public ParticleSystem jumpDust;
+    public ParticleSystem vaultDust;
+    public ParticleSystem launchCloud;
+
 
     #endregion
 
@@ -142,6 +146,10 @@ public class PlayerScript : MonoBehaviour
         leftOffset.y = -(transform.localScale.y / 2);
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
+
+        //vault dust particle init
+        var vdmain = vaultDust.main;
+        vdmain.duration = vaultTime;
     }
 
 
@@ -371,7 +379,19 @@ public class PlayerScript : MonoBehaviour
                 vault.transform.Rotate(0, 180, 0); ;
             }
             vault.GetComponent<VaultScript>().vaultPosition = slashPosition;
+            
         }
+    }
+
+    void CreateJumpDust()
+    {
+        jumpDust.Play();
+    }
+
+    void CreateVaultDust()
+    {
+        launchCloud.Play();
+        vaultDust.Play();
     }
 
     #endregion
@@ -432,7 +452,8 @@ public class PlayerScript : MonoBehaviour
             }
         }
         momentLock = true;
-        StartCoroutine(ApplyVaultVel(rb.velocity, 0.17f)); //testing
+        StartCoroutine(ApplyVaultVel(rb.velocity, vaultTime)); //testing
+        CreateVaultDust();
     }
 
     
@@ -740,6 +761,7 @@ public class PlayerScript : MonoBehaviour
         isGrounded = false;
         isJumping = false;
         animator.SetBool("ascending", true);
+        CreateJumpDust();
 
         if (shortHop)
         {
@@ -769,6 +791,8 @@ public class PlayerScript : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
+            CreateJumpDust();
+
 
         }
         else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
@@ -783,6 +807,7 @@ public class PlayerScript : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
             animator.SetBool("ascending", true);
+            CreateJumpDust();
 
         }
         else if (context.started && !cantMove && !isJumping)
@@ -1106,7 +1131,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
+    
 
 
 }
