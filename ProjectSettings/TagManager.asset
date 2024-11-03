@@ -12,6 +12,7 @@ TagManager:
   - Ground
   - SavePoint
   - money
+  - Breakable
   layers:
   - Default
   - TransparentFX
