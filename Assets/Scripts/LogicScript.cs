@@ -27,6 +27,8 @@ public class LogicScript : MonoBehaviour
     #region
     void Start()
     {
+        Time.timeScale = 1;
+
         screenCover = CoverScreen.GetComponent<Image>();
         buttonImage = QuitButton.GetComponent<Image>();
         quitText = QuitButton.GetComponentInChildren<TextMeshProUGUI>();

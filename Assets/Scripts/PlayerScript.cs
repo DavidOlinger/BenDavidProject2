@@ -149,7 +149,7 @@ public class PlayerScript : MonoBehaviour
 
         //vault dust particle init
         var vdmain = vaultDust.main;
-        vdmain.duration = vaultTime;
+        //vdmain.duration = vaultTime;   // removed for now cuz it caused an error in the console, idk why this is here
     }
 
 
