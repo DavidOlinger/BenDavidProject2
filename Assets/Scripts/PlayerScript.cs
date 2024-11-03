@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
+    //testcomment
 
     //VARIABLES
     #region
