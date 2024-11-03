@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
+
+    Rigidbody2D rb;
+    Vector2 startPos;
+    Vector2 deletePos;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        startPos = transform.position;
+        deletePos = startPos + new Vector2(0, 4);
     }
 
+
+    public bool isOpening;
     // Update is called once per frame
     void Update()
     {
-        // could activate a variable and a timer in OPenDoor, SO
-        //that when it activates we slide the door downward (no animation needed) so it goes behind the
-        //ground and then we destroy it
+        if (isOpening)
+        {
+            rb.velocity = Vector2.up * 3;
+        }
+
+        if (transform.position.y >= deletePos.y)
+        {
+            Destroy(gameObject); // simple for now lol
+        }
+
+
     }
 
 
-    //also should do something with playerPrefs so that we can keep track of which doors have been opened
-    public void OpenDoor()
-    {
-        Destroy(gameObject); // simple for now lol
-    }
+    
 }
