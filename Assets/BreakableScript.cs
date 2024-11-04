@@ -34,7 +34,7 @@ public class BreakableScript : MonoBehaviour
                 hitParticles.Play();
                 StartCoroutine(ShakeMyselfCoroutine());
             } else
-            {
+            { 
                 Debug.Log("wall broken");
 
                 BreakMyself();
