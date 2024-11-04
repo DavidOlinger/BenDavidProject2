@@ -1048,7 +1048,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5062,6 +5062,10 @@ PrefabInstance:
       value: Hover Lightning Particle
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: lengthInSec
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: simulationSpeed
       value: 0.5
       objectReference: {fileID: 0}
@@ -5075,15 +5079,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: EmissionModule.m_BurstCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: NoiseModule.strength.scalar
       value: 7.06
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
@@ -5110,11 +5118,27 @@ PrefabInstance:
       value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.b
+      value: 0.9795227
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.r
+      value: 0.76792455
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: InitialModule.startLifetime.minMaxState
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].cycleCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].cycleCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
@@ -5126,6 +5150,10 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
       value: 1
       objectReference: {fileID: 0}
@@ -5134,8 +5162,16 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].repeatInterval
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202213982375625866, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].countCurve.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8577908722321757433, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
       propertyPath: m_SortingLayer
@@ -5149,6 +5185,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1013184447
       objectReference: {fileID: 0}
+    - target: {fileID: 8577908722321757433, guid: d1120ed7e96e7df40b276a1474ae22cf, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
