@@ -458,18 +458,20 @@ public class PlayerScript : MonoBehaviour
     }
 
     
-    public void takeDamage(GameObject other, float duration)
+    public void takeDamage(GameObject other, float duration, int damage)
     {
-        currHP--;
+        currHP -= damage;
+        logicScript.UpdateHealth();
         if (isChargingSlash)
         {
             StopChargingSlash();
         }
         if (currHP <= 0)
         {
-            Debug.Log("DEAD");
+            PlayerDeath(true);
+            
         }
-
+        cam.GetComponent<CameraMovementScript>().CameraShake(0.15f, 50f, 0.12f, 0.90f);
         hitStop(duration, 0.01f);
 
         //causing sliding..
@@ -901,7 +903,9 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    public void HitKillzone()
+    public void PlayerDeath(bool trueDeath) //fades to black. 
+        //on true death, reset hp and load the player back at a save point.
+        // otherwise, just load them at the last safe point and subtract a hitpoint.
     {
         cam.GetComponent<CameraMovementScript>().fadeToBlack();
 
@@ -913,10 +917,21 @@ public class PlayerScript : MonoBehaviour
         CantMoveCoroutine = StartCoroutine(endCantMove(1.5f));
         vaultCooldown = 1.5f;
 
-        currHP--;
+        if (!trueDeath)
+        {
+            currHP--;
+            logicScript.UpdateHealth();
+            Invoke("ResetPlayerPos", 0.1f);
+        } else
+        {
+            Debug.Log("DEAD");
+            currHP = maxHP;
+            Invoke("LoadSavePoint", 0.15f);
+        }
+        
         sp.enabled = false;
         rb.velocity = Vector2.zero;
-        Invoke("ResetPlayerPos", 0.1f);
+        
         sp.color = new Color(1, 0.65f, 0.65f, 0.7f);
 
         if (InvincibleCoroutine != null)
@@ -1063,7 +1078,11 @@ public class PlayerScript : MonoBehaviour
         rb.velocity = rb.velocity + lastStoredVelocity;
     }
 
-
+    public void LoadSavePoint()
+    {
+        logicScript.loadSavePoint();
+        sp.enabled = true;
+    }
 
 
     public void StartChargingSlash()

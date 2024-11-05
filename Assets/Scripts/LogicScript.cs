@@ -21,6 +21,8 @@ public class LogicScript : MonoBehaviour
 
     public GameObject player;
     PlayerScript playerScript;
+
+    [SerializeField] private Image[] hpIcons;
     #endregion
 
     //Start + Update
@@ -80,6 +82,7 @@ public class LogicScript : MonoBehaviour
         Debug.Log(PlayerPrefs.GetInt("Scene"));
 
         playerScript.currHP = playerScript.maxHP;
+        UpdateHealth();
         
 
     }
@@ -89,6 +92,7 @@ public class LogicScript : MonoBehaviour
         if (PlayerPrefs.HasKey("SavePointX"))
         {
             player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
+            Invoke("UpdateHealth", 0.5f);
         }
     }
 
@@ -140,5 +144,24 @@ public class LogicScript : MonoBehaviour
         SceneManager.LoadScene(0);
     }
     #endregion
+
+
+    public void UpdateHealth()
+    {
+        for (int i = 0; i < hpIcons.Length; i++)
+        {
+            if (playerScript.currHP > i)
+            {
+                hpIcons[i].GetComponent<HPIconScript>().isBroken = false;
+                //unbroken
+            }
+            else
+            {
+                hpIcons[i].GetComponent<HPIconScript>().isBroken = true;
+
+                //broken
+            }
+        }
+    }
 
 }

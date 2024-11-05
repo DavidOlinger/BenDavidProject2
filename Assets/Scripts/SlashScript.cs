@@ -50,8 +50,8 @@ public class SlashScript : MonoBehaviour
 
         // Calculate direction vector from player to target
         Vector2 direction = new Vector2(
-            target.transform.position.x - transform.position.x,
-            target.transform.position.y - transform.position.y
+            target.transform.position.x - player.transform.position.x,
+            target.transform.position.y - player.transform.position.y
         );
 
         // Get the angle between player and target in degrees

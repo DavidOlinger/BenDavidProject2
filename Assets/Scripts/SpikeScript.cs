@@ -13,7 +13,7 @@ public class SpikeScript : MonoBehaviour
             PlayerScript playerScript = collision.gameObject.GetComponent<PlayerScript>();
             if (playerScript != null)
             {
-                playerScript.HitKillzone();
+                playerScript.PlayerDeath(false);
             }
         }
        
