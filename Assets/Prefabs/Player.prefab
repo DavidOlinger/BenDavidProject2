@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0ade4185b7e247af31ac8352971d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: {x: 0, y: 0}
   momentLock: 0
   cantMove: 0
   moveSpeed: 5.85
@@ -216,7 +217,7 @@ MonoBehaviour:
     m_Bits: 128
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 128
   lastGroundY: 0
   lastGroundPoint: {x: 0, y: 0, z: 0}
   groundCheckDist: 0.07

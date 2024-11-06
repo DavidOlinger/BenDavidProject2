@@ -10,6 +10,8 @@ public class PlayerScript : MonoBehaviour
     //VARIABLES
     #region
 
+    public Vector2 speed;
+
     //Movement
     private Rigidbody2D rb;
     private SpriteRenderer sp;
@@ -157,6 +159,7 @@ public class PlayerScript : MonoBehaviour
     private float maxSpeedHorizontalAllowed = 5.85f;
     private void FixedUpdate()
     {
+        speed = rb.velocity;
         CheckForGround();
         CheckForTouchingWalls(); // commented cuz no wall jump for rn
 
