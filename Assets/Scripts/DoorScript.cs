@@ -6,9 +6,6 @@ public class DoorScript : MonoBehaviour
 {
 
     Rigidbody2D rb;
-    Vector2 startPos;
-    Vector2 deletePos;
-    // Start is called before the first frame update
 
     public bool up;
     public bool down;
@@ -18,8 +15,6 @@ public class DoorScript : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        startPos = transform.position;
-        deletePos = startPos + new Vector2(0, 4);
     }
 
 
@@ -47,14 +42,16 @@ public class DoorScript : MonoBehaviour
             }
         }
 
-        if (transform.position.y >= deletePos.y)
-        {
-            Destroy(gameObject); // simple for now lol
-        }
-
-
     }
 
 
-    
+    public void DestroyDoor()
+    {
+        Invoke("now", 1.2f);
+    }
+
+    void now()
+    {
+        Destroy(gameObject);
+    }
 }

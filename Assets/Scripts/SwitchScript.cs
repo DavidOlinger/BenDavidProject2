@@ -20,14 +20,14 @@ public class SwitchScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Slash") || collision.gameObject.CompareTag("Vault"))
         {
-           
-                if(door != null)
-                {
-                    scriptOfDoor.isOpening = true;
-                }
-                float currentRotationZ = transform.eulerAngles.z;
-                float newRotationZ = currentRotationZ * -1;
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newRotationZ);
+            if(door != null)
+            {
+                scriptOfDoor.isOpening = true;
+                scriptOfDoor.DestroyDoor();
+            }
+            float currentRotationZ = transform.eulerAngles.z;
+            float newRotationZ = currentRotationZ * -1;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newRotationZ);
             
         }
     }

@@ -832,7 +832,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !cantMove && !isJumping)
         {
-            StartCoroutine(delayedJump(0.12f, context));
+            StartCoroutine(delayedJump(0.08f, context));
         }
         else if (context.canceled)
         {
@@ -881,15 +881,21 @@ public class PlayerScript : MonoBehaviour
 
     public void OnVault(InputAction.CallbackContext context)
     {
-        
-        if (context.started && !logicScript.isPaused)
+        if (PlayerPrefs.HasKey("CanVault"))
         {
-            if (!isVaulting && vaultCooldown <= 0)
+            if(PlayerPrefs.GetFloat("CanVault") == 1)
             {
-                StartVault();
-                vaultCooldown = maxVaultCooldown;
+                if (context.started && !logicScript.isPaused)
+                {
+                    if (!isVaulting && vaultCooldown <= 0)
+                    {
+                        StartVault();
+                        vaultCooldown = maxVaultCooldown;
+                    }
+                }
             }
         }
+      
 
     }
 
@@ -1204,7 +1210,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     //SAVING
-
+    #region
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("SavePoint"))
@@ -1226,5 +1232,8 @@ public class PlayerScript : MonoBehaviour
             PlayLandSound();
         }
     }
+    #endregion
+
+
 
 }
