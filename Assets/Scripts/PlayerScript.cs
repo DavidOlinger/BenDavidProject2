@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -125,7 +126,17 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem vaultDust;
     public ParticleSystem launchCloud;
 
-
+    //SOUND
+    AudioSource audioSource;
+    [SerializeField] AudioClip[] footstepSounds;
+    [SerializeField] AudioClip[] attackHitSounds;
+    [SerializeField] AudioClip[] swingSounds;
+    [SerializeField] AudioClip jumpLaunchSound;
+    [SerializeField] AudioClip jumpLandSound;
+    [SerializeField] AudioClip vaultSound;
+    [SerializeField] AudioClip hpShatterSound;
+    [SerializeField] AudioClip playerGotHitSound;
+    [SerializeField] AudioClip saveSound;
     #endregion
 
     //General Starting and Update
@@ -138,6 +149,7 @@ public class PlayerScript : MonoBehaviour
         cam = GameObject.FindGameObjectWithTag("MainCamera");
         timeScript = GameObject.FindWithTag("TimeManager").GetComponent<TimeManagerScript>();
         logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
+        audioSource = GetComponent<AudioSource>();
         slashPosition = new Vector3(1, 0, 0);
         playerLookAhead = Vector2.zero;
         xRayDistance = (transform.localScale.x / 2) + 0.05f;
@@ -389,6 +401,7 @@ public class PlayerScript : MonoBehaviour
 
     void CreateJumpDust()
     {
+        PlayJumpSound();
         jumpDust.Play();
     }
 
@@ -464,6 +477,7 @@ public class PlayerScript : MonoBehaviour
     public void takeDamage(GameObject other, float duration, int damage)
     {
         currHP -= damage;
+        PlayHPLossSound();
         logicScript.UpdateHealth();
         if (isChargingSlash)
         {
@@ -1083,6 +1097,7 @@ public class PlayerScript : MonoBehaviour
 
     public void LoadSavePoint()
     {
+        PlaySaveSound();
         logicScript.loadSavePoint();
         sp.enabled = true;
     }
@@ -1139,7 +1154,54 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
 
+    //SOUNDS
+    #region
+    public void PlayFootstepSound()
+    {
+        int i = Random.Range(0, footstepSounds.Length);
+        audioSource.PlayOneShot(footstepSounds[i]);
+    }
 
+    public void PlayHitSound()
+    {
+        int i = Random.Range(0, attackHitSounds.Length);
+        audioSource.PlayOneShot(attackHitSounds[i]);
+    }
+
+    public void PlaySwingSound()
+    {
+        int i = Random.Range(0, swingSounds.Length);
+        audioSource.PlayOneShot(swingSounds[i]);
+    }
+
+    public void PlayJumpSound()
+    {
+        audioSource.PlayOneShot(jumpLaunchSound);
+    }
+
+    public void PlayLandSound()
+    {
+        audioSource.PlayOneShot(jumpLandSound);
+    }
+
+    public void PlayVaultSound()
+    {
+        audioSource.PlayOneShot(vaultSound);
+    }
+
+    public void PlayHPLossSound()
+    {
+        audioSource.PlayOneShot(playerGotHitSound);
+        audioSource.PlayOneShot(hpShatterSound);
+    }
+
+    public void PlaySaveSound()
+    {
+        audioSource.PlayOneShot(saveSound);
+    }
+
+
+    #endregion
 
     //SAVING
 
@@ -1156,7 +1218,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            PlayLandSound();
+        }
+    }
 
 }

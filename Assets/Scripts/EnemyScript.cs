@@ -233,10 +233,11 @@ public class EnemyScript : MonoBehaviour
         {
 
             //float hitLaunch = transform.position.x - collision.transform.position.x;
-
+            playerScript.PlayHitSound();
             //playerScript.slashKnockback(hitLaunch);
             if (collision.CompareTag("Slash"))
             {
+                
                 playerScript.hitStop(0.08f, 0.01f);
             } else
             {
@@ -244,7 +245,9 @@ public class EnemyScript : MonoBehaviour
             }
 
             hitCounter++;
+
             PlayDamagedAnim(0.4f);
+
             
 
             //rb.gravityScale = 0;

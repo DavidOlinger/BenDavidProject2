@@ -23,12 +23,19 @@ public class LogicScript : MonoBehaviour
     PlayerScript playerScript;
 
     [SerializeField] private Image[] hpIcons;
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource ambienceSource;
+
     #endregion
 
     //Start + Update
     #region
     void Start()
     {
+        musicSource = GetComponent<AudioSource>();
+        //musicSource.loop = true;
+        //musicSource.volume = 0.5f;
+        //musicSource.Play(); //all this can be done in editor
         Time.timeScale = 1;
 
         screenCover = CoverScreen.GetComponent<Image>();

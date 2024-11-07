@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 8608152268744990662}
   - component: {fileID: 759066250880498503}
   - component: {fileID: 8162197274786895540}
+  - component: {fileID: 7560860138793245942}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -262,6 +263,27 @@ MonoBehaviour:
   jumpDust: {fileID: 5390568588554177213}
   vaultDust: {fileID: 3717881577396650420}
   launchCloud: {fileID: 2881216953390894149}
+  footstepSounds:
+  - {fileID: 8300000, guid: 1e4c83fc57ef42043bf27ffddc439d21, type: 3}
+  - {fileID: 8300000, guid: ed22bd84e85b3b9499e5d43f58d132b2, type: 3}
+  - {fileID: 8300000, guid: 28ec6c5227eb93b458fda28b41d378e5, type: 3}
+  - {fileID: 8300000, guid: 6919e15c485c9be46a7db98977cc5182, type: 3}
+  attackHitSounds:
+  - {fileID: 8300000, guid: bd1fde683aefe37478c7e05744454c83, type: 3}
+  - {fileID: 8300000, guid: 32f14845413308049b3a7de6ca539b0a, type: 3}
+  - {fileID: 8300000, guid: 34f79efaa04115a4c905172b1a59ecaa, type: 3}
+  - {fileID: 8300000, guid: f449dc54ab94f6447a8b208229d9fac8, type: 3}
+  swingSounds:
+  - {fileID: 8300000, guid: a452837989c0bbe48a5ee3681ae893d0, type: 3}
+  - {fileID: 8300000, guid: 3d64746da82a46744bb8039de6d78cda, type: 3}
+  - {fileID: 8300000, guid: 2ada263719f883943b17b6bc09388282, type: 3}
+  - {fileID: 8300000, guid: 92245181e5277e24aa226f2950e44a64, type: 3}
+  jumpLaunchSound: {fileID: 8300000, guid: 2e914de5c79b50548bc42d4ba2badc2f, type: 3}
+  jumpLandSound: {fileID: 8300000, guid: ce34cdcff9ca9a546a12228b87dd6c68, type: 3}
+  vaultSound: {fileID: 8300000, guid: 76ac394bc3ce32b4e87674d0a9695813, type: 3}
+  hpShatterSound: {fileID: 8300000, guid: a081f2099f9844f488825cc3ee54b27f, type: 3}
+  playerGotHitSound: {fileID: 8300000, guid: 164ec7f7c8fdec3468a40832e951da27, type: 3}
+  saveSound: {fileID: 8300000, guid: 68660143555bc5644988603b6e17366d, type: 3}
   wallVaultRaycastDistance: 1.85
 --- !u!114 &8608152268744990662
 MonoBehaviour:
@@ -427,6 +449,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &7560860138793245942
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507394657786250774}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5847669012147974454
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +595,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5369,7 +5487,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -10261,7 +10379,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

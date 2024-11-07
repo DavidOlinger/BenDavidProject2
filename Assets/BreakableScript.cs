@@ -11,9 +11,13 @@ public class BreakableScript : MonoBehaviour
     public float shakeAmplitude;
     public float shakeFrequency;
     public float shakeDuration;
+    AudioSource audioSource;
+    [SerializeField] AudioClip hitSound;
+    [SerializeField] AudioClip breakSound;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         //TODO: if this wall has been broken (save in player prefs): Delete it.
     }
 
@@ -32,6 +36,7 @@ public class BreakableScript : MonoBehaviour
             if (hitPoints > 0)
             {
                 hitParticles.Play();
+                audioSource.PlayOneShot(hitSound);
                 StartCoroutine(ShakeMyselfCoroutine());
             } else
             { 
@@ -44,6 +49,8 @@ public class BreakableScript : MonoBehaviour
 
     private void BreakMyself()
     {
+        audioSource.PlayOneShot(breakSound);
+
         breakParticles.Play();
         if (shadow != null)
         {
