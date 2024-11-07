@@ -53,8 +53,19 @@ public class LogicScript : MonoBehaviour
         //    PlayerPrefs.SetInt("loadBool", 1);
         //}
 
+        if (PlayerPrefs.HasKey("isStartingGame"))
+        {
+            if(PlayerPrefs.GetInt("isStartingGame") > 0)
+            {
+                loadSavePoint();
+            }
+            else
+            {
+                loadTransition();
+            }
+        }
 
-        loadSavePoint();
+
 
 
         if (!PlayerPrefs.HasKey("Money"))
@@ -100,6 +111,14 @@ public class LogicScript : MonoBehaviour
         {
             player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
             Invoke("UpdateHealth", 0.5f);
+        }
+    }
+
+    public void loadTransition()
+    {
+        if (PlayerPrefs.HasKey("SavePointX")) // later should change this to different variable
+        {
+            player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
         }
     }
 

@@ -10,9 +10,6 @@ public class PlayerScript : MonoBehaviour
 
     //VARIABLES
     #region
-
-    public Vector2 speed;
-
     //Movement
     private Rigidbody2D rb;
     private SpriteRenderer sp;
@@ -55,6 +52,7 @@ public class PlayerScript : MonoBehaviour
     public Vector3 lastGroundPoint;
     Vector3 leftOffset;
     Vector3 rightOffset;
+    Vector3 middleOffset;
     public float groundCheckDist;
     private float lastTimeGrounded;
     public float coyoteTime;
@@ -156,11 +154,13 @@ public class PlayerScript : MonoBehaviour
 
         leftOffset = Vector3.zero;
         rightOffset = Vector3.zero;
+        middleOffset = Vector3.zero;
         lastStoredVelocity = Vector2.zero;
         leftOffset.x = -(transform.localScale.x / 2);
         leftOffset.y = -(transform.localScale.y / 2);
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
+        middleOffset.y = -(transform.localScale.y / 2);
 
         //vault dust particle init
         var vdmain = vaultDust.main;
@@ -171,7 +171,10 @@ public class PlayerScript : MonoBehaviour
     private float maxSpeedHorizontalAllowed = 5.85f;
     private void FixedUpdate()
     {
-        speed = rb.velocity;
+       
+
+
+
         CheckForGround();
         CheckForTouchingWalls(); // commented cuz no wall jump for rn
 
@@ -561,12 +564,11 @@ public class PlayerScript : MonoBehaviour
     //RAYCASTING
     #region
 
-
     private void CheckForGround()
     {
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, groundCheckDist, GroundLayer);
         RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, groundCheckDist, GroundLayer);
-        RaycastHit2D middle = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist + 0.5f, GroundLayer);
+        RaycastHit2D middle = Physics2D.Raycast(transform.position + middleOffset, Vector2.down, groundCheckDist, GroundLayer);
 
 
         if (rightSide.collider != null && rb.velocity.y == 0)
@@ -832,7 +834,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !cantMove && !isJumping)
         {
-            StartCoroutine(delayedJump(0.12f, context));
+            StartCoroutine(delayedJump(0.08f, context));
         }
         else if (context.canceled)
         {
@@ -881,15 +883,21 @@ public class PlayerScript : MonoBehaviour
 
     public void OnVault(InputAction.CallbackContext context)
     {
-        
-        if (context.started && !logicScript.isPaused)
+        if (PlayerPrefs.HasKey("CanVault"))
         {
-            if (!isVaulting && vaultCooldown <= 0)
+            if(PlayerPrefs.GetFloat("CanVault") == 1)
             {
-                StartVault();
-                vaultCooldown = maxVaultCooldown;
+                if (context.started && !logicScript.isPaused)
+                {
+                    if (!isVaulting && vaultCooldown <= 0)
+                    {
+                        StartVault();
+                        vaultCooldown = maxVaultCooldown;
+                    }
+                }
             }
         }
+      
 
     }
 
@@ -1043,7 +1051,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isAttacking && !isVaulting && !animator.GetBool("injured"))
         {
-            Debug.Log("Attack Started");
             isAttacking = true;
             animator.SetBool("attacking", true);
         }
@@ -1051,7 +1058,6 @@ public class PlayerScript : MonoBehaviour
 
     public void EndAttack()
     {
-        Debug.Log("Attack Ended");
         isAttacking = false;
         animator.SetBool("attacking", false);
     }
@@ -1061,7 +1067,6 @@ public class PlayerScript : MonoBehaviour
         if (!isAttacking && !isVaulting && !animator.GetBool("injured"))
         {
             EndAttack();
-            Debug.Log("Vault Started");
             isVaulting = true;
             animator.SetBool("vaulting", true);
         }
@@ -1069,7 +1074,6 @@ public class PlayerScript : MonoBehaviour
 
     public void EndVault()
     {
-        Debug.Log("Vault Ended");
         isVaulting = false;
         animator.SetBool("vaulting", false);
     }
@@ -1179,10 +1183,10 @@ public class PlayerScript : MonoBehaviour
         audioSource.PlayOneShot(jumpLaunchSound);
     }
 
-    public void PlayLandSound()
-    {
-        audioSource.PlayOneShot(jumpLandSound);
-    }
+    //public void PlayLandSound()
+    //{
+    //    audioSource.PlayOneShot(jumpLandSound);
+    //}
 
     public void PlayVaultSound()
     {
@@ -1204,7 +1208,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     //SAVING
-
+    #region
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("SavePoint"))
@@ -1219,12 +1223,15 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            PlayLandSound();
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        PlayLandSound();
+    //    }
+    //}
+    #endregion
+
+
 
 }
