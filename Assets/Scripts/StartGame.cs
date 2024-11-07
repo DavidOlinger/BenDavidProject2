@@ -9,12 +9,15 @@ public class StartGame : MonoBehaviour
 
     public void OnButtonClick()
     {
-        if (PlayerPrefs.HasKey("Scene"))
+        PlayerPrefs.SetInt("isStartingGame", 1);
+        if (!PlayerPrefs.HasKey("Scene")) // changed for now for testing
         {
             SceneManager.LoadScene(PlayerPrefs.GetInt("Scene"));
         }
         else
         {
+            PlayerPrefs.SetFloat("SavePointX", 0);
+            PlayerPrefs.SetFloat("SavePointY", 0);
             PlayerPrefs.SetInt("Scene", 1);
             SceneManager.LoadScene(1);
         }

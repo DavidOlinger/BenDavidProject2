@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3095672666347785179}
   - component: {fileID: 6416896345164488791}
   - component: {fileID: 6101112388718841145}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallHitParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4901,7 +4901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4963502655946797745}
   - component: {fileID: 8888249942115799170}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4986,7 +4986,7 @@ GameObject:
   - component: {fileID: 3818532650181569083}
   - component: {fileID: 798431324222732112}
   - component: {fileID: 7229794503713161480}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallBreakParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9883,7 +9883,7 @@ GameObject:
   - component: {fileID: 5779373515309488724}
   - component: {fileID: 1284723301756694599}
   - component: {fileID: -8241237991578046760}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Breakable Wall
   m_TagString: Breakable
   m_Icon: {fileID: 0}
