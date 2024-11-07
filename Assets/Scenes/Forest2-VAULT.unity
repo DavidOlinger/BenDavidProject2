@@ -2328,6 +2328,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2861744987960285310, guid: fb2cf70d64360994c92521207a8e9bd6, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d0392052fa90954c824fc905117f695, type: 3}
     - target: {fileID: 3787576601460687041, guid: fb2cf70d64360994c92521207a8e9bd6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.3269258
@@ -2712,10 +2716,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 600608281704561095, guid: 53df6fbe386198944a0381f231bbff31, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6009727766453752515, guid: 53df6fbe386198944a0381f231bbff31, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -73815,17 +73815,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: vaultRise
-      value: 11.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: timeScript
       value: 
       objectReference: {fileID: 1249140792}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: vaultSpeed
-      value: 11.2
-      objectReference: {fileID: 0}
     - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: logicScript
       value: 

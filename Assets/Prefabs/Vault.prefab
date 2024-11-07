@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
       propertyPath: m_Name
-      value: Vault Variant
+      value: Vault
       objectReference: {fileID: 0}
     - target: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
       propertyPath: m_TagString
