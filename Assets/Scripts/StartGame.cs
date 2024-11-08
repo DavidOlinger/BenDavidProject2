@@ -13,11 +13,11 @@ public class StartGame : MonoBehaviour
         
             PlayerPrefs.SetFloat("SavePointX", 0);
             PlayerPrefs.SetFloat("SavePointY", 0);
-            PlayerPrefs.SetInt("Scene", 1);
+            PlayerPrefs.SetInt("Scene", 7);
         PlayerPrefs.SetInt("Money", 0);
         PlayerPrefs.SetFloat("CanVault", 0);
         PlayerPrefs.SetInt("WallJump", 0);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(7);
     }
 
     public void LoadSave()

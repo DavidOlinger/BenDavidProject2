@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: moveSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: floatFollow

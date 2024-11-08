@@ -24,8 +24,9 @@ public class LevelTransitionScript : MonoBehaviour
 
             PlayerPrefs.SetFloat("SavePointX", spawnPoint.x);
             PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
+            PlayerPrefs.SetInt("Scene", nextSceneIndex);
 
-            camScript.fadeToBlack(0.01f);
+            camScript.fadeToBlack(0f);
             Invoke("goNext", 0.5f);
         }
     }

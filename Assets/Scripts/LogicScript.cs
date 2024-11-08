@@ -32,7 +32,7 @@ public class LogicScript : MonoBehaviour
     #region
     void Start()
     {
-        GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>().fadeToBlack(0.01f);
+        //GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>().fadeToBlack(0);
         musicSource = GetComponent<AudioSource>();
         //musicSource.loop = true;
         //musicSource.volume = 0.5f;
