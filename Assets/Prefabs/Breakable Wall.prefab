@@ -9980,7 +9980,7 @@ MonoBehaviour:
   shakeFrequency: 30
   shakeDuration: 0.15
   hitSound: {fileID: 8300000, guid: f449dc54ab94f6447a8b208229d9fac8, type: 3}
-  breakSound: {fileID: 8300000, guid: b9f04d9ef616ef54e9742c6d4ce37e44, type: 3}
+  breakSound: {fileID: 8300000, guid: 2f93bb1522ca4164e94767ed94209b63, type: 3}
 --- !u!61 &1284723301756694599
 BoxCollider2D:
   m_ObjectHideFlags: 0

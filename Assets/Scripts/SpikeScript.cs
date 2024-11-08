@@ -14,6 +14,7 @@ public class SpikeScript : MonoBehaviour
             if (playerScript != null)
             {
                 playerScript.PlayerDeath(false);
+                playerScript.PlayHPLossSound();
             }
         }
        

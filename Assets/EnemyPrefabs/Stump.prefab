@@ -21,6 +21,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: isStump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: HoriMover
       value: 1
       objectReference: {fileID: 0}

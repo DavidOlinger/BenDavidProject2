@@ -35,7 +35,7 @@ public class EnemyScript : MonoBehaviour
     float distanceToPlayerY = 0;
     int directionToPlayerX = 0;
     //int directionToPlayerY= 0;
-    private bool cantMove = false;
+    public bool cantMove = false;
 
     //RayCasting
     private float xRayDistance;
@@ -46,9 +46,9 @@ public class EnemyScript : MonoBehaviour
 
     //Enemy-type bools
     public bool stillGrounded;
-    public bool standHoriMover;
-    public bool floatFollow;
-    public bool Hopper;
+    public bool isStump;
+    public bool isBird;
+    public bool isHopper;
 
     //other
     private Coroutine CantMoveCoroutine;
@@ -76,7 +76,7 @@ public class EnemyScript : MonoBehaviour
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
 
-        if(floatFollow)
+        if(isBird)
         {
             rb.gravityScale = 0;
         }
@@ -109,7 +109,7 @@ public class EnemyScript : MonoBehaviour
 
 
 
-        if (!floatFollow)
+        if (!isBird)
         {
             CheckForGround();
             CheckForWalls();
@@ -154,16 +154,19 @@ public class EnemyScript : MonoBehaviour
 
     private void CycleMove(bool isClose)
     {
+        Debug.Log("ADHJBASKFH");
         if (!cantMove)
         {
             if (stillGrounded)
             {
+                
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
-            if (standHoriMover)
+            if (isStump)
             {
                 if (isClose)
                 {
+                    Debug.Log("HHHHHH");
                     rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
                 }
                 else
@@ -171,7 +174,7 @@ public class EnemyScript : MonoBehaviour
                     rb.velocity = new Vector2(0, rb.velocity.y);
                 }
             }
-            if (floatFollow)
+            if (isBird)
             {
                 if (isClose)
                 {
@@ -182,7 +185,7 @@ public class EnemyScript : MonoBehaviour
                     rb.velocity = Vector2.zero;
                 }
             }
-            if (Hopper)
+            if (isHopper)
             {
                 if (isClose)
                 {
@@ -389,17 +392,31 @@ public class EnemyScript : MonoBehaviour
     {
         //START JUMPING ANIMATION
         rb.velocity = new Vector2(moveSpeed * distanceToPlayerX, jumpSpeed);
-
+        if (isHopper) //only hopper can do this
+        {
+            animator.SetTrigger("jump");
+            animator.SetBool("hopperGrounded", false);
+            
+        }
+        
         isGrounded = false;
-
+        
 
     }
     public float jumpSpeed;
 
     private void PlayDamagedAnim(float duration)
     {
-        animator.SetBool("hurt", true);
-        Invoke("CancelDamageAnim", duration);
+        if(isHopper || isBird) //these enemies use triggers
+        {
+            animator.SetTrigger("hurt");
+        }
+        else
+        {
+            animator.SetBool("hurt", true);
+            Invoke("CancelDamageAnim", duration);
+        }
+        
     }
 
     private void CancelDamageAnim()
@@ -412,9 +429,13 @@ public class EnemyScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Ground") && Hopper)
+        if(collision.gameObject.CompareTag("Ground") && isHopper)
         {
-
+            
+            isGrounded = true;
+            animator.SetBool("hopperGrounded", true);
+            Debug.Log("groundedtrigger");
+            
             rb.velocity = Vector2.zero;
             isGrounded = true;
         }

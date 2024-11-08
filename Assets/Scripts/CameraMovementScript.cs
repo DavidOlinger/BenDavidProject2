@@ -30,7 +30,7 @@ public class CameraMovementScript : MonoBehaviour
         cam = GetComponent<Camera>();
         //puck = GameObject.Find("Puck");
         camBody = GetComponent<Rigidbody2D>(); //finding instances of components
-
+        
 
     }
 

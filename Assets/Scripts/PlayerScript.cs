@@ -950,7 +950,7 @@ public class PlayerScript : MonoBehaviour
         CantMoveCoroutine = StartCoroutine(endCantMove(1.5f));
         vaultCooldown = 1.5f;
 
-        if (!trueDeath)
+        if (!trueDeath && currHP > 1)
         {
             currHP--;
             logicScript.UpdateHealth();
