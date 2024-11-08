@@ -12,8 +12,12 @@ public class DoorScript : MonoBehaviour
     public bool left;
     public bool right;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip doorOpenSound;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -53,5 +57,11 @@ public class DoorScript : MonoBehaviour
     void now()
     {
         Destroy(gameObject);
+    }
+
+    public void OpenDoor()
+    {
+        isOpening = true;
+        audioSource.PlayOneShot(doorOpenSound);
     }
 }
