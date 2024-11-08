@@ -24,6 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Forest2-VAULT.unity
     guid: 34d23d62c100880419a1279e6d237c78
   - enabled: 1
-    path: Assets/Scenes/Forrest2-ChallengeRoom.unity
+    path: Assets/Scenes/ENDSCREEN.unity
     guid: 50c98895949153d4c930418f0be61a37
   m_configObjects: {}

@@ -32,9 +32,37 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 1.28
       objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: hpMax
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: Hopper
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: jumpSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: moveSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: activateMoveDistance.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: activateMoveDistance.y
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Name
       value: Hopper
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135128365134536964, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_GravityScale
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6839512040395760493, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_LocalScale.x

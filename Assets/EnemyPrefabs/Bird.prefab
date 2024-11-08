@@ -40,6 +40,26 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2.56
       objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: hpMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: moveSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: floatFollow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: activateMoveDistance.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: activateMoveDistance.y
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Name
       value: Bird

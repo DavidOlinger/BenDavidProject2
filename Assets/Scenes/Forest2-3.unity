@@ -78723,7 +78723,7 @@ PrefabInstance:
       objectReference: {fileID: 523556330}
     - target: {fileID: 7839117103985559911, guid: 53df6fbe386198944a0381f231bbff31, type: 3}
       propertyPath: groundLevel
-      value: -35
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 7839117103985559911, guid: 53df6fbe386198944a0381f231bbff31, type: 3}
       propertyPath: fadeOutPrefab

@@ -5,6 +5,10 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     //Variables
+
+    private bool isHopping = false;
+
+
     #region
     //Basic Variables
     private Rigidbody2D rb;
@@ -30,7 +34,7 @@ public class EnemyScript : MonoBehaviour
     float distanceToPlayerX = 0;
     float distanceToPlayerY = 0;
     int directionToPlayerX = 0;
-    int directionToPlayerY= 0;
+    //int directionToPlayerY= 0;
     private bool cantMove = false;
 
     //RayCasting
@@ -171,7 +175,7 @@ public class EnemyScript : MonoBehaviour
             {
                 if (isClose)
                 {
-                    rb.velocity = new Vector2(moveSpeed * directionMoveX, moveSpeed * directionMoveY); // need to make a direction x and y
+                    rb.velocity = new Vector2(moveSpeed * directionMoveX, (moveSpeed / 2) * directionMoveY); // need to make a direction x and y
                 }
                 else
                 {
@@ -182,9 +186,13 @@ public class EnemyScript : MonoBehaviour
             {
                 if (isClose)
                 {
-                    if (hoppingCoroutine == null)
+                    if (!isHopping)
                     {
                         hoppingCoroutine = StartCoroutine(HopRoutine());
+                    }
+                    else if(isGrounded)
+                    {
+                        rb.velocity = Vector2.zero;
                     }
                 }
                 else
@@ -195,7 +203,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-
+    private bool isGrounded;
     #endregion
 
 
@@ -247,8 +255,6 @@ public class EnemyScript : MonoBehaviour
     }
 
     #endregion
-
-
 
 
 
@@ -352,7 +358,7 @@ public class EnemyScript : MonoBehaviour
     }
     #endregion
 
-    //Other stuff
+    //Other stuff COROUTINES
     #region
 
     private IEnumerator endCantMove(float duration)
@@ -363,6 +369,7 @@ public class EnemyScript : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
+        rb.velocity = Vector2.zero;
         //rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
     }
 
@@ -370,15 +377,22 @@ public class EnemyScript : MonoBehaviour
     private IEnumerator HopRoutine()
     {
         //START DOWN ANIMATION IF WE HAVE ONE I FORGET
+        isHopping = true;
+        
         Invoke("JumpLaunch", .8f);
         yield return new WaitForSeconds(3.5f);
+
+        isHopping = false;
     }
 
     private void JumpLaunch()
     {
         //START JUMPING ANIMATION
         rb.velocity = new Vector2(moveSpeed * distanceToPlayerX, jumpSpeed);
-        
+
+        isGrounded = false;
+
+
     }
     public float jumpSpeed;
 
@@ -400,7 +414,9 @@ public class EnemyScript : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Ground") && Hopper)
         {
+
             rb.velocity = Vector2.zero;
+            isGrounded = true;
         }
     }
 }
