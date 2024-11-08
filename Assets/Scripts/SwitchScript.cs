@@ -25,9 +25,12 @@ public class SwitchScript : MonoBehaviour
                 scriptOfDoor.isOpening = true;
                 scriptOfDoor.DestroyDoor();
             }
-            float currentRotationZ = transform.eulerAngles.z;
-            float newRotationZ = currentRotationZ * -1;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newRotationZ);
+
+            sp.flipX = !sp.flipX;
+
+            //float currentRotationZ = transform.eulerAngles.z;
+            //float newRotationZ = currentRotationZ * -1;
+            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newRotationZ);
             
         }
     }

@@ -7,19 +7,29 @@ using UnityEngine.SceneManagement;
 public class StartGame : MonoBehaviour
 {
 
-    public void OnButtonClick()
+    public void StartNewGame()
     {
         PlayerPrefs.SetInt("isStartingGame", 1);
-        if (!PlayerPrefs.HasKey("Scene")) // changed for now for testing
+        
+            PlayerPrefs.SetFloat("SavePointX", 0);
+            PlayerPrefs.SetFloat("SavePointY", 0);
+            PlayerPrefs.SetInt("Scene", 1);
+        PlayerPrefs.SetInt("Money", 0);
+        PlayerPrefs.SetFloat("CanVault", 0);
+        PlayerPrefs.SetInt("WallJump", 0);
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadSave()
+    {
+        PlayerPrefs.SetInt("isStartingGame", 1);
+        if (PlayerPrefs.HasKey("Scene"))
         {
             SceneManager.LoadScene(PlayerPrefs.GetInt("Scene"));
         }
         else
         {
-            PlayerPrefs.SetFloat("SavePointX", 0);
-            PlayerPrefs.SetFloat("SavePointY", 0);
-            PlayerPrefs.SetInt("Scene", 1);
-            SceneManager.LoadScene(1);
+            StartNewGame();
         }
     }
 

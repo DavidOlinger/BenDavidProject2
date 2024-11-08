@@ -25,10 +25,12 @@ public class EnemyScript : MonoBehaviour
 
 
     //movement privates
-    int directionMove = -1;
+    int directionMoveX = -1;
+    int directionMoveY = 0;
     float distanceToPlayerX = 0;
     float distanceToPlayerY = 0;
-    int directionToPlayer = 0;
+    int directionToPlayerX = 0;
+    int directionToPlayerY= 0;
     private bool cantMove = false;
 
     //RayCasting
@@ -40,16 +42,14 @@ public class EnemyScript : MonoBehaviour
 
     //Enemy-type bools
     public bool stillGrounded;
-    public bool stillFloating;
-    public bool HoriMover;
-    public bool standFollow;
+    public bool standHoriMover;
     public bool floatFollow;
-    public bool slasher;
-    public bool shooter;
+    public bool Hopper;
 
     //other
     private Coroutine CantMoveCoroutine;
 
+    private Coroutine hoppingCoroutine;
 
     #endregion
 
@@ -72,7 +72,7 @@ public class EnemyScript : MonoBehaviour
         rightOffset.x = transform.localScale.x / 2;
         rightOffset.y = -(transform.localScale.y / 2);
 
-        if(stillFloating || floatFollow)
+        if(floatFollow)
         {
             rb.gravityScale = 0;
         }
@@ -80,19 +80,39 @@ public class EnemyScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckForGround();
-        CheckForWalls();
+        
 
         distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
         distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
 
         if(distanceToPlayerX < 0)
         {
-            directionToPlayer = -1;
+            directionToPlayerX = -1;
         }
         else
         {
-            directionToPlayer = 1;
+            directionToPlayerX = 1;
+        }
+
+        if(distanceToPlayerY < 0)
+        {
+            directionMoveY = -1;
+        }
+        else
+        {
+            directionMoveY = 1;
+        }
+
+
+
+        if (!floatFollow)
+        {
+            CheckForGround();
+            CheckForWalls();
+        }
+        else
+        {
+            directionMoveX = directionToPlayerX;
         }
 
 
@@ -136,24 +156,14 @@ public class EnemyScript : MonoBehaviour
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
-            if (stillFloating)
-            {
-                rb.velocity = Vector2.zero;
-            }
-            if (HoriMover)
-            {
-                rb.velocity = new Vector2(moveSpeed * directionMove, rb.velocity.y);
-            }
-            if (standFollow)
+            if (standHoriMover)
             {
                 if (isClose)
                 {
-                    sp.color = Color.yellow;
-                    rb.velocity = new Vector2(moveSpeed * directionToPlayer, rb.velocity.y);
+                    rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
                 }
                 else
                 {
-                    sp.color = Color.red;
                     rb.velocity = new Vector2(0, rb.velocity.y);
                 }
             }
@@ -161,17 +171,30 @@ public class EnemyScript : MonoBehaviour
             {
                 if (isClose)
                 {
-                    sp.color = Color.yellow;
-                    rb.velocity = new Vector2(moveSpeed * directionMove, moveSpeed * directionMove); // need to make a direction x and y
+                    rb.velocity = new Vector2(moveSpeed * directionMoveX, moveSpeed * directionMoveY); // need to make a direction x and y
                 }
                 else
                 {
-                    sp.color = Color.red;
+                    rb.velocity = Vector2.zero;
+                }
+            }
+            if (Hopper)
+            {
+                if (isClose)
+                {
+                    if (hoppingCoroutine == null)
+                    {
+                        hoppingCoroutine = StartCoroutine(HopRoutine());
+                    }
+                }
+                else
+                {
                     rb.velocity = Vector2.zero;
                 }
             }
         }
     }
+
 
     #endregion
 
@@ -193,12 +216,12 @@ public class EnemyScript : MonoBehaviour
 
         if (rightSide.collider == null && rb.velocity.y == 0)
         {
-            directionMove = -1;
+            directionMoveX = -1;
             sp.flipX = true;
         }
         else if (leftSide.collider == null && rb.velocity.y == 0)
         {
-            directionMove = 1;
+            directionMoveX = 1;
             sp.flipX = false;
         }
         
@@ -210,20 +233,25 @@ public class EnemyScript : MonoBehaviour
 
         if (hitLeft.collider != null)
         {
-            directionMove = 1;
+            directionMoveX = 1;
             sp.flipX = false;
 
         }
 
         if (hitRight.collider != null)
         {
-            directionMove = -1;
+            directionMoveX = -1;
             sp.flipX = true;
 
         }
     }
 
     #endregion
+
+
+
+
+
 
     //COMBAT
     #region
@@ -307,6 +335,16 @@ public class EnemyScript : MonoBehaviour
     }  //Applies the knockback from the players slash
 
 
+
+
+
+
+
+
+
+
+
+
     private void Attack()
     {
         // idk just spawn a hurtbox in the direction the player is, make speed 0 while doing so
@@ -328,6 +366,22 @@ public class EnemyScript : MonoBehaviour
         //rb.velocity = Vector2.zero; //i forget why this is here but it was before so i kept it
     }
 
+
+    private IEnumerator HopRoutine()
+    {
+        //START DOWN ANIMATION IF WE HAVE ONE I FORGET
+        Invoke("JumpLaunch", .8f);
+        yield return new WaitForSeconds(3.5f);
+    }
+
+    private void JumpLaunch()
+    {
+        //START JUMPING ANIMATION
+        rb.velocity = new Vector2(moveSpeed * distanceToPlayerX, jumpSpeed);
+        
+    }
+    public float jumpSpeed;
+
     private void PlayDamagedAnim(float duration)
     {
         animator.SetBool("hurt", true);
@@ -340,4 +394,13 @@ public class EnemyScript : MonoBehaviour
     }
 
     #endregion
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Ground") && Hopper)
+        {
+            rb.velocity = Vector2.zero;
+        }
+    }
 }

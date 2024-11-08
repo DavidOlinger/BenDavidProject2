@@ -13,8 +13,8 @@ public class PlayerScript : MonoBehaviour
     //Movement
     private Rigidbody2D rb;
     private SpriteRenderer sp;
-    
-    public bool momentLock; 
+
+    public bool momentLock;
     public bool cantMove;
 
     public float moveSpeed;
@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
 
     private Vector2 lastStoredVelocity;
 
-    
+
     public Vector2 moveDirection = Vector2.zero;
     Vector2 moveVector;
 
@@ -45,7 +45,7 @@ public class PlayerScript : MonoBehaviour
     public bool flipLock;
 
     //RayCasting
-    private float xRayDistance; 
+    private float xRayDistance;
     public LayerMask WallLayer;
     public LayerMask GroundLayer;
     public float lastGroundY;
@@ -56,7 +56,7 @@ public class PlayerScript : MonoBehaviour
     public float groundCheckDist;
     private float lastTimeGrounded;
     public float coyoteTime;
-    
+
     //Vault Variables
     public float vaultRise;
     public float vaultSpeed;
@@ -135,6 +135,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] AudioClip hpShatterSound;
     [SerializeField] AudioClip playerGotHitSound;
     [SerializeField] AudioClip saveSound;
+    [SerializeField] AudioClip moneySound;
     #endregion
 
     //General Starting and Update
@@ -171,7 +172,7 @@ public class PlayerScript : MonoBehaviour
     private float maxSpeedHorizontalAllowed = 5.85f;
     private void FixedUpdate()
     {
-       
+
 
 
 
@@ -206,7 +207,7 @@ public class PlayerScript : MonoBehaviour
 
             if (rb.velocity.x == 0 || isGrounded) //if grounded or not travelling in either direction
             {
-              momentLock = false; //turn off moment lock
+                momentLock = false; //turn off moment lock
             }
 
             if (!momentLock)
@@ -234,7 +235,7 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
-        
+
         #region
 
         if (moveDirection.x > 0 && !flipLock && !animator.GetBool("injured"))
@@ -282,7 +283,7 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-        
+
         if (groundingTimer < groundingCountDown)
         {
             groundingTimer += 0.02f;
@@ -315,7 +316,7 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        if (isChargingSlash) 
+        if (isChargingSlash)
         {
             cantMove = true;
         }
@@ -324,27 +325,27 @@ public class PlayerScript : MonoBehaviour
         //FOR TESTING
         if (moveDirection.y < 0)
         {
-           // playerLookAhead.y = -lookDown;
+            // playerLookAhead.y = -lookDown;
 
             //need to be holding down for like a second, use a time counter for this
         } // make this only work when isGrounded and direction is held for about a second
         else
         {
-           // playerLookAhead.y = 0f;
+            // playerLookAhead.y = 0f;
         }
 
         #endregion
 
 
-        if(rb.velocity.y < -maxGravSpeed)
+        if (rb.velocity.y < -maxGravSpeed)
         {
-            rb.velocity = new Vector2(rb.velocity.x,  -maxGravSpeed);
+            rb.velocity = new Vector2(rb.velocity.x, -maxGravSpeed);
         }
 
 
 
 
-    
+
     }
 
 
@@ -367,7 +368,7 @@ public class PlayerScript : MonoBehaviour
             }
             slash.GetComponent<SlashScript>().slashPosition = slashPosition;
         }
-        
+
     }
     private void SpawnHeavySlash()
     {
@@ -387,7 +388,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void SpawnVault()
     {
-       // slashStun = 0.15f;
+        // slashStun = 0.15f;
 
 
         if (sp.enabled)
@@ -398,7 +399,7 @@ public class PlayerScript : MonoBehaviour
                 vault.transform.Rotate(0, 180, 0); ;
             }
             vault.GetComponent<VaultScript>().vaultPosition = slashPosition;
-            
+
         }
     }
 
@@ -428,7 +429,7 @@ public class PlayerScript : MonoBehaviour
         flipLock = true; // to make it look cooler
 
         //maxSpeedHorizontalAllowed = vaultSpeed;
-        
+
 
         rb.velocity = Vector2.zero;
 
@@ -476,7 +477,7 @@ public class PlayerScript : MonoBehaviour
         CreateVaultDust();
     }
 
-    
+
     public void takeDamage(GameObject other, float duration, int damage)
     {
         currHP -= damage;
@@ -489,7 +490,7 @@ public class PlayerScript : MonoBehaviour
         if (currHP <= 0)
         {
             PlayerDeath(true);
-            
+
         }
         cam.GetComponent<CameraMovementScript>().CameraShake(0.15f, 50f, 0.12f, 0.90f);
         hitStop(duration, 0.01f);
@@ -540,7 +541,7 @@ public class PlayerScript : MonoBehaviour
     {
         Debug.Log("Time Should have stopped - player");
         timeScript.TimeStop(duration, delay);
-    } 
+    }
     public void slashKnockback()
     {
 
@@ -632,7 +633,7 @@ public class PlayerScript : MonoBehaviour
         else if (hitRight.collider != null && moveDirection.x > 0 && !isGrounded && rb.velocity.y < 0)
         {
             if (firstTouchWall)
-            {   momentLock = false;
+            { momentLock = false;
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 firstTouchWall = false;
             }
@@ -692,7 +693,7 @@ public class PlayerScript : MonoBehaviour
     private Coroutine startRunning;
     private IEnumerator startRunningCoroutine(float duration)
     {
-        if(timeSinceStartMoving <= 1)
+        if (timeSinceStartMoving <= 1)
         {
             moveSpeed = 4.85f + timeSinceStartMoving;
             timeSinceStartMoving += 0.1f;
@@ -701,8 +702,8 @@ public class PlayerScript : MonoBehaviour
         {
             moveSpeed = 5.85f;
         }
-        
-        
+
+
         yield return new WaitForSeconds(duration);
 
         moveSpeed = 5.85f;
@@ -727,11 +728,11 @@ public class PlayerScript : MonoBehaviour
 
             moveDirection = context.ReadValue<Vector2>();
 
-        //    {
-        //        StopCoroutine(CantMoveCoroutine);
-        //    }
-        //    wallJumping = true;
-        //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+            //    {
+            //        StopCoroutine(CantMoveCoroutine);
+            //    }
+            //    wallJumping = true;
+            //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
         }
         else if (context.canceled)
@@ -751,9 +752,9 @@ public class PlayerScript : MonoBehaviour
     {
         float elapsedTime = 0;
 
-        while(elapsedTime < duration)
+        while (elapsedTime < duration)
         {
-            if((isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
+            if ((isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
             {
                 if (context.canceled)
                 {
@@ -777,8 +778,8 @@ public class PlayerScript : MonoBehaviour
     private bool shortHop = false;
     private void jumpLaunch() // just separated to make timing easier by calling this with invoke for jumpsquat timing
     {
-        
-       
+
+
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         isGrounded = false;
         isJumping = false;
@@ -794,7 +795,7 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && (isGrounded  || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
+        if (context.started && (isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
         {
             isJumping = true;
             //put the jump squat animation here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -803,33 +804,40 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !isGrounded && isLeftWallTouching && !cantMove)
         {
-            if (CantMoveCoroutine != null)
+            if (PlayerPrefs.GetInt("WallJump") == 1)
             {
-                StopCoroutine(CantMoveCoroutine);
+
+
+                if (CantMoveCoroutine != null)
+                {
+                    StopCoroutine(CantMoveCoroutine);
+                }
+                wallJumping = true;
+                CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+
+                rb.velocity = Vector2.zero;
+                rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
+                animator.SetBool("ascending", true);
+                CreateJumpDust();
             }
-            wallJumping = true;
-            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
-
-            rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(wallJumpXForce, wallJumpYForce);
-            animator.SetBool("ascending", true);
-            CreateJumpDust();
-
 
         }
         else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
         {
-            if (CantMoveCoroutine != null)
+            if (PlayerPrefs.GetInt("WallJump") == 1)
             {
-                StopCoroutine(CantMoveCoroutine);
-            }
-            wallJumping = true;
-            CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
+                if (CantMoveCoroutine != null)
+                {
+                    StopCoroutine(CantMoveCoroutine);
+                }
+                wallJumping = true;
+                CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
-            rb.velocity = Vector2.zero;
-            rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
-            animator.SetBool("ascending", true);
-            CreateJumpDust();
+                rb.velocity = Vector2.zero;
+                rb.velocity = new Vector2(-wallJumpXForce, wallJumpYForce);
+                animator.SetBool("ascending", true);
+                CreateJumpDust();
+            }
 
         }
         else if (context.started && !cantMove && !isJumping)
@@ -838,7 +846,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.canceled)
         {
-            if(rb.velocity.y > 0)
+            if (rb.velocity.y > 0)
             {
                 if (!cantMove || wallJumping)
                 {
@@ -862,21 +870,21 @@ public class PlayerScript : MonoBehaviour
                 StartAttack();
                 if (isGrounded)
                 {
-                   // canChargeSlash = true; //
+                    // canChargeSlash = true; //
                 }
-                
+
             }
         }
         else if (context.canceled)
         {
-           // canChargeSlash = false;//
+            // canChargeSlash = false;//
             if (heavySlashCharged)
             {
-               // StartHeavySlash();//
+                // StartHeavySlash();//
             }
 
-           // StopChargingSlash();//
-            
+            // StopChargingSlash();//
+
         }
     }
 
@@ -885,7 +893,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("CanVault"))
         {
-            if(PlayerPrefs.GetFloat("CanVault") == 1)
+            if (PlayerPrefs.GetFloat("CanVault") == 1)
             {
                 if (context.started && !logicScript.isPaused)
                 {
@@ -897,7 +905,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
-      
+
 
     }
 
@@ -924,15 +932,15 @@ public class PlayerScript : MonoBehaviour
     #region
     void SetGroundPoint()
     {
-        if (isGrounded && !invincible) {lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
-        
+        if (isGrounded && !invincible) { lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
+
     }
 
     public void PlayerDeath(bool trueDeath) //fades to black. 
-        //on true death, reset hp and load the player back at a save point.
-        // otherwise, just load them at the last safe point and subtract a hitpoint.
+                                            //on true death, reset hp and load the player back at a save point.
+                                            // otherwise, just load them at the last safe point and subtract a hitpoint.
     {
-        cam.GetComponent<CameraMovementScript>().fadeToBlack();
+        cam.GetComponent<CameraMovementScript>().fadeToBlack(0.15f);
 
 
         if (CantMoveCoroutine != null)
@@ -953,10 +961,10 @@ public class PlayerScript : MonoBehaviour
             currHP = maxHP;
             Invoke("LoadSavePoint", 0.15f);
         }
-        
+
         sp.enabled = false;
         rb.velocity = Vector2.zero;
-        
+
         sp.color = new Color(1, 0.65f, 0.65f, 0.7f);
 
         if (InvincibleCoroutine != null)
@@ -1008,7 +1016,7 @@ public class PlayerScript : MonoBehaviour
     {
         for (int i = 0; i < duration * 50; i++)
         {
-            
+
             yield return new WaitForSeconds(0.02f);
             if (vel.x > 0) // if travelling right
             {
@@ -1150,9 +1158,9 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-   public void InjuredStop()
+    public void InjuredStop()
     {
-        animator.SetBool("injured", false );
+        animator.SetBool("injured", false);
     }
 
     #endregion
@@ -1222,14 +1230,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        PlayLandSound();
-    //    }
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("money"))
+        {
+            audioSource.PlayOneShot(moneySound);
+        }
+    }
     #endregion
 
 

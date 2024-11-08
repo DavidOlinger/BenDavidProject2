@@ -8,7 +8,14 @@ public class LevelTransitionScript : MonoBehaviour
     public int nextSceneIndex;
 
     public Vector2 spawnPoint;
-    
+
+
+    CameraMovementScript camScript;
+
+    private void Start()
+    {
+        camScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,7 +25,13 @@ public class LevelTransitionScript : MonoBehaviour
             PlayerPrefs.SetFloat("SavePointX", spawnPoint.x);
             PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
 
-            SceneManager.LoadScene(nextSceneIndex);
+            camScript.fadeToBlack(0.01f);
+            Invoke("goNext", 0.5f);
         }
+    }
+
+    void goNext()
+    {
+        SceneManager.LoadScene(nextSceneIndex);
     }
 }

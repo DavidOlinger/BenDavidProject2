@@ -70,10 +70,10 @@ public class CameraMovementScript : MonoBehaviour
        
     }
 
-    public void fadeToBlack()
+    public void fadeToBlack(float timeIn)
     {
         FadeObjectScript fade = Instantiate(fadeOutPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FadeObjectScript>();
-        fade.fadeInTime = 0.25f;
+        fade.fadeInTime = timeIn;
         fade.fadeOutTime = 0.1f;
         fade.lingerTime = 0.25f;
     }
