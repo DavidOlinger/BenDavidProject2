@@ -75,10 +75,6 @@ public class LogicScript : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
     #endregion
 
 
@@ -98,7 +94,7 @@ public class LogicScript : MonoBehaviour
         PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
 
         PlayerPrefs.SetInt("Scene", SceneManager.GetActiveScene().buildIndex);
-        Debug.Log(PlayerPrefs.GetInt("Scene"));
+        //Debug.Log(PlayerPrefs.GetInt("Scene"));
 
         playerScript.currHP = playerScript.maxHP;
         UpdateHealth();
@@ -112,6 +108,7 @@ public class LogicScript : MonoBehaviour
         {
             player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
             Invoke("UpdateHealth", 0.5f);
+            PlayerPrefs.SetInt("isStartingGame", 0);
         }
     }
 
