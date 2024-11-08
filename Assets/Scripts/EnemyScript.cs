@@ -437,7 +437,7 @@ public class EnemyScript : MonoBehaviour
             Debug.Log("groundedtrigger");
             
             rb.velocity = Vector2.zero;
-            isGrounded = true;
+            
         }
     }
 }

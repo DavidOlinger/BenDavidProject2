@@ -188,4 +188,11 @@ public class LogicScript : MonoBehaviour
         }
     }
 
+
+    public void loadChallenge()
+    {
+        SceneManager.LoadScene(8);
+        PlayerPrefs.SetInt("WallJump", 1);
+    }
+
 }
