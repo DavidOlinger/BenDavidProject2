@@ -7,37 +7,48 @@ using UnityEngine.SceneManagement;
 public class CutsceneScript : MonoBehaviour
 {
 
-    public TextMeshProUGUI[] text;
+    TextMeshProUGUI[] text;
+    public int counter = 0;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        text = GetComponentsInChildren<TextMeshProUGUI>();
+
+
         Invoke("textAppear", 3);
+        counter = 0;
     }
 
-
-    private int counter = 0;
-    // Update is called once per frame
-    
-
-    void textAppear()
+    private void Update()
     {
-        if(counter == 8)
+        if (Input.GetKeyDown(KeyCode.T))
         {
             PlayerPrefs.SetInt("Scene", 1);
             SceneManager.LoadScene(1);
         }
-        
+    }
+    
+
+    public void textAppear()
+    {
+       
         text[counter].enabled = true;
         Invoke("textGone", 3f);
+        Debug.Log("ttttt");
     }
 
-    void textGone()
+    public void textGone()
     {
+        Debug.Log("whyyyy");
+
         text[counter].enabled = false;
         counter = counter + 1;
+
+        if (counter == 9)
+        {
+            PlayerPrefs.SetInt("Scene", 1);
+            SceneManager.LoadScene(1);
+        }
 
         Invoke("textAppear", 1.5f);
     }

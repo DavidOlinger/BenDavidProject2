@@ -179,8 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u201CLet me remind you what this task entails before you make your final
-    decision\u201D\r\n"
+  m_text: "\u201CLet me remind you what this task entails\"\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -448,8 +447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u201CYou must leave your home and family behind, it will be a lonely
-    journey\u201D\r\n"
+  m_text: "\u201CIt will be a lonely journey\u201D\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -629,7 +627,7 @@ RectTransform:
   - {fileID: 591823835}
   - {fileID: 1983883391}
   - {fileID: 155290890}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 724609144}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -977,7 +975,7 @@ GameObject:
   - component: {fileID: 724609145}
   m_Layer: 0
   m_Name: StartGameLogicManager
-  m_TagString: Untagged
+  m_TagString: cutscene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1090,7 +1088,8 @@ Transform:
   m_LocalPosition: {x: 484.5699, y: 257.55127, z: -1.6354418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 332216301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &724609145
@@ -1105,16 +1104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9164cd9c7a43f43973424780077341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text:
-  - {fileID: 422878113}
-  - {fileID: 146354298}
-  - {fileID: 1282111709}
-  - {fileID: 1529116728}
-  - {fileID: 1356023308}
-  - {fileID: 208216059}
-  - {fileID: 591823836}
-  - {fileID: 1983883392}
-  - {fileID: 155290891}
+  counter: 0
 --- !u!1 &801329807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,7 +1798,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 724609144}
-  - {fileID: 332216301}
   - {fileID: 801329809}
   - {fileID: 1342747836}
   - {fileID: 369590737}

@@ -13,6 +13,7 @@ TagManager:
   - SavePoint
   - money
   - Breakable
+  - cutscene
   layers:
   - Default
   - TransparentFX
