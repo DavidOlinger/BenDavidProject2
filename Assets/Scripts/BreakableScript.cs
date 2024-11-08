@@ -41,7 +41,7 @@ public class BreakableScript : MonoBehaviour
             } else
             { 
                 Debug.Log("wall broken");
-
+                audioSource.PlayOneShot(hitSound);
                 BreakMyself();
             }
         }
