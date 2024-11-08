@@ -432,7 +432,7 @@ public class EnemyScript : MonoBehaviour
         if(collision.gameObject.CompareTag("Ground") && isHopper)
         {
             
-            isGrounded = true;
+            
             animator.SetBool("hopperGrounded", true);
             Debug.Log("groundedtrigger");
             
