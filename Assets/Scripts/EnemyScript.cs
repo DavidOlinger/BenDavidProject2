@@ -55,6 +55,9 @@ public class EnemyScript : MonoBehaviour
 
     private Coroutine hoppingCoroutine;
 
+    [SerializeField] ParticleSystem killParticles;
+    [SerializeField] ParticleSystem hitParticles;
+
     #endregion
 
     //start + update
@@ -154,7 +157,7 @@ public class EnemyScript : MonoBehaviour
 
     private void CycleMove(bool isClose)
     {
-        Debug.Log("ADHJBASKFH");
+        
         if (!cantMove)
         {
             if (stillGrounded)
@@ -166,7 +169,7 @@ public class EnemyScript : MonoBehaviour
             {
                 if (isClose)
                 {
-                    Debug.Log("HHHHHH");
+                    
                     rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
                 }
                 else
@@ -282,13 +285,18 @@ public class EnemyScript : MonoBehaviour
             }
 
             hitCounter++;
-
+            ParticleSystem hitSplatter = Instantiate(hitParticles, transform.position, Quaternion.identity);
+            Destroy(hitSplatter.gameObject, 3);
             PlayDamagedAnim(0.4f);
+            if (hitCounter >= hpMax)
+            {
+                Kill();
+                Debug.Log("Enemy Kill");
+            }
 
-            
 
             //rb.gravityScale = 0;
-            rb.velocity = Vector2.zero;
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
             sp.color = new Color(1, 1, 1, 0.5f); // to simulate the white flash for now lol
 
@@ -321,10 +329,6 @@ public class EnemyScript : MonoBehaviour
 
     private void dmgLaunch()
     {
-        if (hitCounter >= hpMax)
-        {
-            Destroy(gameObject);
-        }
 
         sp.color = Color.white;
 
@@ -422,6 +426,19 @@ public class EnemyScript : MonoBehaviour
     private void CancelDamageAnim()
     {
         animator.SetBool("hurt", false);
+    }
+
+    public void Kill()
+    {
+        // play death sound
+        ParticleSystem splatter = Instantiate(killParticles, transform.position, Quaternion.identity);
+        Destroy(splatter.gameObject, 5f);
+        if (isHopper) // hoppers need more death particles
+        {
+            ParticleSystem splatter2 = Instantiate(killParticles, transform.position, Quaternion.identity);
+            Destroy(splatter2.gameObject, 5f);
+        }
+        Destroy(gameObject);
     }
 
     #endregion
