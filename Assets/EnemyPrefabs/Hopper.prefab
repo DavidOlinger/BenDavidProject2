@@ -53,6 +53,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: moneyOnKill
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: hitParticles
       value: 
       objectReference: {fileID: 8365868216234929067, guid: de2d2beb2a488d94e8a9cbe02f062278, type: 3}
@@ -60,6 +64,10 @@ PrefabInstance:
       propertyPath: killParticles
       value: 
       objectReference: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
+    - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: moneyParticles
+      value: 
+      objectReference: {fileID: 144053426044220666, guid: 55b0aa6887da1e04980732359f839828, type: 3}
     - target: {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: activateMoveDistance.x
       value: 15

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
@@ -57,6 +59,11 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField] ParticleSystem killParticles;
     [SerializeField] ParticleSystem hitParticles;
+    [SerializeField] ParticleSystem moneyParticles;
+    [SerializeField] int moneyOnKill;
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip deathSound;
 
     #endregion
 
@@ -69,6 +76,7 @@ public class EnemyScript : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
+        audioSource = GetComponent<AudioSource>();
 
         xRayDistance = (transform.localScale.x / 2) + 0.3f; // this is the variable used for the laser distance to check for walls
 
@@ -285,8 +293,12 @@ public class EnemyScript : MonoBehaviour
             }
 
             hitCounter++;
-            ParticleSystem hitSplatter = Instantiate(hitParticles, transform.position, Quaternion.identity);
-            Destroy(hitSplatter.gameObject, 3);
+            if (hitParticles != null) 
+            { 
+            ParticleSystem onHitParticles = Instantiate(hitParticles, transform.position, Quaternion.identity);
+            Destroy(onHitParticles.gameObject, 3);
+            }
+            
             PlayDamagedAnim(0.4f);
             if (hitCounter >= hpMax)
             {
@@ -430,14 +442,38 @@ public class EnemyScript : MonoBehaviour
 
     public void Kill()
     {
+
+        audioSource.PlayOneShot(deathSound);
+
         // play death sound
-        ParticleSystem splatter = Instantiate(killParticles, transform.position, Quaternion.identity);
-        Destroy(splatter.gameObject, 5f);
-        if (isHopper) // hoppers need more death particles
+        if (killParticles != null)
         {
-            ParticleSystem splatter2 = Instantiate(killParticles, transform.position, Quaternion.identity);
-            Destroy(splatter2.gameObject, 5f);
+            ParticleSystem onKillParticles = Instantiate(killParticles, transform.position, Quaternion.identity);
+            Destroy(onKillParticles.gameObject, 5f);
+            if (isHopper) // hoppers need more death particles
+            {
+                ParticleSystem splatter2 = Instantiate(killParticles, transform.position, Quaternion.identity);
+                Destroy(splatter2.gameObject, 5f);
+            }
+
         }
+
+        if (moneyParticles != null)
+        {
+            ParticleSystem moneyDropParticles = Instantiate(moneyParticles, transform.position, Quaternion.identity);
+
+            // Modify the burst count
+            var emission = moneyDropParticles.emission;
+            var burst = emission.GetBurst(0); 
+            burst.count = moneyOnKill;        
+            emission.SetBurst(0, burst);     
+            moneyDropParticles.Play();
+
+            Destroy(moneyDropParticles.gameObject, 30f);
+            
+
+        }
+
         Destroy(gameObject);
     }
 

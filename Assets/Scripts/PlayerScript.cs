@@ -105,6 +105,7 @@ public class PlayerScript : MonoBehaviour
     public float currHP;
     public float maxHP;
     public bool invincible;
+    public float pickupRadius;
 
     //Other
     public float hitLaunch = 0; // this is so we don't have to pass it through parameters
