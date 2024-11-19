@@ -19,8 +19,12 @@ public class CameraMovementScript : MonoBehaviour
     public float yOffset;
     public float xOffset;
     public float playerLookAhead;
-    public float groundMargin;
-    public float groundLevel;
+
+    public float DownLevel;
+    public float UpLevel;
+    public float LeftLevel;
+    public float RightLevel;
+
 
 
     // Start is called before the first frame update
@@ -31,14 +35,8 @@ public class CameraMovementScript : MonoBehaviour
         //puck = GameObject.Find("Puck");
         camBody = GetComponent<Rigidbody2D>(); //finding instances of components
         
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void FixedUpdate()
     {
@@ -57,11 +55,35 @@ public class CameraMovementScript : MonoBehaviour
         directionToTarget = -vectorToTarget.normalized;
 
 
-        if (cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).y < groundLevel - groundMargin) //prevents camera from travelling below ground
+        if (cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).y < DownLevel) //DOWN LEVEL
         {
             if (directionToTarget.y < 0)
             {
                 directionToTarget.y = 0f;
+            }
+        }
+
+        if (cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).y > UpLevel) // UP LEVEL
+        {
+            if (directionToTarget.y > 0)
+            {
+                directionToTarget.y = 0f;
+            }
+        }
+
+        if (cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x < LeftLevel) // LEFT LEVEL
+        {
+            if (directionToTarget.x < 0)
+            {
+                directionToTarget.x = 0f;
+            }
+        }
+
+        if (cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x > RightLevel) // RIGHT LEVEL
+        {
+            if (directionToTarget.x > 0)
+            {
+                directionToTarget.x = 0f;
             }
         }
 
@@ -70,6 +92,32 @@ public class CameraMovementScript : MonoBehaviour
        
     }
 
+
+    public void updateBoundaries(float newDown, float newUp, float newLeft, float newRight)
+    {
+        if(newDown != 0)
+        {
+            DownLevel = newDown;
+        }
+
+        if (newUp != 0)
+        {
+            UpLevel = newUp;
+        }
+
+        if (newLeft != 0)
+        {
+            LeftLevel = newLeft;
+        }
+
+        if (newRight != 0)
+        {
+            RightLevel = newRight;
+        }
+    }
+
+    //Camera Effects
+    #region
     public void fadeToBlack(float timeIn)
     {
         FadeObjectScript fade = Instantiate(fadeOutPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FadeObjectScript>();
@@ -102,4 +150,9 @@ public class CameraMovementScript : MonoBehaviour
             yAmp *= decayFactor;
         }
     }
+
+
+    #endregion
+
+
 }

@@ -575,31 +575,15 @@ public class PlayerScript : MonoBehaviour
 
         if (rightSide.collider != null && rb.velocity.y == 0)
         {
-            animator.SetBool("grounded", true);
-            animator.SetBool("ascending", false);
-            animator.SetBool("descending", false);
-
-            isGrounded = true;
-            momentLock = false;
+            setGrounded();
         }
         else if (leftSide.collider != null && rb.velocity.y == 0)
         {
-            animator.SetBool("grounded", true);
-            animator.SetBool("ascending", false);
-            animator.SetBool("descending", false);
-
-            isGrounded = true;
-            momentLock = false;
+            setGrounded();
         }
         else if (middle.collider != null && rb.velocity.y == 0)  // this doesn't work for some reason
         {
-            animator.SetBool("grounded", true);
-            animator.SetBool("ascending", false);
-            animator.SetBool("descending", false);
-
-            Debug.Log("AHHH");
-            isGrounded = true;
-            momentLock = false;
+            setGrounded();
         }
         else
         {
@@ -611,6 +595,18 @@ public class PlayerScript : MonoBehaviour
 
             }
         }
+    }
+
+    private void setGrounded()
+    {
+        animator.SetBool("grounded", true);
+        animator.SetBool("ascending", false);
+        animator.SetBool("descending", false);
+
+        isGrounded = true;
+        momentLock = false;
+        wallJumpingRight = false;
+        wallJumpingLeft = false;
     }
 
     private void CheckForTouchingWalls()
@@ -690,61 +686,29 @@ public class PlayerScript : MonoBehaviour
     #region
     //INPUTS
 
-    private float timeSinceStartMoving = 0;
-    private Coroutine startRunning;
-    private IEnumerator startRunningCoroutine(float duration)
-    {
-        if (timeSinceStartMoving <= 1)
-        {
-            moveSpeed = 4.85f + timeSinceStartMoving;
-            timeSinceStartMoving += 0.1f;
-        }
-        else
-        {
-            moveSpeed = 5.85f;
-        }
-
-
-        yield return new WaitForSeconds(duration);
-
-        moveSpeed = 5.85f;
-
-        //if (timeSinceStartMoving < 0.1f)
-        //{
-        //    moveSpeed = 6.5f - ((1 - timeSinceStartMoving * 10));
-        //    timeSinceStartMoving += 0.02f;
-        //}
-        //else
-        //{
-        //    moveSpeed = 6.5f;
-        //}
-
-    }
     public void OnMove(InputAction.CallbackContext context) // Might want to remove the Vector2.zero part from this and put it somewhere else, could cause problems maybe
     {
         if (context.performed)
         {
-
-            startRunning = StartCoroutine(startRunningCoroutine(0.12f));
-
             moveDirection = context.ReadValue<Vector2>();
-
-            //    {
-            //        StopCoroutine(CantMoveCoroutine);
-            //    }
-            //    wallJumping = true;
-            //    CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
-
         }
         else if (context.canceled)
         {
             moveDirection = Vector2.zero;
-            timeSinceStartMoving = 0;
         }
     }
 
     //JUMPING
     #region
+
+    private bool wallJumpingRight = false;
+    private bool wallJumpingLeft = false;
+
+    private bool isJumping = false;
+    private bool shortHop = false;
+    private Coroutine delayedJumpCoruotine;
+
+
     private bool wasGroundedCoyote()
     {
         return Time.time - lastTimeGrounded <= coyoteTime;
@@ -757,10 +721,6 @@ public class PlayerScript : MonoBehaviour
         {
             if ((isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
             {
-                if (context.canceled)
-                {
-                    shortHop = true;
-                }
                 isJumping = true;
                 Invoke("jumpLaunch", 0.06f);
                 yield break;
@@ -773,10 +733,6 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-
-    private bool wallJumping = false;
-    private bool isJumping = false;
-    private bool shortHop = false;
     private void jumpLaunch() // just separated to make timing easier by calling this with invoke for jumpsquat timing
     {
 
@@ -799,21 +755,20 @@ public class PlayerScript : MonoBehaviour
         if (context.started && (isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
         {
             isJumping = true;
-            //put the jump squat animation here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            shortHop = false;
             Invoke("jumpLaunch", 0.06f);
 
         }
         else if (context.started && !isGrounded && isLeftWallTouching && !cantMove)
         {
-            if (PlayerPrefs.GetInt("WallJump") == 1)
+            if (wallJumpingLeft == false || PlayerPrefs.GetInt("WallJump") == 1)
             {
-
-
                 if (CantMoveCoroutine != null)
                 {
                     StopCoroutine(CantMoveCoroutine);
                 }
-                wallJumping = true;
+                wallJumpingLeft = true;
+                wallJumpingRight = false;
                 CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
                 rb.velocity = Vector2.zero;
@@ -825,13 +780,14 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
         {
-            if (PlayerPrefs.GetInt("WallJump") == 1)
+            if (wallJumpingRight == false || PlayerPrefs.GetInt("WallJump") == 1)
             {
                 if (CantMoveCoroutine != null)
                 {
                     StopCoroutine(CantMoveCoroutine);
                 }
-                wallJumping = true;
+                wallJumpingRight = true;
+                wallJumpingLeft = false;
                 CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
                 rb.velocity = Vector2.zero;
@@ -843,24 +799,29 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !cantMove && !isJumping)
         {
-            StartCoroutine(delayedJump(0.08f, context));
+            delayedJumpCoruotine = StartCoroutine(delayedJump(0.09f, context));
         }
         else if (context.canceled)
         {
             if (rb.velocity.y > 0)
             {
-                if (!cantMove || wallJumping)
+                if (!cantMove || wallJumpingRight || wallJumpingLeft) //this is a bad fix rn but idk how to change it rn and it dont cause immediate problems
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.45f);
                 }
             }
-            else if (isJumping)
+            else if (isJumping || delayedJumpCoruotine != null)
             {
                 shortHop = true;
             }
         }
     }
     #endregion
+
+
+
+
+
 
     public void OnSlash(InputAction.CallbackContext context)
     {
@@ -1007,7 +968,7 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
-        wallJumping = false; // this is my temp fix for wallJunmping
+       // wallJumping = false; // this is my temp fix for wallJunmping
         flipLock = false;
         maxSpeedHorizontalAllowed = normalMoveSpeed;
 
