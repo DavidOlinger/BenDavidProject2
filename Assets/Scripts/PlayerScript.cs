@@ -1184,7 +1184,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("money"))
         {
-            logicScript.addMoney();
+            logicScript.addMoney(1);
             Destroy(collision.gameObject);
         }
     }

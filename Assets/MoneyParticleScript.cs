@@ -5,11 +5,13 @@ using UnityEngine;
 public class MoneyParticleScript : MonoBehaviour
 {
     public ParticleSystem mps; // Reference to the particle system
+    LogicScript logic;
     AudioSource audioSource;
     [SerializeField] AudioClip pickupSound;
 
     void Start()
     {
+        logic = FindObjectOfType<LogicScript>();
         audioSource = GetComponent<AudioSource>();
         if (mps == null)
         {
@@ -35,7 +37,7 @@ public class MoneyParticleScript : MonoBehaviour
                     //Debug.Log("Particle hit the player at position: " + particlePosition);
                     particles[i].remainingLifetime = 0;
                     audioSource.PlayOneShot(pickupSound);
-                    Debug.Log("got money");
+                    logic.addMoney(1);
                 }
             }
 

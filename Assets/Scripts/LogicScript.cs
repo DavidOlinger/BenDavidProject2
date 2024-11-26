@@ -25,6 +25,7 @@ public class LogicScript : MonoBehaviour
     [SerializeField] private Image[] hpIcons;
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource ambienceSource;
+    [SerializeField] TMP_Text moneyText;
 
     #endregion
 
@@ -68,20 +69,25 @@ public class LogicScript : MonoBehaviour
 
 
 
-
+        
         if (!PlayerPrefs.HasKey("Money"))
         {
-            PlayerPrefs.SetFloat("Money", 0);
+            PlayerPrefs.SetInt("Money", 0);
         }
+        addMoney(0);
     }
 
     #endregion
 
 
-    public void addMoney()
+    public void addMoney(int amount)
     {
-        PlayerPrefs.SetFloat("Money", PlayerPrefs.GetFloat("Money") + 1);
-        Debug.Log(PlayerPrefs.GetFloat("Money"));
+        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + amount);
+        if (moneyText != null) {
+            string money = "$" + PlayerPrefs.GetInt("Money");
+            moneyText.text = money; 
+        }
+        
     }
 
 
