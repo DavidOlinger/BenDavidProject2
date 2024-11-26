@@ -605,8 +605,7 @@ public class PlayerScript : MonoBehaviour
 
         isGrounded = true;
         momentLock = false;
-        wallJumpingRight = false;
-        wallJumpingLeft = false;
+        wallJumping = false;
     }
 
     private void CheckForTouchingWalls()
@@ -701,8 +700,7 @@ public class PlayerScript : MonoBehaviour
     //JUMPING
     #region
 
-    private bool wallJumpingRight = false;
-    private bool wallJumpingLeft = false;
+    private bool wallJumping = false;
 
     private bool isJumping = false;
     private bool shortHop = false;
@@ -761,14 +759,13 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !isGrounded && isLeftWallTouching && !cantMove)
         {
-            if (wallJumpingLeft == false || PlayerPrefs.GetInt("WallJump") == 1)
+            if (wallJumping == false || PlayerPrefs.GetInt("WallJump") == 1)
             {
                 if (CantMoveCoroutine != null)
                 {
                     StopCoroutine(CantMoveCoroutine);
                 }
-                wallJumpingLeft = true;
-                wallJumpingRight = false;
+                wallJumping = true;
                 CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
                 rb.velocity = Vector2.zero;
@@ -780,14 +777,14 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.started && !isGrounded && isRightWallTouching && !cantMove)
         {
-            if (wallJumpingRight == false || PlayerPrefs.GetInt("WallJump") == 1)
+            if (wallJumping == false || PlayerPrefs.GetInt("WallJump") == 1)
             {
                 if (CantMoveCoroutine != null)
                 {
                     StopCoroutine(CantMoveCoroutine);
                 }
-                wallJumpingRight = true;
-                wallJumpingLeft = false;
+                wallJumping = true;
+
                 CantMoveCoroutine = StartCoroutine(endCantMove(0.14f));
 
                 rb.velocity = Vector2.zero;
@@ -805,7 +802,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (rb.velocity.y > 0)
             {
-                if (!cantMove || wallJumpingRight || wallJumpingLeft) //this is a bad fix rn but idk how to change it rn and it dont cause immediate problems
+                if (!cantMove) //this is a bad fix rn but idk how to change it rn and it dont cause immediate problems
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.45f);
                 }
@@ -968,8 +965,8 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         cantMove = false;
-       // wallJumping = false; // this is my temp fix for wallJunmping
         flipLock = false;
+
         maxSpeedHorizontalAllowed = normalMoveSpeed;
 
     }

@@ -140,5 +140,7 @@ MonoBehaviour:
   yOffset: 0
   xOffset: 0
   playerLookAhead: 4
-  groundMargin: 0.5
-  groundLevel: -4
+  DownLevel: 10000
+  UpLevel: 10000
+  LeftLevel: 10000
+  RightLevel: 10000
