@@ -218,7 +218,7 @@ public class PlayerScript : MonoBehaviour
             {
                 if (moveVector.x > 0 && rb.velocity.x < 0) //if holding right while moving left while momentlock is on
                 {
-                    Debug.Log("Decaying Vault Velocity");
+                    
                     rb.velocity = new Vector2(rb.velocity.x + moveDecayCoef, rb.velocity.y); //decay leftward movement
                     if (rb.velocity.x > 0) //dont overshoot
                     {
@@ -540,7 +540,7 @@ public class PlayerScript : MonoBehaviour
 
     public void hitStop(float duration, float delay)
     {
-        Debug.Log("Time Should have stopped - player");
+        
         timeScript.TimeStop(duration, delay);
     }
     public void slashKnockback()

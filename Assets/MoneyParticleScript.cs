@@ -17,6 +17,18 @@ public class MoneyParticleScript : MonoBehaviour
         {
             mps = GetComponent<ParticleSystem>();
         }
+
+    }
+
+    public void SpawnMoney(int amount) //spawn [amount] particles and then destroy myself
+    {
+        var emission = mps.emission;
+        var burst = emission.GetBurst(0);
+        burst.count = amount;
+        emission.SetBurst(0, burst);
+        mps.Play();
+
+        Destroy(mps.gameObject, 30f);
     }
 
     void OnParticleCollision(GameObject other)

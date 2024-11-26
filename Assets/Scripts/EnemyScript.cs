@@ -303,7 +303,7 @@ public class EnemyScript : MonoBehaviour
             if (hitCounter >= hpMax)
             {
                 Kill();
-                Debug.Log("Enemy Kill");
+                
             }
 
 
@@ -463,13 +463,7 @@ public class EnemyScript : MonoBehaviour
             ParticleSystem moneyDropParticles = Instantiate(moneyParticles, transform.position, Quaternion.identity);
 
             // Modify the burst count
-            var emission = moneyDropParticles.emission;
-            var burst = emission.GetBurst(0); 
-            burst.count = moneyOnKill;        
-            emission.SetBurst(0, burst);     
-            moneyDropParticles.Play();
-
-            Destroy(moneyDropParticles.gameObject, 30f);
+            moneyDropParticles.GetComponent<MoneyParticleScript>().SpawnMoney(moneyOnKill);
             
 
         }
@@ -487,7 +481,7 @@ public class EnemyScript : MonoBehaviour
             
             
             animator.SetBool("hopperGrounded", true);
-            Debug.Log("groundedtrigger");
+            
             
             rb.velocity = Vector2.zero;
             
