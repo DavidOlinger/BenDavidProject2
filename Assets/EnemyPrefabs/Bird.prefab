@@ -156,20 +156,24 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 8aece6d5b8d1bad48ae714be70d55f05, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7424647768616779761}
+      insertIndex: 4
+      addedObject: {fileID: 613513113960352955}
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 8591219049810440798}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
 --- !u!1 &773475083807945794 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
   m_PrefabInstance: {fileID: 5033420514195999343}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7424647768616779761
+--- !u!114 &613513113960352955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,6 +182,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 773475083807945794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43f8daeba13e13540999e6e23aa70fe3, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a4abb3352c497f4a8984c84a1811806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpMax: 3
+  hitCounter: 0
+  dmgHitStun: 0.1
+  cantMove: 0
+  killParticles: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
+  hitParticles: {fileID: 8365868216234929067, guid: de2d2beb2a488d94e8a9cbe02f062278, type: 3}
+  moneyParticles: {fileID: 144053426044220666, guid: 55b0aa6887da1e04980732359f839828, type: 3}
+  moneyOnKill: 5
+  deathParticleNumber: 1
+  deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
+--- !u!114 &8591219049810440798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773475083807945794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9398ed818eb29cc4e9e1f916e9948000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  activateMoveDistance: {x: 15, y: 10}
+  activateAttackDistance: {x: 0, y: 0}
+  WallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  stillGrounded: 0

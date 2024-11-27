@@ -120,8 +120,64 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 2386367256090228502}
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: -6838315221810577672}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
+--- !u!1 &9062968029795078145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+  m_PrefabInstance: {fileID: 3650030403961859628}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2386367256090228502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062968029795078145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4abb3352c497f4a8984c84a1811806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpMax: 3
+  hitCounter: 0
+  dmgHitStun: 0.1
+  cantMove: 0
+  killParticles: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
+  hitParticles: {fileID: 8365868216234929067, guid: de2d2beb2a488d94e8a9cbe02f062278, type: 3}
+  moneyParticles: {fileID: 144053426044220666, guid: 55b0aa6887da1e04980732359f839828, type: 3}
+  moneyOnKill: 3
+  deathParticleNumber: 1
+  deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
+--- !u!114 &-6838315221810577672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062968029795078145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddb24efca7c66942a9edf96e90fb094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1.5
+  activateMoveDistance: {x: 15, y: 15}
+  activateAttackDistance: {x: 0, y: 0}
+  WallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  stillGrounded: 0

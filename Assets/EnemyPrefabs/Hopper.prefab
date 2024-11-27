@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6135128365134536964, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_GravityScale
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6839512040395760493, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_LocalScale.x
@@ -156,20 +156,24 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 90f53cf7cbff0504fa06d62550d716bb, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8899475671235523093}
+      insertIndex: 4
+      addedObject: {fileID: -5055769381714941478}
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: -8796691973618550314}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
 --- !u!1 &5461736000290395658 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
   m_PrefabInstance: {fileID: 336179820262615079}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8899475671235523093
+--- !u!114 &-5055769381714941478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,6 +182,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 5461736000290395658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 517b6c4dfd3882c43a26e89ff1635452, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a4abb3352c497f4a8984c84a1811806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpMax: 6
+  hitCounter: 0
+  dmgHitStun: 0.1
+  cantMove: 0
+  ignoreStun: 1
+  killParticles: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
+  hitParticles: {fileID: 8365868216234929067, guid: de2d2beb2a488d94e8a9cbe02f062278, type: 3}
+  moneyParticles: {fileID: 144053426044220666, guid: 55b0aa6887da1e04980732359f839828, type: 3}
+  moneyOnKill: 10
+  deathParticleNumber: 3
+  deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
+--- !u!114 &-8796691973618550314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5461736000290395658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3f9f8feaa749041a48e281320d4121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.5
+  jumpSpeed: 10
+  activateMoveDistance: {x: 20, y: 20}
+  activateAttackDistance: {x: 0, y: 0}
+  WallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  stillGrounded: 0

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7384106621738146733}
   - component: {fileID: 302546779886950353}
   - component: {fileID: 6135128365134536964}
-  - component: {fileID: 3636725989365413573}
   - component: {fileID: 8657725979665678810}
   - component: {fileID: -5437939399484830695}
   m_Layer: 10
@@ -161,42 +160,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3636725989365413573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5720031361078525485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc63bf965d32e3842b83dbb61fdcc9ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpMax: 5
-  hitCounter: 0
-  moveSpeed: 1
-  fastMoveSpeed: 0
-  activateMoveDistance: {x: 0, y: 0}
-  activateAttackDistance: {x: 0, y: 0}
-  dmgHitStun: 0.1
-  cantMove: 0
-  WallLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  GroundLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  stillGrounded: 0
-  isStump: 0
-  isBird: 0
-  isHopper: 0
-  killParticles: {fileID: 0}
-  hitParticles: {fileID: 0}
-  moneyParticles: {fileID: 0}
-  moneyOnKill: 0
-  deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
-  jumpSpeed: 0
 --- !u!95 &8657725979665678810
 Animator:
   serializedVersion: 5
