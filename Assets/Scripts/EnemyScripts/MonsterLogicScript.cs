@@ -64,14 +64,6 @@ public class MonsterLogicScript : MonoBehaviour
             playerScript.PlayHitSound(); //TODO: eventually change this to be monster specific
 
             //playerScript.slashKnockback(hitLaunch);
-            if (collision.CompareTag("Slash"))
-            {
-                playerScript.hitStop(0.08f, 0.01f);
-            }
-            else if (collision.CompareTag("vault"))
-            {
-                playerScript.hitStop(0.02f, 0.01f); 
-            }
 
             hitCounter++;
             if (hitParticles != null)
@@ -83,15 +75,30 @@ public class MonsterLogicScript : MonoBehaviour
             PlayDamagedAnim(0.4f);
             if (hitCounter >= hpMax)
             {
-                Kill();
+                playerScript.hitStop(0.22f, 0.01f);
+                playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.2f, 50f, 0.2f, 0.90f);
+                Invoke("Kill", 0.015f);
+                
+            } else
+            {
+                if (collision.CompareTag("Slash"))
+                {
+                    playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
+                    playerScript.hitStop(0.05f, 0.01f);
+                }
+                else if (collision.CompareTag("vault"))
+                {
+                    playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
+                    playerScript.hitStop(0.05f, 0.01f);
+                }
             }
 
-
+         
             //rb.gravityScale = 0;
             //rb.velocity = new Vector2(0, rb.velocity.y);
 
-            sp.color = new Color(1, 1, 1, 0.5f); // to simulate the white flash for now lol
-
+            sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.5f); // to simulate the white flash for now lol
+            
             if (!ignoreStun)
             {
                 if (CantMoveCoroutine != null)
@@ -165,7 +172,7 @@ public class MonsterLogicScript : MonoBehaviour
 
     private void ResetColor()
     {
-        sp.color = Color.white;
+        sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 1f); ;
     }
 
 
@@ -193,7 +200,7 @@ public class MonsterLogicScript : MonoBehaviour
 
 
         }
-
+        
         Destroy(gameObject);
     }
 

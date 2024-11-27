@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6135128365134536964, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_GravityScale
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6839512040395760493, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_LocalScale.x
@@ -149,9 +149,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -387589901, guid: 0ed2c11d2b4f8014c8b059e5dacb8788, type: 3}
     - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 8657725979665678810, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Controller
       value: 
@@ -187,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpMax: 6
   hitCounter: 0
-  dmgHitStun: 0.1
+  dmgHitStun: 0.05
   cantMove: 0
   ignoreStun: 1
   killParticles: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
@@ -209,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.5
-  jumpSpeed: 10
+  jumpSpeed: 15
   activateMoveDistance: {x: 20, y: 20}
   activateAttackDistance: {x: 0, y: 0}
   WallLayer:
@@ -219,3 +227,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   stillGrounded: 0
+  jumpDelay: 3

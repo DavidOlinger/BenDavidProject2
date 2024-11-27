@@ -43,6 +43,7 @@ public class HopperScript : MonoBehaviour
 
     private Coroutine hoppingCoroutine;
     private bool isGrounded;
+    public float jumpDelay;
 
     AudioSource audioSource; //in case movement sound effects are necessary
 
@@ -169,11 +170,10 @@ public class HopperScript : MonoBehaviour
     #region
     private IEnumerator HopRoutine()
     {
-        //START DOWN ANIMATION IF WE HAVE ONE I FORGET
         isHopping = true;
 
-        Invoke("JumpLaunch", .8f);
-        yield return new WaitForSeconds(3.5f);
+        Invoke("JumpLaunch", .1f);
+        yield return new WaitForSeconds(jumpDelay);
 
         isHopping = false;
     }

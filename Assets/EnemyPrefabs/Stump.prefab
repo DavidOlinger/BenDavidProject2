@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Size.x
+      value: 0.7872293
+      objectReference: {fileID: 0}
+    - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.010051981
+      objectReference: {fileID: 0}
+    - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
       value: 1.28
       objectReference: {fileID: 0}
@@ -151,8 +159,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpMax: 3
   hitCounter: 0
-  dmgHitStun: 0.1
+  dmgHitStun: 0.05
   cantMove: 0
+  ignoreStun: 0
   killParticles: {fileID: 5267681206661177627, guid: c2228c39ce887f5418650bcbc18f10ed, type: 3}
   hitParticles: {fileID: 8365868216234929067, guid: de2d2beb2a488d94e8a9cbe02f062278, type: 3}
   moneyParticles: {fileID: 144053426044220666, guid: 55b0aa6887da1e04980732359f839828, type: 3}
