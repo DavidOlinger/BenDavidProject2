@@ -206,8 +206,8 @@ MonoBehaviour:
   moveSpeed: 5.85
   normalMoveSpeed: 5.85
   jumpForce: 14
-  wallJumpXForce: 7
-  wallJumpYForce: 14
+  wallJumpXForce: 6.5
+  wallJumpYForce: 10.5
   moveDirection: {x: 0, y: 0}
   groundingCountDown: 0.5
   isAttacking: 0

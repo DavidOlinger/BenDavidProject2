@@ -86,7 +86,7 @@ public class MonsterLogicScript : MonoBehaviour
                     playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
                     playerScript.hitStop(0.05f, 0.01f);
                 }
-                else if (collision.CompareTag("vault"))
+                else if (collision.CompareTag("Vault"))
                 {
                     playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
                     playerScript.hitStop(0.05f, 0.01f);

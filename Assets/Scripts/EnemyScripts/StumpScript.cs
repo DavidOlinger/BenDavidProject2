@@ -23,7 +23,7 @@ public class StumpScript : MonoBehaviour
 
     //movement privates
     int directionMoveX;
-    int directionMoveY;
+   // int directionMoveY;
 
     float distanceToPlayerX;
     float distanceToPlayerY;
@@ -109,14 +109,14 @@ public class StumpScript : MonoBehaviour
             directionToPlayerX = 1;
         }
 
-        if (distanceToPlayerY < 0)
-        {
-            directionMoveY = -1;
-        }
-        else
-        {
-            directionMoveY = 1;
-        }
+        //if (distanceToPlayerY < 0)
+        //{
+        //    directionMoveY = -1;
+        //}
+        //else
+        //{
+        //    directionMoveY = 1;
+        //}
     }
 
 
