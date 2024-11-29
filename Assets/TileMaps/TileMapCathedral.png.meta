@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 377deb9dd7f13b145b05702071e2184d
+guid: a94b3bcdd2f44ee48973a1c9b9d5369b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 1024
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,358 +97,383 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CathedralGround_0
+      name: TileMapCathedral_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 32
-        height: 32
+        y: 4096
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca0efc76519559b42a0e510106130094
-      internalID: -991672917
+      spriteID: 864b7501c217bb54393f0c6bd5970119
+      internalID: -1567435770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_1
+      name: TileMapCathedral_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
-        width: 32
-        height: 32
+        x: 1024
+        y: 4096
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6745bf03e7b857469c95ac6ce096c1f
-      internalID: 582581256
+      spriteID: 4e99943ae25eb96488997e20d0e661dc
+      internalID: -386734145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 128
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43b41cbfc273e98418f86c08d6fbdbd3
-      internalID: 1374506168
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 128
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ff146fe2b211bc343bd66701800e171c
-      internalID: 1804348103
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_4
+      name: TileMapCathedral_2
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 32
-        height: 32
+        y: 3072
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42014ab82204d294fa43f87b98853a15
-      internalID: -1022404460
+      spriteID: 4522a1d1b7a98b546b51995aafd6b2fe
+      internalID: -1859095493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_5
+      name: TileMapCathedral_3
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 1024
+        y: 3072
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fdc26b76c0cf4f4cba9573c1933d413
-      internalID: -793280146
+      spriteID: f35c71ea129238c43b303bf706635155
+      internalID: -38048539
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_6
+      name: TileMapCathedral_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
+        x: 2048
+        y: 3072
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e1923e4d13f2a24c84567b5f7bab153
-      internalID: -1246088903
+      spriteID: 3b720c7f8c7c82b4c9e28339ccc858d4
+      internalID: 2086198735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_7
+      name: TileMapCathedral_5
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
-        width: 32
-        height: 32
+        x: 3072
+        y: 3072
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cbe1492fe4b8534a9e8cb2c5d09d3f6
-      internalID: -449895863
+      spriteID: 93246955d5982e145929b2d6a5ce3e8c
+      internalID: 583761459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1d09c9a6513c8d044af3ec5ae79acb3c
-      internalID: -82326238
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_9
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4972861cbe295fd4bb10c1618db27d52
-      internalID: 422174048
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_10
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4ffe1782de4f774d83f18db992de927
-      internalID: -40160951
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_11
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: afef2c8eb481b1a429668dd8b8552339
-      internalID: 1794504000
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CathedralGround_12
+      name: TileMapCathedral_6
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 32
-        height: 32
+        y: 2048
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85571443030f0164a8227dd98c58f639
-      internalID: 882919282
+      spriteID: 4e00b466cedc52b4d86dac26ce812f74
+      internalID: -1211817987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_13
+      name: TileMapCathedral_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 1024
+        y: 2048
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d01db6ff70b78c1459d619420e75d094
-      internalID: -1174137
+      spriteID: 9969c4cd5a672e44f863c201fb2caca2
+      internalID: 538562076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_14
+      name: TileMapCathedral_8
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 2048
+        y: 2048
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0bdbcaea2a65c614e88a3eb8683108db
-      internalID: 202048466
+      spriteID: 71ed389adf3d15d4da269118e3f2c206
+      internalID: -1910003991
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_15
+      name: TileMapCathedral_9
       rect:
         serializedVersion: 2
-        x: 32
+        x: 3072
+        y: 2048
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e1a592455f9fb42bf582a60ae9f3e1
+      internalID: 1305286927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86f1758cb0b377f43b76f9a6e2a958a8
+      internalID: -1585614486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_11
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5d6dbe222de31a4cbf65204d890e5d8
+      internalID: -1946391419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_12
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -512, y: 305}
+        - {x: -512, y: -512}
+        - {x: 512, y: -512}
+        - {x: 512, y: 305}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5922fcfb70da9540913b2f3cbc6e8fb
+      internalID: 1040284291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_13
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 675bc2d8315f10549a735f54d86cbab8
+      internalID: -642744019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_14
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4eb6795cbfe19c54c8f810b3896ea3b9
-      internalID: 309411579
+      spriteID: 783e8e4de57876444a5ae8a62641b7d5
+      internalID: -2109793341
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CathedralGround_16
+      name: TileMapCathedral_15
       rect:
         serializedVersion: 2
-        x: 64
+        x: 1024
         y: 0
-        width: 32
-        height: 32
+        width: 1024
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a06ca525609c7c5499de16ed884cdec6
-      internalID: -1473127871
+      spriteID: 6d2615b76cc90304e9ef5263a4e24174
+      internalID: 882273060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_16
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 295b4ed21f0e2ab44bac96470f3bd423
+      internalID: 740468383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMapCathedral_17
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 0
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39ffeb687036e6f49a3212b491dae5eb
+      internalID: -1891101092
       vertices: []
       indices: 
       edges: []
@@ -464,23 +489,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CathedralGround_0: -991672917
-      CathedralGround_1: 582581256
-      CathedralGround_10: -40160951
-      CathedralGround_11: 1794504000
-      CathedralGround_12: 882919282
-      CathedralGround_13: -1174137
-      CathedralGround_14: 202048466
-      CathedralGround_15: 309411579
-      CathedralGround_16: -1473127871
-      CathedralGround_2: 1374506168
-      CathedralGround_3: 1804348103
-      CathedralGround_4: -1022404460
-      CathedralGround_5: -793280146
-      CathedralGround_6: -1246088903
-      CathedralGround_7: -449895863
-      CathedralGround_8: -82326238
-      CathedralGround_9: 422174048
+      TileMapCathedral_0: -1567435770
+      TileMapCathedral_1: -386734145
+      TileMapCathedral_10: -1585614486
+      TileMapCathedral_11: -1946391419
+      TileMapCathedral_12: 1040284291
+      TileMapCathedral_13: -642744019
+      TileMapCathedral_14: -2109793341
+      TileMapCathedral_15: 882273060
+      TileMapCathedral_16: 740468383
+      TileMapCathedral_17: -1891101092
+      TileMapCathedral_2: -1859095493
+      TileMapCathedral_3: -38048539
+      TileMapCathedral_4: 2086198735
+      TileMapCathedral_5: 583761459
+      TileMapCathedral_6: -1211817987
+      TileMapCathedral_7: 538562076
+      TileMapCathedral_8: -1910003991
+      TileMapCathedral_9: 1305286927
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
