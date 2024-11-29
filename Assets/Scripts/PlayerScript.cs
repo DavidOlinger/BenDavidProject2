@@ -826,7 +826,6 @@ public class PlayerScript : MonoBehaviour
         {
             if (!isAttacking)
             {
-                isInteracting = true;
                 StartAttack();
                 if (isGrounded)
                 {
@@ -837,7 +836,6 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.canceled)
         {
-            isInteracting = false;
             // canChargeSlash = false;//
             if (heavySlashCharged)
             {
@@ -882,6 +880,18 @@ public class PlayerScript : MonoBehaviour
             {
                 logicScript.MenuUnPause();
             }
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isInteracting = true;
+        }
+        if (context.canceled)
+        {
+            isInteracting = false;
         }
     }
 

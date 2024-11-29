@@ -264,6 +264,7 @@ MonoBehaviour:
   jumpDust: {fileID: 5390568588554177213}
   vaultDust: {fileID: 3717881577396650420}
   launchCloud: {fileID: 2881216953390894149}
+  isInteracting: 0
   footstepSounds:
   - {fileID: 8300000, guid: 1e4c83fc57ef42043bf27ffddc439d21, type: 3}
   - {fileID: 8300000, guid: ed22bd84e85b3b9499e5d43f58d132b2, type: 3}
@@ -377,9 +378,37 @@ MonoBehaviour:
     m_ActionId: 9f390bbf-c4ca-4ea5-ae0e-f66fc0b8fa38
     m_ActionName: Player/Vault[/Keyboard/o]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6000981431108293191}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6cf94510-f8ce-476e-bfc7-7c899e8b349a
     m_ActionName: Player/Pause[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6000981431108293191}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4822c8d8-56c5-4bee-8bd1-4f539eb61383
+    m_ActionName: Player/Interact[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
