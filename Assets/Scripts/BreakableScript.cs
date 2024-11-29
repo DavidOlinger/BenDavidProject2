@@ -7,10 +7,15 @@ public class BreakableScript : MonoBehaviour
     public int hitPoints;
     public ParticleSystem hitParticles;
     public ParticleSystem breakParticles;
+    public ParticleSystem moneyParticles;
+    public ParticleSystem ambientParticles;
+    private ParticleSystem ambientParticleSystem;
     public GameObject shadow;
     public float shakeAmplitude;
     public float shakeFrequency;
     public float shakeDuration;
+    public int moneyOnBreak;
+    public int moneyOnHit;
     AudioSource audioSource;
     [SerializeField] AudioClip hitSound;
     [SerializeField] AudioClip breakSound;
@@ -18,6 +23,10 @@ public class BreakableScript : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        if (ambientParticles != null)
+        {
+            ambientParticleSystem = Instantiate(ambientParticles, transform.position, Quaternion.identity);
+        }
         //TODO: if this wall has been broken (save in player prefs): Delete it.
     }
 
@@ -38,6 +47,11 @@ public class BreakableScript : MonoBehaviour
                 hitParticles.Play();
                 audioSource.PlayOneShot(hitSound);
                 StartCoroutine(ShakeMyselfCoroutine());
+                if (moneyParticles != null)
+                {
+                    ParticleSystem moneyDropParticles = Instantiate(moneyParticles, transform.position, Quaternion.identity);
+                    moneyDropParticles.GetComponent<MoneyParticleScript>().SpawnMoney(moneyOnHit);
+                }
             } else
             { 
                 Debug.Log("wall broken");
@@ -52,13 +66,23 @@ public class BreakableScript : MonoBehaviour
         audioSource.PlayOneShot(breakSound);
 
         breakParticles.Play();
+        if (moneyParticles != null)
+        {
+            ParticleSystem moneyDropParticles = Instantiate(moneyParticles, transform.position, Quaternion.identity);
+            moneyDropParticles.GetComponent<MoneyParticleScript>().SpawnMoney(moneyOnBreak);
+        }
         if (shadow != null)
         {
             Destroy(shadow);
         }
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        Destroy(gameObject, 3f);
+        if (ambientParticleSystem != null)
+        {
+            ambientParticleSystem.Stop();
+            Destroy(ambientParticleSystem.gameObject, ambientParticleSystem.main.startLifetime.constantMax); //lets all the particles die before it kills the system
+        }
+        Destroy(gameObject, 5f);
 
     }
 
@@ -77,5 +101,6 @@ public class BreakableScript : MonoBehaviour
             xAmp *= 0.9f; //decay bounds
             yAmp *= 0.9f;
         }
+        transform.position = startPosition;
     }
 }

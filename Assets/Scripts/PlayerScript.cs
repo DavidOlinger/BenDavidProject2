@@ -125,6 +125,8 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem vaultDust;
     public ParticleSystem launchCloud;
 
+    public bool isInteracting;
+
     //SOUND
     AudioSource audioSource;
     [SerializeField] AudioClip[] footstepSounds;
@@ -348,8 +350,6 @@ public class PlayerScript : MonoBehaviour
 
 
     }
-
-
     #endregion
 
     //SPAWNING
@@ -826,6 +826,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (!isAttacking)
             {
+                isInteracting = true;
                 StartAttack();
                 if (isGrounded)
                 {
@@ -836,6 +837,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (context.canceled)
         {
+            isInteracting = false;
             // canChargeSlash = false;//
             if (heavySlashCharged)
             {
