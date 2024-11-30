@@ -117,6 +117,61 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Controller",
+                    "id": "9828957e-c987-47fc-ba77-46a6c65b03ec",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "25d3f287-199f-430e-930b-f9c125f5f463",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a8a2eeb0-b18c-48aa-9736-e4c51a5fe68f",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "c2123f0c-034e-4fa5-9e66-88adb6f8c6ea",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "249a23e8-39fc-4ad7-9d47-3bc0096faf30",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "97b76f13-f085-4245-abd1-cf0ed3f164a3",
                     "path": "<Keyboard>/space",
@@ -140,6 +195,17 @@
                 },
                 {
                     "name": "",
+                    "id": "277f9342-32a7-4bc2-a14f-d6c5215a4c54",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fc57aec3-45c4-462d-a033-2fae7d1c7677",
                     "path": "<Keyboard>/j",
                     "interactions": "",
@@ -151,8 +217,41 @@
                 },
                 {
                     "name": "",
+                    "id": "7219c7ec-5d5f-4e73-bca4-31e4e18b6f25",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "671a2d57-25ef-47e8-a896-a81fc19ba382",
                     "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vault",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "661947f7-d8cf-4135-bc16-53542f84b5ee",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vault",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee219d23-8a5d-4cdb-8283-9de7cb3ae83f",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -184,6 +283,17 @@
                 },
                 {
                     "name": "",
+                    "id": "eafe151e-e8ac-453e-a561-5a07e2ab8502",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "eabc2b7f-1827-4f5a-8638-bc18f8358c5e",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -197,6 +307,17 @@
                     "name": "",
                     "id": "a53fcf30-2f24-4a5f-87be-7ef46b780171",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37f73061-d843-4941-9a7b-67cda97a48c0",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

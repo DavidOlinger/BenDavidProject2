@@ -100,7 +100,6 @@ public class LogicScript : MonoBehaviour
         PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
 
         PlayerPrefs.SetInt("Scene", SceneManager.GetActiveScene().buildIndex);
-        //Debug.Log(PlayerPrefs.GetInt("Scene"));
 
         playerScript.currHP = playerScript.maxHP;
         UpdateHealth();
@@ -195,10 +194,5 @@ public class LogicScript : MonoBehaviour
     }
 
 
-    public void loadChallenge()
-    {
-        SceneManager.LoadScene(8);
-        PlayerPrefs.SetInt("WallJump", 1);
-    }
 
 }

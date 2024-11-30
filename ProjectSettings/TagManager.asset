@@ -14,6 +14,7 @@ TagManager:
   - money
   - Breakable
   - cutscene
+  - HealthUp
   layers:
   - Default
   - TransparentFX

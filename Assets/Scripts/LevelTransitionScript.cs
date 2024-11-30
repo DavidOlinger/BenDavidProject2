@@ -11,10 +11,13 @@ public class LevelTransitionScript : MonoBehaviour
 
 
     CameraMovementScript camScript;
+    PlayerScript pScript;
 
     private void Start()
     {
         camScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>();
+        pScript = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();  
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,6 +28,7 @@ public class LevelTransitionScript : MonoBehaviour
             PlayerPrefs.SetFloat("SavePointX", spawnPoint.x);
             PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
             PlayerPrefs.SetInt("Scene", nextSceneIndex);
+            PlayerPrefs.SetInt("CurrHP", pScript.currHP);
 
             camScript.fadeToBlack(0f);
             Invoke("goNext", 0.5f);

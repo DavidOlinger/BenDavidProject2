@@ -8,28 +8,34 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OpeningTitleScreen.unity
     guid: 4897e6bc9792b7745b07dd08a3ae2449
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/World1-1.unity
     guid: c7adc714dd30d8740b339f1eb1718d42
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/Forest2-1.unity
     guid: f9b7b29e4b96bb9408f705ae67ca6819
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/Forest2-2.unity
     guid: 823843f165088024c9d9efee39a4e5f4
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/Forest2-3.unity
     guid: 14293b2c459314042a6dc1b5e942b622
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/Forest2-VAULT.unity
     guid: 34d23d62c100880419a1279e6d237c78
+  - enabled: 1
+    path: Assets/Scenes/TEST SCENE.unity
+    guid: e014b36e419057240b997a93b8f893ba
+  - enabled: 1
+    path: Assets/Scenes/SpriteTesting.unity
+    guid: f0d60aa19bd877f4d9df7bcb5b401fc7
   - enabled: 1
     path: Assets/Scenes/ENDSCREEN.unity
     guid: 50c98895949153d4c930418f0be61a37
   - enabled: 1
     path: Assets/Scenes/Cutscene.unity
     guid: 734f4299cbc690a47afb61e8f351b536
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARCHIVES/Challenge.unity
     guid: ec46c0b78ef36d5418500b71d8503967
   m_configObjects: {}

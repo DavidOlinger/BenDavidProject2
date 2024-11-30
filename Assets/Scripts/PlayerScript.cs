@@ -102,8 +102,8 @@ public class PlayerScript : MonoBehaviour
     //made it private cuz we will only change it inside here for different attacks
 
     //Health
-    public float currHP;
-    public float maxHP;
+    public int currHP;
+    public int maxHP; 
     public bool invincible;
     public float pickupRadius;
 
@@ -141,10 +141,16 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] AudioClip moneySound;
     #endregion
 
+    
+
+
     //General Starting and Update
     #region
     void Start()
     {
+        maxHP = PlayerPrefs.GetInt("MaxHP");
+        currHP = PlayerPrefs.GetInt("CurrHP");
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
@@ -1186,7 +1192,7 @@ public class PlayerScript : MonoBehaviour
 
     #endregion
 
-    //SAVING
+    //SAVING + Money
     #region
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -1206,6 +1212,11 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("money"))
         {
             audioSource.PlayOneShot(moneySound);
+        }
+        if (collision.gameObject.CompareTag("HealthUp"))
+        {
+            PlayerPrefs.SetInt("MaxHP", PlayerPrefs.GetInt("MaxHP") + 1);
+            Destroy(collision.gameObject);
         }
     }
     #endregion
