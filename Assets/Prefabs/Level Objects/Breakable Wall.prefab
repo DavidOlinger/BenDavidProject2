@@ -189,12 +189,18 @@ MonoBehaviour:
   hitPoints: 3
   hitParticles: {fileID: 6416896345164488791}
   breakParticles: {fileID: 798431324222732112}
+  moneyParticles: {fileID: 0}
+  ambientParticles: {fileID: 0}
   shadow: {fileID: 6454078385026149646}
   shakeAmplitude: 0.2
   shakeFrequency: 30
   shakeDuration: 0.15
+  moneyOnBreak: 0
+  moneyOnHit: 0
   hitSound: {fileID: 8300000, guid: f449dc54ab94f6447a8b208229d9fac8, type: 3}
   breakSound: {fileID: 8300000, guid: 2f93bb1522ca4164e94767ed94209b63, type: 3}
+  neverRespawn: 1
+  objectID: 
 --- !u!61 &1284723301756694599
 BoxCollider2D:
   m_ObjectHideFlags: 0

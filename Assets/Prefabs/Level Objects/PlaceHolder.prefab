@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7837618940240223236}
   - component: {fileID: 378010915545387592}
   m_Layer: 0
-  m_Name: money
+  m_Name: PlaceHolder
   m_TagString: money
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
