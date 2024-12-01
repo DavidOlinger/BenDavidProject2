@@ -901,6 +901,20 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void OnUpperCut(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Debug.Log("UPPER CUT AHHHHH");
+            //TODO HERE AHHHHHH
+        }
+        if (context.canceled)
+        {
+            //TODO HERE AHHHHHH
+        }
+    }
+
+
 
     #endregion
 

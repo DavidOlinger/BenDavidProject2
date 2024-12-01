@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.IO;
+
 public class LogicScript : MonoBehaviour
 {
     //Variables
@@ -27,12 +29,80 @@ public class LogicScript : MonoBehaviour
     [SerializeField] AudioSource ambienceSource;
     [SerializeField] TMP_Text moneyText;
 
+    private string breakablesSaveFilePath;
+    //private string enemiesSaveFilePath;
+    private SaveData saveData;
+
+    [System.Serializable]
+    public class SaveData
+    {
+        public List<string> permanentlyBroken = new List<string>();
+        public List<string> temporarilyBroken = new List<string>();
+    }
+
     #endregion
+
+    private void Awake()
+    {
+        breakablesSaveFilePath = Path.Combine(Application.persistentDataPath, "breakables.json");
+        LoadData();
+        
+    }
+
+    public void MarkBreakableAsBroken(string objectID, bool neverRespawn)
+    {
+        if (neverRespawn)
+        {
+            if (!saveData.permanentlyBroken.Contains(objectID))
+            {
+                Debug.Log(objectID);
+                saveData.permanentlyBroken.Add(objectID);
+            }
+        }
+        else
+        {
+            if (!saveData.temporarilyBroken.Contains(objectID))
+            {
+                saveData.temporarilyBroken.Add(objectID);
+            }
+        }
+
+        SaveBreak();
+    }
+
+    public bool IsBreakableBroken(string objectID)
+    {
+        return saveData.permanentlyBroken.Contains(objectID) || saveData.temporarilyBroken.Contains(objectID);
+    }
+
+    private void SaveBreak()
+    {
+        string json = JsonUtility.ToJson(saveData, true);
+        File.WriteAllText(breakablesSaveFilePath, json);
+    }
+
+    private void LoadData()
+    {
+        if (File.Exists(breakablesSaveFilePath))
+        {
+            string json = File.ReadAllText(breakablesSaveFilePath);
+            saveData = JsonUtility.FromJson<SaveData>(json);
+        }
+        else
+        {
+            saveData = new SaveData();
+        }
+    }
 
     //Start + Update
     #region
+
+
     void Start()
     {
+        
+
+
         //GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>().fadeToBlack(0);
         musicSource = GetComponent<AudioSource>();
         //musicSource.loop = true;
@@ -80,20 +150,29 @@ public class LogicScript : MonoBehaviour
     #endregion
 
 
-    public void addMoney(int amount)
-    {
-        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + amount);
-        if (moneyText != null) {
-            string money = "$" + PlayerPrefs.GetInt("Money");
-            moneyText.text = money; 
-        }
-        
-    }
+
+
+
+
+
 
 
 
     //SAVING
     #region
+    public void addMoney(int amount)
+    {
+        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + amount);
+        if (moneyText != null)
+        {
+            string money = "$" + PlayerPrefs.GetInt("Money");
+            moneyText.text = money;
+        }
+
+    }
+
+
+
     public void savePoint(Vector2 spawnPoint)
     {
         PlayerPrefs.SetFloat("SavePointX", spawnPoint.x);
@@ -103,8 +182,10 @@ public class LogicScript : MonoBehaviour
 
         playerScript.currHP = playerScript.maxHP;
         UpdateHealth();
-        
 
+        //SaveEnemyData();
+
+        //RespawnEnemies();
     }
 
     public void loadSavePoint()

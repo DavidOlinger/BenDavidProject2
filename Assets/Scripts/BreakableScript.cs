@@ -19,7 +19,13 @@ public class BreakableScript : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] AudioClip hitSound;
     [SerializeField] AudioClip breakSound;
-    // Start is called before the first frame update
+
+    public bool neverRespawn; // if its a one time breakable
+    //private bool isBroken;
+    public string objectID;
+
+    private LogicScript logicScript;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -28,20 +34,23 @@ public class BreakableScript : MonoBehaviour
             ambientParticleSystem = Instantiate(ambientParticles, transform.position, Quaternion.identity);
         }
         //TODO: if this wall has been broken (save in player prefs): Delete it.
+
+        LogicScript logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
+
+
+        if (logicScript != null && logicScript.IsBreakableBroken(objectID))
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Slash"))
         {
             hitPoints--;
-            Debug.Log("wall hit");
+           // Debug.Log("wall hit");
             if (hitPoints > 0)
             {
                 hitParticles.Play();
@@ -54,7 +63,7 @@ public class BreakableScript : MonoBehaviour
                 }
             } else
             { 
-                Debug.Log("wall broken");
+                //Debug.Log("wall broken");
                 audioSource.PlayOneShot(hitSound);
                 BreakMyself();
             }
@@ -63,6 +72,15 @@ public class BreakableScript : MonoBehaviour
 
     private void BreakMyself()
     {
+
+        LogicScript logic = FindObjectOfType<LogicScript>();
+        if (logic != null)
+        {
+            Debug.Log("efhbew");
+            logic.MarkBreakableAsBroken(objectID, neverRespawn);
+        }
+
+
         audioSource.PlayOneShot(breakSound);
 
         breakParticles.Play();
@@ -82,6 +100,9 @@ public class BreakableScript : MonoBehaviour
             ambientParticleSystem.Stop();
             Destroy(ambientParticleSystem.gameObject, ambientParticleSystem.main.startLifetime.constantMax); //lets all the particles die before it kills the system
         }
+
+        
+
         Destroy(gameObject, 5f);
 
     }

@@ -33,12 +33,26 @@ public class MonsterLogicScript : MonoBehaviour
     [SerializeField] AudioClip deathSound;
 
     Coroutine CantMoveCoroutine;
-    
+
+    public string enemyID;
+
+    private LogicScript logicScript;
+
 
     #endregion
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
+
+        if (string.IsNullOrEmpty(enemyID))
+        {
+            enemyID = System.Guid.NewGuid().ToString(); // Assign a unique ID using GUID
+        }
+
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
         audioSource = GetComponent<AudioSource>();
@@ -180,6 +194,9 @@ public class MonsterLogicScript : MonoBehaviour
     {
 
         audioSource.PlayOneShot(deathSound);
+
+      //  logicScript.MarkEnemyAsKilled(enemyID, transform.position);
+
 
         // play death sound
         if (killParticles != null)
