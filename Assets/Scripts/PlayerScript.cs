@@ -124,6 +124,7 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem jumpDust;
     public ParticleSystem vaultDust;
     public ParticleSystem launchCloud;
+    public ParticleSystem interactFlash;
 
     public bool isInteracting;
 
@@ -891,14 +892,24 @@ public class PlayerScript : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && rb.velocity.Equals(Vector2.zero))
         {
+
+            // Directly modify the local position of the Particle System
+            Vector3 newPosition = interactFlash.transform.localPosition;
+            newPosition.x = sp.flipX ? -Mathf.Abs(newPosition.x) : Mathf.Abs(newPosition.x);
+            interactFlash.transform.localPosition = newPosition;
+
+            interactFlash.Play();
+
+            Debug.Log("Interacting");
             isInteracting = true;
+            Invoke("StopInteracting", 0.1f);
         }
-        if (context.canceled)
-        {
-            isInteracting = false;
-        }
+        //if (context.canceled)
+        //{
+        //    //nothing
+        //}
     }
 
     public void OnUpperCut(InputAction.CallbackContext context)
@@ -1077,6 +1088,10 @@ public class PlayerScript : MonoBehaviour
         animator.SetBool("vaulting", false);
     }
 
+    public void StopInteracting()
+    {
+        isInteracting = false;
+    }
     public void HaltVelocity()
     {
         rb.velocity = Vector2.zero;

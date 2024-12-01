@@ -36,14 +36,14 @@ public class SlashScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Breakable"))
         {
-            Debug.Log("hitparticle collided");
+            //Debug.Log("hitparticle collided");
             HitParticles(collision.gameObject);
         }
     }
 
     public void HitParticles(GameObject target)
     {
-        Debug.Log("hitparticle spawned");
+        //Debug.Log("hitparticle spawned");
 
         //Vector3 midpoint = new Vector3((transform.position.x + target.transform.position.x) / 2f,
         //        (transform.position.y + target.transform.position.y) / 2f, transform.position.z);
@@ -56,14 +56,14 @@ public class SlashScript : MonoBehaviour
 
         // Get the angle between player and target in degrees
         float angleToTarget = Random.Range(-10f, 10f) + 180f - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Debug.Log("angle to target: " + angleToTarget);
+        //Debug.Log("angle to target: " + angleToTarget);
 
         
         ParticleSystem sparks1 = Instantiate(sparkParticle, target.transform.position, Quaternion.Euler(180f, 0f, angleToTarget - 90f));
         ParticleSystem sparks2 = Instantiate(sparkParticle, target.transform.position, Quaternion.Euler(180f, 0f, angleToTarget + 90f));
         ParticleSystem flare = Instantiate(flareParticle, target.transform.position, Quaternion.Euler(0f, 0f, 0f));
 
-        Debug.Log("particle system rotation x:" + sparks1.transform.rotation.x + " y:" + sparks1.transform.rotation.y + " z:" + sparks1.transform.rotation.z);
+        //Debug.Log("particle system rotation x:" + sparks1.transform.rotation.x + " y:" + sparks1.transform.rotation.y + " z:" + sparks1.transform.rotation.z);
         flare.Stop();
         sparks1.Stop();
         sparks2.Stop();

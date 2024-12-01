@@ -5,13 +5,17 @@ using UnityEngine;
 public class InteractionTriggerScript : MonoBehaviour
 {
     public bool activated;
+    public float activationRadius;
     public float activationCooldown;
-    private float cooldownCounter;
+    public float cooldownCounter;
+    GameObject player;
+    PlayerScript ps;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
+        ps = player.GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -21,27 +25,31 @@ public class InteractionTriggerScript : MonoBehaviour
         {
             cooldownCounter += Time.deltaTime;
         }
-
-        if (activated)
-        {
-            //Activate whatever by checking this "activated" variable in another script
-            activated = false;
-            cooldownCounter = 0;
-        }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void FixedUpdate()
     {
-        if (collision.gameObject.CompareTag("Player")){
-            PlayerScript ps = collision.gameObject.GetComponent<PlayerScript>();
+        float distance = Vector2.Distance(player.transform.position, transform.position);
+        if (distance < activationRadius)
+        {
             if (ps.isInteracting)
             {
-                if (cooldownCounter >= activationCooldown)
+                if (cooldownCounter >= activationCooldown && !activated)
                 {
                     activated = true;
+                    Debug.Log("Altar Activated");
+                    Invoke("Deactivate", 0.05f);
+                    cooldownCounter = 0;
                 }
-                
+
             }
         }
     }
+
+    private void Deactivate()
+    {
+        activated=false;
+        Debug.Log("Altar Deactivated");
+    }
+
 }
