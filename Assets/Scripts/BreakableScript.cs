@@ -28,6 +28,8 @@ public class BreakableScript : MonoBehaviour
 
     void Start()
     {
+
+
         audioSource = GetComponent<AudioSource>();
         if (ambientParticles != null)
         {
@@ -40,8 +42,14 @@ public class BreakableScript : MonoBehaviour
 
         if (logicScript != null && logicScript.IsBreakableBroken(objectID))
         {
+            if (ambientParticleSystem != null)
+            {
+                ambientParticleSystem.Stop();
+                Destroy(ambientParticleSystem.gameObject, ambientParticleSystem.main.startLifetime.constantMax); //lets all the particles die before it kills the system
+            }
             Destroy(gameObject);
         }
+
     }
 
 
@@ -76,7 +84,7 @@ public class BreakableScript : MonoBehaviour
         LogicScript logic = FindObjectOfType<LogicScript>();
         if (logic != null)
         {
-            Debug.Log("efhbew");
+            Debug.Log("permaDeleted");
             logic.MarkBreakableAsBroken(objectID, neverRespawn);
         }
 

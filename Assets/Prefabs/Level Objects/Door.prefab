@@ -145,10 +145,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b17a30a46549504f962ca4b59d9c066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  up: 0
+  up: 1
   down: 0
   left: 0
   right: 0
+  objectID: 
+  neverRespawn: 1
   doorOpenSound: {fileID: 8300000, guid: c1517f51298be7a42ba1f52c55d8eb05, type: 3}
   isOpening: 0
 --- !u!50 &8767493937754677799

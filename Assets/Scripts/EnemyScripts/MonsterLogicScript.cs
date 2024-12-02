@@ -53,6 +53,8 @@ public class MonsterLogicScript : MonoBehaviour
             enemyID = System.Guid.NewGuid().ToString(); // Assign a unique ID using GUID
         }
 
+
+
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
         audioSource = GetComponent<AudioSource>();
@@ -195,9 +197,6 @@ public class MonsterLogicScript : MonoBehaviour
 
         audioSource.PlayOneShot(deathSound);
 
-      //  logicScript.MarkEnemyAsKilled(enemyID, transform.position);
-
-
         // play death sound
         if (killParticles != null)
         {
@@ -217,8 +216,12 @@ public class MonsterLogicScript : MonoBehaviour
 
 
         }
-        
-        Destroy(gameObject);
+
+
+        // Disable enemy and notify LogicScript
+        logicScript.MarkEnemyAsKilled(enemyID);
+        gameObject.SetActive(false); // Disable this enemy
+        //Destroy(gameObject);
     }
 
 

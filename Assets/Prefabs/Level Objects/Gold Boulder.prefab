@@ -114,6 +114,8 @@ MonoBehaviour:
   moneyOnHit: 1
   hitSound: {fileID: 8300000, guid: 34f79efaa04115a4c905172b1a59ecaa, type: 3}
   breakSound: {fileID: 8300000, guid: 2f93bb1522ca4164e94767ed94209b63, type: 3}
+  neverRespawn: 1
+  objectID: 
 --- !u!61 &162802527788926147
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -25,6 +25,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3287323905695539103, guid: c8c7c94baedc02a48a804cc2096ceee8, type: 3}
+      propertyPath: neverRespawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287323905695539103, guid: c8c7c94baedc02a48a804cc2096ceee8, type: 3}
       propertyPath: moneyParticles
       value: 
       objectReference: {fileID: 0}

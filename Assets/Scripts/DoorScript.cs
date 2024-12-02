@@ -12,6 +12,9 @@ public class DoorScript : MonoBehaviour
     public bool left;
     public bool right;
 
+    public string objectID;
+    public bool neverRespawn;
+
     AudioSource audioSource;
     [SerializeField] AudioClip doorOpenSound;
 
@@ -19,6 +22,14 @@ public class DoorScript : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+
+        LogicScript logic = FindObjectOfType<LogicScript>();
+
+        if (logic != null && logic.IsBreakableBroken(objectID))
+        {
+            Destroy(gameObject);
+        }
+
     }
 
 
@@ -51,7 +62,13 @@ public class DoorScript : MonoBehaviour
 
     public void DestroyDoor()
     {
-        Invoke("now", 1.2f);
+        Invoke("now", 1.3f);
+        LogicScript logic = FindObjectOfType<LogicScript>();
+        if (logic != null)
+        {
+            Debug.Log("permaDeleted");
+            logic.MarkBreakableAsBroken(objectID, neverRespawn);
+        }
     }
 
     void now()
