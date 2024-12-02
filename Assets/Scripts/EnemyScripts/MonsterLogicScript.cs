@@ -36,6 +36,8 @@ public class MonsterLogicScript : MonoBehaviour
 
     public string enemyID;
 
+    public Vector2 spawnPos;
+
     private LogicScript logicScript;
 
 
@@ -46,6 +48,8 @@ public class MonsterLogicScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawnPos = gameObject.transform.position;
+
         logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
 
         if (string.IsNullOrEmpty(enemyID))

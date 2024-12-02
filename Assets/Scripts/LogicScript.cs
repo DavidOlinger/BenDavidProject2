@@ -44,6 +44,7 @@ public class LogicScript : MonoBehaviour
 
     }
 
+    private Dictionary<string, MonsterLogicScript> enemyDictionary = new Dictionary<string, MonsterLogicScript>();
 
 
 
@@ -60,12 +61,17 @@ public class LogicScript : MonoBehaviour
 
     }
 
-    private void Update()
+    private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
             RespawnEnemies();
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ClearAllSaves();
+        }
+        
     }
 
     //Enemy Death Saving
@@ -76,11 +82,12 @@ public class LogicScript : MonoBehaviour
         Debug.Log($"RespawnEnemies called. Disabled enemies count: {saveData.disabledEnemies.Count}");
         foreach (var enemyID in saveData.disabledEnemies)
         {
-            MonsterLogicScript enemy = FindEnemyByID(enemyID);
-            if (enemy != null)
+            if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
             {
                 Debug.Log($"Re-enabling enemy with ID: {enemyID}");
-                enemy.gameObject.SetActive(true); // Re-enable the enemy
+                enemy.gameObject.SetActive(true);
+                enemy.hitCounter = 0;
+                enemy.transform.position = enemy.spawnPos;
             }
             else
             {
@@ -88,38 +95,38 @@ public class LogicScript : MonoBehaviour
             }
         }
 
-        foreach (var enemyID in saveData.disabledEnemies)
-        {
-            Debug.Log($"Attempting to respawn enemy with ID: {enemyID}");
-        }
-
-        saveData.disabledEnemies.Clear(); // Clear disabled enemies list after respawning
+        saveData.disabledEnemies.Clear(); // Clear the list after respawning
         SaveEnemies();
     }
 
     public void MarkEnemyAsKilled(string enemyID)
     {
-        if (!saveData.disabledEnemies.Contains(enemyID))
+        Debug.Log($"Marking enemy as killed: {enemyID}");
+        if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
-            saveData.disabledEnemies.Add(enemyID);
-            SaveEnemies();
+            enemy.gameObject.SetActive(false);
+            if (!saveData.disabledEnemies.Contains(enemyID))
+            {
+                saveData.disabledEnemies.Add(enemyID);
+                SaveEnemies();
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Cannot disable enemy. ID {enemyID} not found in dictionary.");
         }
     }
 
     private MonsterLogicScript FindEnemyByID(string enemyID)
     {
-        foreach (var enemy in FindObjectsOfType<MonsterLogicScript>())
+        if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
-            Debug.Log($"Checking enemy with ID: {enemy.enemyID}");
-            if (enemy.enemyID == enemyID)
-            {
-                Debug.Log($"Found enemy with ID: {enemyID}");
-                return enemy;
-            }
+            Debug.Log($"Found enemy in dictionary with ID: {enemyID}");
+            return enemy;
         }
 
-        Debug.Log($"No enemy found with ID: {enemyID}");
-        return null; // Enemy not found
+        Debug.LogWarning($"No enemy found in dictionary with ID: {enemyID}");
+        return null;
     }
 
     private void SaveEnemies()
@@ -210,7 +217,24 @@ public class LogicScript : MonoBehaviour
 
     void Start()
     {
-        
+
+        if (PlayerPrefs.HasKey("isStartingGame"))
+        {
+            if (PlayerPrefs.GetInt("isStartingGame") > 0)
+            {
+                ClearAllSaves();
+            }
+        }
+
+            foreach (var enemy in FindObjectsOfType<MonsterLogicScript>())
+        {
+            if (!enemyDictionary.ContainsKey(enemy.enemyID))
+            {
+                enemyDictionary[enemy.enemyID] = enemy;
+                Debug.Log($"Registered enemy with ID: {enemy.enemyID}");
+            }
+        }
+
 
 
         //GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>().fadeToBlack(0);
@@ -235,17 +259,19 @@ public class LogicScript : MonoBehaviour
         //    PlayerPrefs.SetInt("loadBool", 1);
         //}
 
-        if (PlayerPrefs.HasKey("isStartingGame"))
-        {
-            if(PlayerPrefs.GetInt("isStartingGame") > 0)
-            {
-                loadSavePoint();
-            }
-            else
-            {
-                loadTransition();
-            }
-        }
+        //if (PlayerPrefs.HasKey("isStartingGame"))
+        //{
+        //    if(PlayerPrefs.GetInt("isStartingGame") > 0)
+        //    {
+        //        loadSavePoint();
+        //    }
+        //    else
+        //    {
+        //        loadTransition();
+        //    }
+        //}
+
+        loadSavePoint();
 
 
 
@@ -286,28 +312,20 @@ public class LogicScript : MonoBehaviour
         playerScript.currHP = playerScript.maxHP;
         UpdateHealth();
 
-        //SaveEnemyData();
 
-        //RespawnEnemies();
+        RespawnEnemies();
     }
 
-    public void loadSavePoint()
+    public void loadSavePoint() // this 
     {
         if (PlayerPrefs.HasKey("SavePointX"))
         {
             player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
             Invoke("UpdateHealth", 0.5f);
-            PlayerPrefs.SetInt("isStartingGame", 0);
         }
     }
 
-    public void loadTransition()
-    {
-        if (PlayerPrefs.HasKey("SavePointX")) // later should change this to different variable
-        {
-            player.transform.position = new Vector3(PlayerPrefs.GetFloat("SavePointX"), PlayerPrefs.GetFloat("SavePointY"), 0);
-        }
-    }
+ 
 
     public void gameStartSceneLoad()
     {
@@ -361,6 +379,10 @@ public class LogicScript : MonoBehaviour
 
     public void UpdateHealth()
     {
+        PlayerPrefs.SetInt("CurrHP", PlayerPrefs.GetInt("MaxHP"));
+
+
+
         for (int i = 0; i < hpIcons.Length; i++)
         {
             if (playerScript.currHP > i)
@@ -378,5 +400,36 @@ public class LogicScript : MonoBehaviour
     }
 
 
+
+
+
+    public void ClearAllSaves()
+    {
+        // Clear the lists in the save data
+        saveData.permanentlyBroken.Clear();
+        saveData.disabledEnemies.Clear();
+
+        // Write an empty SaveData instance to the JSON file
+        string emptyJson = JsonUtility.ToJson(new SaveData(), true);
+
+        // Clear the breakables save file
+        if (File.Exists(breakablesSaveFilePath))
+        {
+            File.WriteAllText(breakablesSaveFilePath, emptyJson);
+            Debug.Log("Breakables save data cleared.");
+        }
+
+        // Clear the enemies save file
+        string enemiesSaveFilePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+        if (File.Exists(enemiesSaveFilePath))
+        {
+            File.WriteAllText(enemiesSaveFilePath, emptyJson);
+            Debug.Log("Enemies save data cleared.");
+        }
+
+        
+
+        Debug.Log("All game data cleared for a new game.");
+    }
 
 }

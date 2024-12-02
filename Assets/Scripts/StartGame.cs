@@ -31,7 +31,6 @@ public class StartGame : MonoBehaviour
 
     public void LoadSave()
     {
-        PlayerPrefs.SetInt("isStartingGame", 1);
         if (PlayerPrefs.HasKey("Scene"))
         {
             SceneManager.LoadScene(PlayerPrefs.GetInt("Scene"));
