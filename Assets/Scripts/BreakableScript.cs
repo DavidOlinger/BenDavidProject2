@@ -11,6 +11,9 @@ public class BreakableScript : MonoBehaviour
     public ParticleSystem ambientParticles;
     private ParticleSystem ambientParticleSystem;
     public GameObject shadow;
+    public GameObject[] childSprites;
+
+
     public float shakeAmplitude;
     public float shakeFrequency;
     public float shakeDuration;
@@ -101,6 +104,19 @@ public class BreakableScript : MonoBehaviour
         {
             Destroy(shadow);
         }
+
+        if(childSprites != null)
+        {
+            foreach (GameObject child in childSprites)
+            {
+                if (child != null) // Check if the child object is not null
+                {
+                    Destroy(child); // Destroy the child object
+                }
+            }
+        }
+      
+
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         if (ambientParticleSystem != null)
