@@ -52,16 +52,19 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Camera
     uniqueID: 1359578567
     locked: 0
-  - name: Ground1
+  - name: Background
     uniqueID: 3281782849
     locked: 0
-  - name: Ground 2
+  - name: Background2
     uniqueID: 2882954043
     locked: 0
-  - name: Ground 3
+  - name: Objects
+    uniqueID: 3306029987
+    locked: 0
+  - name: MainGround
     uniqueID: 1511730691
     locked: 0
   - name: Enemy

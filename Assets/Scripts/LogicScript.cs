@@ -85,9 +85,13 @@ public class LogicScript : MonoBehaviour
             if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
             {
                 Debug.Log($"Re-enabling enemy with ID: {enemyID}");
-                enemy.gameObject.SetActive(true);
-                enemy.hitCounter = 0;
-                enemy.transform.position = enemy.spawnPos;
+                if (!enemy.dontRespawn)
+                {
+                    enemy.gameObject.SetActive(true);
+                    enemy.hitCounter = 0;
+                    enemy.transform.position = enemy.spawnPos;
+                }
+                
             }
             else
             {

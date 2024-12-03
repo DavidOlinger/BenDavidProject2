@@ -40,6 +40,8 @@ public class MonsterLogicScript : MonoBehaviour
 
     private LogicScript logicScript;
 
+    public bool dontRespawn;
+
 
     #endregion
 
