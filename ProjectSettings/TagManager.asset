@@ -64,14 +64,14 @@ TagManager:
   - name: Objects
     uniqueID: 3306029987
     locked: 0
-  - name: MainGround
-    uniqueID: 1511730691
-    locked: 0
   - name: Enemy
     uniqueID: 76160661
     locked: 0
   - name: Projectile
     uniqueID: 1587870087
+    locked: 0
+  - name: MainGround
+    uniqueID: 1511730691
     locked: 0
   - name: Player
     uniqueID: 63965337

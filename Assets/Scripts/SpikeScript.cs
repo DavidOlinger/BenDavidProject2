@@ -17,6 +17,11 @@ public class SpikeScript : MonoBehaviour
                 playerScript.PlayHPLossSound();
             }
         }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<MonsterLogicScript>().Kill();
+        }
        
     }
 

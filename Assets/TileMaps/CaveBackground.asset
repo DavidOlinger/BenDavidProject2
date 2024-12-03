@@ -12,20 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: CaveBackground
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -122048209, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
+  m_DefaultSprite: {fileID: -7477702, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: -829440284, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: -1238613407, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 1319283447, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 1712445246, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 558889559, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 766421579, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 163703745, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
-    - {fileID: 1953654982, guid: a7879cf6c3107ac478ff7ac2f81a1958, type: 3}
+    - {fileID: -7477702, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -668182617, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 1634858293, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 85001747, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -261507031, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 776035656, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 1575688861, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 771034598, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -1012827982, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -355060593, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 896369430, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 2116039295, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -307462336, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: -1329589299, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 456560458, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
+    - {fileID: 2092949783, guid: f1ce2f72b0010884f89554f54f2ca9c6, type: 3}
     m_GameObject: {fileID: 0}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1

@@ -69,6 +69,7 @@ public class LogicScript : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
+            Debug.Log("AHHH CLEARING THE SAVES");
             ClearAllSaves();
         }
         
@@ -222,13 +223,14 @@ public class LogicScript : MonoBehaviour
     void Start()
     {
 
-        if (PlayerPrefs.HasKey("isStartingGame"))
-        {
-            if (PlayerPrefs.GetInt("isStartingGame") > 0)
-            {
-                ClearAllSaves();
-            }
-        }
+        //if (PlayerPrefs.HasKey("isStartingGame"))
+        //{
+        //    if (PlayerPrefs.GetInt("isStartingGame") > 0)
+        //    {
+        //        ClearAllSaves();
+        //        PlayerPrefs.SetInt("isStartingGame", 0);
+        //    }
+        //}
 
             foreach (var enemy in FindObjectsOfType<MonsterLogicScript>())
         {
@@ -256,24 +258,6 @@ public class LogicScript : MonoBehaviour
         returnText = ReturnButton.GetComponentInChildren<TextMeshProUGUI>();
 
         playerScript = player.GetComponent<PlayerScript>();
-
-
-        //if (!PlayerPrefs.HasKey("loadBool"))
-        //{
-        //    PlayerPrefs.SetInt("loadBool", 1);
-        //}
-
-        //if (PlayerPrefs.HasKey("isStartingGame"))
-        //{
-        //    if(PlayerPrefs.GetInt("isStartingGame") > 0)
-        //    {
-        //        loadSavePoint();
-        //    }
-        //    else
-        //    {
-        //        loadTransition();
-        //    }
-        //}
 
         loadSavePoint();
 
