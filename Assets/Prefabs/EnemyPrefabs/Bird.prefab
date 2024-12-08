@@ -196,6 +196,9 @@ MonoBehaviour:
   moneyOnKill: 5
   deathParticleNumber: 1
   deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
+  enemyID: 
+  spawnPos: {x: 0, y: 0}
+  dontRespawn: 0
 --- !u!114 &8591219049810440798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +214,7 @@ MonoBehaviour:
   moveSpeed: 2
   activateMoveDistance: {x: 15, y: 10}
   activateAttackDistance: {x: 0, y: 0}
+  groundCheckDist: 5
   WallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -218,3 +222,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   stillGrounded: 0
+  Diving: 0
+  rightHeight: 0

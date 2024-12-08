@@ -32,6 +32,7 @@ public class BirdScript : MonoBehaviour
 
     //RayCasting
     private float xRayDistance;
+    public float groundCheckDist;
     public LayerMask WallLayer;
     public LayerMask GroundLayer;
     Vector3 leftOffset;
@@ -63,9 +64,9 @@ public class BirdScript : MonoBehaviour
         leftOffset = Vector3.zero;
         rightOffset = Vector3.zero;
         leftOffset.x = -(transform.localScale.x / 2);
-        leftOffset.y = -(transform.localScale.y / 2);
+        //leftOffset.y = -(transform.localScale.y / 2);
         rightOffset.x = transform.localScale.x / 2;
-        rightOffset.y = -(transform.localScale.y / 2);
+       // rightOffset.y = -(transform.localScale.y / 2);
 
         rb.gravityScale = 0;
     }
@@ -74,6 +75,7 @@ public class BirdScript : MonoBehaviour
     {
         SetDirections();
         SetMovement();
+        CheckForGround();
         
     }
 
@@ -82,20 +84,79 @@ public class BirdScript : MonoBehaviour
     //Movement
     #region
 
+
+    public bool Diving = false;
     private void CycleMove(bool isClose)
     {
 
         if (!monsterLogic.cantMove)
         {
-            rb.velocity = Vector2.zero;
+            //rb.velocity = Vector2.zero;
 
             if (isClose)
             {
-                rb.velocity = new Vector2(moveSpeed * directionMoveX, (moveSpeed / 2) * directionMoveY); // need to make a direction x and y
+                if(rightHeight || Diving)
+                {
+                    if(Mathf.Abs(distanceToPlayerX) < 0.5f || Diving)
+                    {
+                        Diving = true;
+                        rb.velocity = new Vector2(0, -moveSpeed * 2);
+                        
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(moveSpeed * directionMoveX, 0);
+                    }
+                }
+                else if(!rightHeight)
+                {
+                    rb.velocity = new Vector2(0, moveSpeed);
+                }
+                //rb.velocity = new Vector2(moveSpeed * directionMoveX, (moveSpeed / 2) * directionMoveY); // need to make a direction x and y
             }
 
         }
     }
+
+    public bool rightHeight = false;
+    private void CheckForGround()
+    {
+
+        Vector3 offset = new Vector3(1f, 0, 0);
+        RaycastHit2D middle = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist, GroundLayer);
+        RaycastHit2D hitCeilingLeft = Physics2D.Raycast(transform.position - offset, Vector2.up, 0.6f, GroundLayer);
+        RaycastHit2D hitCeilingRight = Physics2D.Raycast(transform.position + offset, Vector2.up, 0.6f, GroundLayer);
+        RaycastHit2D hitGroundLeft = Physics2D.Raycast(transform.position - offset, Vector2.down, 0.6f, GroundLayer);
+        RaycastHit2D hitGroundRight = Physics2D.Raycast(transform.position + offset, Vector2.down, 0.6f, GroundLayer);
+
+
+
+
+
+        if (middle.collider == null)
+        {
+            rightHeight = true;
+        }
+        else if(hitCeilingLeft.collider != null)
+        {
+            rightHeight = true;
+        }
+        else if (hitCeilingRight.collider != null)
+        {
+            rightHeight = true;
+        }
+        else
+        {
+            rightHeight = false;
+        }
+
+        if(hitGroundLeft.collider != null || hitGroundRight.collider != null)
+        {
+            Diving = false;
+        }
+    }
+
+
 
     private void SetDirections()
     {

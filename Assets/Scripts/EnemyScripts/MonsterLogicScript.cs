@@ -50,6 +50,8 @@ public class MonsterLogicScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cantMove = false;
+
         spawnPos = gameObject.transform.position;
 
         logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
@@ -223,6 +225,7 @@ public class MonsterLogicScript : MonoBehaviour
 
         }
 
+        cantMove = false;
 
         // Disable enemy and notify LogicScript
         logicScript.MarkEnemyAsKilled(enemyID);
