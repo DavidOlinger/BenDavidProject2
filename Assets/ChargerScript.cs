@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ChargerScript : MonoBehaviour
 {
@@ -16,16 +18,29 @@ public class ChargerScript : MonoBehaviour
 
     //publics
     public float moveSpeed;
-    public Vector2 activateMoveDistance;
-    public Vector2 activateAttackDistance;
+    public bool stillGrounded;
+    public bool aggroOnPlayer;
+    public float aggroRadius;
+    public float deAggroRadius;
+    public float attackRange;
+    public float chargeSpeed;
+    public float attackDuration;
+    public float attackCooldown;
+    public float chargeWarningWindow;
+    public float feetLevel;
+    public float wallClimbSpeed;
+    public float unclimbableHeight;
+
+    [SerializeField] ParticleSystem chargeReadyParticles;
+    [SerializeField] ParticleSystem chargeParticles;
 
 
     //movement privates
-    int directionMoveX;
+    public int directionMoveX;
     // int directionMoveY;
 
     float distanceToPlayerX;
-    float distanceToPlayerY;
+
     int directionToPlayerX;
     //int directionToPlayerY;
 
@@ -37,7 +52,8 @@ public class ChargerScript : MonoBehaviour
     Vector3 rightOffset;
 
     //Enemy-type bools
-    public bool stillGrounded;
+    private bool isAttacking = false;
+
 
 
     AudioSource audioSource; //in case movement sound effects are necessary
@@ -47,7 +63,7 @@ public class ChargerScript : MonoBehaviour
 
     //start + update
     #region
-    private void Start()
+    private void OnEnable()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -57,7 +73,7 @@ public class ChargerScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         monsterLogic = GetComponent<MonsterLogicScript>();
 
-        xRayDistance = (transform.localScale.x / 2) + 0.3f; // this is the variable used for the laser distance to check for walls
+        xRayDistance = (transform.localScale.x / 2) + 0.5f; // this is the variable used for the laser distance to check for walls
 
         leftOffset = Vector3.zero;
         rightOffset = Vector3.zero;
@@ -70,60 +86,104 @@ public class ChargerScript : MonoBehaviour
     private void FixedUpdate()
     {
         SetDirections();
-        CheckForGround();
-        CheckForWalls();
-        SetMovement();
+        //CheckForGround();
+        //CheckForWalls();
+        Movement();
     }
 
     #endregion
 
     //Movement
     #region
-
-    private Coroutine storeAttackCoroutine;
-    private void CycleMove(bool isClose)
+    private void Movement()
     {
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
-        if (!monsterLogic.cantMove)
+        if (!monsterLogic.cantMove && !isAttacking) //if able to move
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
 
-            if(Mathf.Abs(distanceToPlayerX) < 3 && Mathf.Abs(distanceToPlayerY) < 4)
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+
+            if (distToPlayer < aggroRadius) //if close enough to see the player
             {
-                if(storeAttackCoroutine != null)
-                {
-                    Debug.Log("NOTICED");
-                    storeAttackCoroutine = StartCoroutine(attackCoroutine(2.0f));
-                }
+                aggroOnPlayer = true;
+                Debug.Log("AGGRO");
 
             }
-            if (isClose)
+            else if (distToPlayer > deAggroRadius) //if the player is far enough to de aggro
             {
-                rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
+                aggroOnPlayer = false; //de aggro
+            }
+
+
+            if (aggroOnPlayer)
+            {
+                if (!isAttacking)
+                {
+                    if (directionToPlayerX > 0) //aggro and face them
+                    {
+                        sp.flipX = false;
+                    }
+                    else
+                    {
+                        sp.flipX = true;
+                    }
+                }
+
+                if (!isAttacking && distToPlayer < attackRange) //if close enough to attack
+                {
+                    Debug.Log("ATTACKING");
+                    isAttacking = true;
+                    StartCoroutine(AttackCoroutine(attackDuration)); //then attack
+                }
+                else //otherwise, chase
+                {
+                    Chase();
+                }
+            } else //if not aggro-ed, pace.
+            {
+                Pace();
             }
             
         }
     }
 
-    private bool isAttacking = false;
-    private IEnumerator attackCoroutine(float duration)
+    private IEnumerator AttackCoroutine(float duration)
     {
         //change animation to readying charger
-        isAttacking = true;
-        rb.velocity = Vector2.zero;
+        rb.velocity = new Vector2(0, rb.velocity.y);
 
-        Debug.Log("startingAttacl");
+        Debug.Log("startingCharge");
+        Destroy(Instantiate(chargeReadyParticles, transform.position, Quaternion.identity), 1); //play warning effect
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(chargeWarningWindow);
 
         //change animation to charging
-        rb.velocity = new Vector2(moveSpeed * directionToPlayerX * 3, rb.velocity.y);
+
+        //charge frame 1
+        animator.SetTrigger("charge1");
+        Destroy(Instantiate(chargeParticles, transform.position, Quaternion.identity), 1);
 
 
+        rb.velocity = new Vector2(moveSpeed * directionToPlayerX * chargeSpeed, rb.velocity.y);
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration / 2);
 
-        Debug.Log("endingAttack");
+        //charge frame 2
+        animator.SetTrigger("charge2");
+
+        yield return new WaitForSeconds(duration / 2);
+
+        //Not charging
+
+        Debug.Log("endingCharge");
+        animator.SetTrigger("notCharging");
+        rb.velocity = new Vector2(0, rb.velocity.y);
+
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
 
 
         yield return null;
@@ -135,8 +195,6 @@ public class ChargerScript : MonoBehaviour
     private void SetDirections()
     {
         distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
-        distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
-
         if (distanceToPlayerX < 0)
         {
             directionToPlayerX = -1;
@@ -145,49 +203,53 @@ public class ChargerScript : MonoBehaviour
         {
             directionToPlayerX = 1;
         }
+    }
+
+    #endregion
+
+
+    private void Chase()
+    {
+        Boolean[] groundChecks = ChaseGroundCheck();
+        ChaseWallCheck();
+        groundChecks = new Boolean[] { false, false}; //IGNORE EDGES
+        
+            
+        if (directionToPlayerX > 0)
+        {
+            if (!(groundChecks[1]))
+            {
+                directionMoveX = 1;
+            }
+            else { directionMoveX = 0; }
+        }
+        else
+        {
+            if (!(groundChecks[0])){
+                directionMoveX = -1;
+            } else { directionMoveX = 0; }
+                
+        }
+        rb.velocity = new Vector2(moveSpeed*directionMoveX, rb.velocity.y);
+        
 
         
     }
 
-
-    private void SetMovement()
+    private void Pace()
     {
-        if (Mathf.Abs(distanceToPlayerX) < activateMoveDistance.x && Mathf.Abs(distanceToPlayerY) < activateMoveDistance.y)
-        {
-            CycleMove(true); // true = the player is close
-        }
-        else
-        {
-            CycleMove(false); // false = the player is not close, (still activates move cycle, but only does the idle move cycle)
-        }
-
-
-        if (Mathf.Abs(distanceToPlayerX) < activateAttackDistance.x && Mathf.Abs(distanceToPlayerY) < activateAttackDistance.y)
-        {
-            //StartCoroutine(attackCoroutine);
-        }
-
-        //if (Mathf.Abs(rb.velocity.x) > 0)
-        //{
-        //    animator.SetBool("walking", true);
-        //}
-        //else
-        //{
-        //    animator.SetBool("walking", false);
-
-        //}
+        CheckForGround();
+        CheckForWalls();
+        rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
     }
-    #endregion
-
-
     
 
     //Raycasting
     #region
     private void CheckForGround()
     {
-        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .1f, GroundLayer);
-        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .1f, GroundLayer); // the offsets next to GroundLayer are how long the rays are
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, transform.localScale.y / 2, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, transform.localScale.y / 2, GroundLayer); // the offsets next to GroundLayer are how long the rays are
 
         if (rightSide.collider == null && leftSide.collider == null)
         {
@@ -200,11 +262,14 @@ public class ChargerScript : MonoBehaviour
 
         if (rightSide.collider == null && rb.velocity.y == 0)
         {
+            Debug.Log("Right Edge");
             directionMoveX = -1;
             sp.flipX = true;
         }
         else if (leftSide.collider == null && rb.velocity.y == 0)
         {
+            Debug.Log("Left Edge");
+
             directionMoveX = 1;
             sp.flipX = false;
         }
@@ -212,24 +277,71 @@ public class ChargerScript : MonoBehaviour
     }
     private void CheckForWalls()
     {
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, xRayDistance, WallLayer);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, xRayDistance, WallLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + new Vector3(0, feetLevel, 0), Vector2.left, xRayDistance, WallLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + new Vector3(0, feetLevel, 0), Vector2.right, xRayDistance, WallLayer);
+        Debug.DrawRay(transform.position + new Vector3(0, feetLevel, 0), Vector2.left * xRayDistance, Color.red);
+        Debug.DrawRay(transform.position + new Vector3(0, feetLevel, 0), Vector2.right * xRayDistance, Color.green);
 
         if (hitLeft.collider != null)
-        {
+        {   
+            Debug.Log("LeftWall");
             directionMoveX = 1;
             sp.flipX = false;
 
-        }
-
-        if (hitRight.collider != null)
+        } else if (hitRight.collider != null)
         {
+            Debug.Log("Right WALL");
             directionMoveX = -1;
             sp.flipX = true;
-
         }
     }
 
+    private void ChaseWallCheck()
+    {
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + new Vector3(0, unclimbableHeight, 0), Vector2.left, xRayDistance, WallLayer);
+        RaycastHit2D hitLeftLow = Physics2D.Raycast(transform.position + new Vector3(0, feetLevel, 0), Vector2.left, xRayDistance, WallLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + new Vector3(0, unclimbableHeight, 0), Vector2.right, xRayDistance, WallLayer);
+        RaycastHit2D hitRightLow = Physics2D.Raycast(transform.position + new Vector3(0, feetLevel, 0), Vector2.right, xRayDistance, WallLayer);
+
+
+        if (hitLeftLow.collider != null && hitLeft.collider == null) //if hit a wall that i can climb
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y+wallClimbSpeed);
+        }
+
+        if (hitRightLow.collider != null && hitRight.collider == null) //if hit a wall i can climb
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + wallClimbSpeed);
+        }
+    }
+
+    private Boolean[] ChaseGroundCheck()
+    {
+        Boolean rightEdge = false;
+        Boolean leftEdge = false; 
+        RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, transform.localScale.y / 2, GroundLayer);
+        RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, transform.localScale.y / 2, GroundLayer); // the offsets next to GroundLayer are how long the rays are
+
+        if (rightSide.collider == null && leftSide.collider == null)
+        {
+            animator.SetBool("grounded", false);
+        }
+        else
+        {
+            animator.SetBool("grounded", true);
+        }
+
+        if (rightSide.collider == null && rb.velocity.y == 0)
+        {
+            rightEdge = true;
+        }
+        else if (leftSide.collider == null && rb.velocity.y == 0)
+        {
+            leftEdge = true;
+        }
+        Boolean[] arr = {leftEdge, rightEdge};
+        return arr;
+    }
     #endregion
 
 

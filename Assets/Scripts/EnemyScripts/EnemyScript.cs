@@ -329,7 +329,7 @@ public class EnemyScript : MonoBehaviour
 
         if (collision.CompareTag("PlayerDmg") && !playerScript.invincible)
         {
-            playerScript.takeDamage(gameObject, dmgHitStun, 1);
+            playerScript.takeDamage(gameObject, dmgHitStun, 1, true);
             //Debug.Log("Time Should have stopped - enemy");
             //playerScript.hitStop(0.24f, 0.01f);
 

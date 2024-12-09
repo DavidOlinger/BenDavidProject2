@@ -486,7 +486,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void takeDamage(GameObject other, float duration, int damage)
+    public void takeDamage(GameObject other, float duration, int damage, bool willLaunch)
     {
         currHP -= damage;
         PlayHPLossSound();
@@ -523,7 +523,11 @@ public class PlayerScript : MonoBehaviour
         hitLaunch = transform.position.x - other.transform.position.x;
 
         rb.velocity = Vector2.zero;
-        dmgLaunch();
+        if (willLaunch)
+        {
+            dmgLaunch();
+        }
+        
 
         //Invoke("dmgLaunch", duration); // until this invoke resolves in "duration" time, the player is froze in place and should enter dmg animation
     }

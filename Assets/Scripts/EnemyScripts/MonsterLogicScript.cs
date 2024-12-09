@@ -42,6 +42,8 @@ public class MonsterLogicScript : MonoBehaviour
 
     public bool dontRespawn;
 
+    public bool playerKnockback = true;
+
 
     #endregion
 
@@ -139,7 +141,7 @@ public class MonsterLogicScript : MonoBehaviour
 
         if (collision.CompareTag("PlayerDmg") && !playerScript.invincible)
         {
-            playerScript.takeDamage(gameObject, dmgHitStun, 1);
+            playerScript.takeDamage(gameObject, dmgHitStun, 1, playerKnockback);
             //Debug.Log("Time Should have stopped - enemy");
             //playerScript.hitStop(0.24f, 0.01f);
 

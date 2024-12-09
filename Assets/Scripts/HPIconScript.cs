@@ -41,7 +41,7 @@ public class HPIconScript : MonoBehaviour
 
     public void BreakOrb()
     {
-        Debug.Log(particleContainer.transform.position);
+
         soulParticlesBreak.Play();
         glassParticlesBreak.Play();
         lightningParticlesBreak.Play();

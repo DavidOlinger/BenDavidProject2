@@ -24,10 +24,10 @@ public class TimeManagerScript : MonoBehaviour
     IEnumerator TimeStopCoroutine(float realtimeDuration, float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log("Time Stopped");
+        //Debug.Log("Time Stopped");
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(realtimeDuration);
         Time.timeScale = 1;
-        Debug.Log("Time Unstopped");
+        //Debug.Log("Time Unstopped");
     }
 }
