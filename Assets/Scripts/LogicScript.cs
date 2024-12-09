@@ -40,12 +40,12 @@ public class LogicScript : MonoBehaviour
     {
         public List<string> permanentlyBroken = new List<string>();
         public List<string> disabledEnemies = new List<string>(); // Store IDs of disabled enemies
+        public List<string> dontRespawnEnemies = new List<string>(); // Tracks enemies that should never respawn
 
 
     }
 
     private Dictionary<string, MonsterLogicScript> enemyDictionary = new Dictionary<string, MonsterLogicScript>();
-
 
 
 
@@ -65,6 +65,7 @@ public class LogicScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log("RESPAWNING ENEMIES");
             RespawnEnemies();
         }
         if (Input.GetKeyDown(KeyCode.C))
@@ -77,6 +78,14 @@ public class LogicScript : MonoBehaviour
 
     //Enemy Death Saving
     #region
+
+
+
+    public bool IsDontRespawn(string enemyID)
+    {
+        return saveData.dontRespawnEnemies.Contains(enemyID);
+    }
+
 
     public void RespawnEnemies()
     {
@@ -110,11 +119,21 @@ public class LogicScript : MonoBehaviour
         if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
             enemy.gameObject.SetActive(false);
-            if (!saveData.disabledEnemies.Contains(enemyID))
+
+            if (enemy.dontRespawn)
+            {
+                // Add to dontRespawnEnemies if not already present
+                if (!saveData.dontRespawnEnemies.Contains(enemyID))
+                {
+                    saveData.dontRespawnEnemies.Add(enemyID);
+                }
+            }
+            else if (!saveData.disabledEnemies.Contains(enemyID))
             {
                 saveData.disabledEnemies.Add(enemyID);
-                SaveEnemies();
             }
+
+            SaveEnemies();
         }
         else
         {
@@ -140,6 +159,7 @@ public class LogicScript : MonoBehaviour
         File.WriteAllText(enemiesSaveFilePath, json);
     }
 
+    
     #endregion
 
 
@@ -188,12 +208,6 @@ public class LogicScript : MonoBehaviour
             saveData = new SaveData();
         }
 
-        //if (File.Exists(enemiesSaveFilePath))
-        //{
-        //    string enemyJson = File.ReadAllText(enemiesSaveFilePath);
-        //    var loadedData = JsonUtility.FromJson<SaveData>(enemyJson);
-        //    saveData.killedEnemies = loadedData.killedEnemies; // Load enemy data
-        //}
 
         if (File.Exists(enemiesSaveFilePath))
         {

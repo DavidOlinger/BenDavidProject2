@@ -52,7 +52,7 @@ public class ChargerScript : MonoBehaviour
     Vector3 rightOffset;
 
     //Enemy-type bools
-    private bool isAttacking = false;
+    public bool isAttacking = false;
 
 
 
@@ -65,6 +65,8 @@ public class ChargerScript : MonoBehaviour
     #region
     private void OnEnable()
     {
+        isAttacking = false;
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
@@ -83,6 +85,26 @@ public class ChargerScript : MonoBehaviour
         rightOffset.y = -(transform.localScale.y / 2);
     }
 
+    //private void Start()
+    //{
+    //    animator = GetComponent<Animator>();
+    //    rb = GetComponent<Rigidbody2D>();
+    //    sp = GetComponent<SpriteRenderer>();
+    //    player = GameObject.FindGameObjectWithTag("Player");
+    //    playerScript = player.GetComponent<PlayerScript>();
+    //    audioSource = GetComponent<AudioSource>();
+    //    monsterLogic = GetComponent<MonsterLogicScript>();
+
+    //    xRayDistance = (transform.localScale.x / 2) + 0.5f; // this is the variable used for the laser distance to check for walls
+
+    //    leftOffset = Vector3.zero;
+    //    rightOffset = Vector3.zero;
+    //    leftOffset.x = -(transform.localScale.x / 2);
+    //    leftOffset.y = -(transform.localScale.y / 2);
+    //    rightOffset.x = transform.localScale.x / 2;
+    //    rightOffset.y = -(transform.localScale.y / 2);
+    //}
+
     private void FixedUpdate()
     {
         SetDirections();
@@ -97,10 +119,12 @@ public class ChargerScript : MonoBehaviour
     #region
     private void Movement()
     {
-        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+         animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
         if (!monsterLogic.cantMove && !isAttacking) //if able to move
         {
+            monsterLogic.ignoreStun = false;
+
 
             rb.velocity = new Vector2(0, rb.velocity.y);
             float distToPlayer = Vector2.Distance(transform.position, player.transform.position);
@@ -109,7 +133,7 @@ public class ChargerScript : MonoBehaviour
             if (distToPlayer < aggroRadius) //if close enough to see the player
             {
                 aggroOnPlayer = true;
-                Debug.Log("AGGRO");
+                //Debug.Log("AGGRO");
 
             }
             else if (distToPlayer > deAggroRadius) //if the player is far enough to de aggro
@@ -134,8 +158,10 @@ public class ChargerScript : MonoBehaviour
 
                 if (!isAttacking && distToPlayer < attackRange) //if close enough to attack
                 {
-                    Debug.Log("ATTACKING");
+                    //Debug.Log("ATTACKING");
                     isAttacking = true;
+                    monsterLogic.ignoreStun = true;
+
                     StartCoroutine(AttackCoroutine(attackDuration)); //then attack
                 }
                 else //otherwise, chase
@@ -177,6 +203,8 @@ public class ChargerScript : MonoBehaviour
         yield return new WaitForSeconds(duration / 2);
 
         //Not charging
+        monsterLogic.ignoreStun = false;
+
 
         Debug.Log("endingCharge");
         animator.SetTrigger("notCharging");
@@ -184,7 +212,6 @@ public class ChargerScript : MonoBehaviour
 
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
-
 
         yield return null;
     }
@@ -238,6 +265,7 @@ public class ChargerScript : MonoBehaviour
 
     private void Pace()
     {
+        
         CheckForGround();
         CheckForWalls();
         rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);

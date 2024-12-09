@@ -64,6 +64,12 @@ public class MonsterLogicScript : MonoBehaviour
         }
 
 
+        if (logicScript.IsDontRespawn(enemyID))
+        {
+            Debug.Log($"Disabling enemy {enemyID} as it is marked as dontRespawn.");
+            gameObject.SetActive(false);
+        }
+
 
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
@@ -72,6 +78,7 @@ public class MonsterLogicScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    
 
     private void FixedUpdate()
     {

@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
     //VARIABLES
     #region
     //Movement
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private SpriteRenderer sp;
 
     public bool momentLock;
@@ -1005,7 +1005,7 @@ public class PlayerScript : MonoBehaviour
         sp.color = Color.white;
     }
 
-    private IEnumerator endCantMove(float duration)
+    public IEnumerator endCantMove(float duration)
     {
         cantMove = true;
 

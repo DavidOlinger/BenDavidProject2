@@ -33,7 +33,8 @@ public class DoorScript : MonoBehaviour
     }
 
 
-    public bool isOpening;
+    public bool isOpening = false;
+    public bool isClosing = false;
     // Update is called once per frame
     void Update()
     {
@@ -52,6 +53,26 @@ public class DoorScript : MonoBehaviour
                 rb.velocity = Vector2.left * 3;
             }
             else if (right)
+            {
+                rb.velocity = Vector2.right * 3;
+            }
+        }
+
+        if (isClosing)
+        {
+            if (down)
+            {
+                rb.velocity = Vector2.up * 3;
+            }
+            else if (up)
+            {
+                rb.velocity = Vector2.down * 3;
+            }
+            else if (right)
+            {
+                rb.velocity = Vector2.left * 3;
+            }
+            else if (left)
             {
                 rb.velocity = Vector2.right * 3;
             }
@@ -80,5 +101,18 @@ public class DoorScript : MonoBehaviour
     {
         isOpening = true;
         audioSource.PlayOneShot(doorOpenSound);
+    }
+
+    public void CloseDoor()
+    {
+        isClosing = true;
+        audioSource.PlayOneShot(doorOpenSound);
+        Invoke("endClose", 1f);
+    }
+
+    public void endClose()
+    {
+        isClosing = false;
+        rb.velocity = Vector2.zero;
     }
 }

@@ -188,9 +188,9 @@ MonoBehaviour:
   moveSpeed: 2
   stillGrounded: 0
   aggroOnPlayer: 0
-  aggroRadius: 6
+  aggroRadius: 10
   deAggroRadius: 20
-  attackRange: 3
+  attackRange: 5
   chargeSpeed: 10
   attackDuration: 0.4
   attackCooldown: 1.2
@@ -207,3 +207,4 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 384
+  isAttacking: 0
