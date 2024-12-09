@@ -10,11 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Size.x
-      value: 0.7872293
+      value: 0.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Size.y
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Offset.x
       value: 0.010051981
+      objectReference: {fileID: 0}
+    - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 302546779886950353, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
@@ -78,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_Name
-      value: Stump 1
+      value: Slime
       objectReference: {fileID: 0}
     - target: {fileID: 6839512040395760493, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -133,9 +141,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1523139867, guid: c6253bab1f247f1459fdd0350aab75c7, type: 3}
     - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Color.b
+      value: 0.46855342
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6620223
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384106621738146733, guid: a5e64056adef35a4593391e657127eca, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8657725979665678810, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4246d7de3deaa1548815a05c31ccdbbe, type: 2}
     m_RemovedComponents:
     - {fileID: 3636725989365413573, guid: a5e64056adef35a4593391e657127eca, type: 3}
     m_RemovedGameObjects: []
@@ -145,8 +165,8 @@ PrefabInstance:
       insertIndex: 4
       addedObject: {fileID: 2386367256090228502}
     - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: -6838315221810577672}
+      insertIndex: -1
+      addedObject: {fileID: 7725985005633586212}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
 --- !u!1 &9062968029795078145 stripped
 GameObject:
@@ -180,7 +200,7 @@ MonoBehaviour:
   spawnPos: {x: 0, y: 0}
   dontRespawn: 0
   playerKnockback: 1
---- !u!114 &-6838315221810577672
+--- !u!114 &7725985005633586212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,16 +209,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9062968029795078145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ddb24efca7c66942a9edf96e90fb094, type: 3}
+  m_Script: {fileID: 11500000, guid: 738721a183798ce4cb6a44d56f766993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 1
   activateMoveDistance: {x: 15, y: 15}
   activateAttackDistance: {x: 0, y: 0}
   WallLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 128
   stillGrounded: 0

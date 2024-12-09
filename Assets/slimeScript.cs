@@ -70,10 +70,19 @@ public class slimeScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SetDirections();
         CheckForGround();
         CheckForWalls();
+        SetDirections();
         SetMovement();
+
+        if(rb.velocity.x > 0)
+        {
+            sp.flipX = false;
+        }
+        else if(rb.velocity.x < 0)
+        {
+            sp.flipX = true;
+        }
     }
 
     #endregion
@@ -81,39 +90,31 @@ public class slimeScript : MonoBehaviour
     //Movement
     #region
 
+
+    private float counter = 0;
     private void CycleMove(bool isClose)
     {
+        counter = counter + 0.02f;
 
-        if (!monsterLogic.cantMove)
+        if (!monsterLogic.cantMove && isClose)
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
 
-            if (isClose && !isStarted)
+            if (counter < 1.5f)
             {
-                move();
+                rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
+            }
+            else if(counter < 2.5f)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            else if(counter >= 2.5f) 
+            {
+                counter = 0;
             }
         }
     }
 
-    private bool isStarted;
-    private void move()
-    {
-        isStarted = true;
-        rb.velocity = new Vector2(moveSpeed * directionMoveX, rb.velocity.y);
-        Invoke("stop", 1.5f);
-    }
 
-    private void stop()
-    {
-        Debug.Log("AHHH");
-        rb.velocity = new Vector2(0, rb.velocity.y);
-        Invoke("move", 1.2f);
-        
-            directionMoveX = -directionMoveX;
-        sp.flipX = !sp.flipX;
-
-
-    }
 
     private void SetDirections()
     {
@@ -128,15 +129,6 @@ public class slimeScript : MonoBehaviour
         {
             directionToPlayerX = 1;
         }
-
-        //if (distanceToPlayerY < 0)
-        //{
-        //    directionMoveY = -1;
-        //}
-        //else
-        //{
-        //    directionMoveY = 1;
-        //}
     }
 
 
@@ -152,10 +144,6 @@ public class slimeScript : MonoBehaviour
         }
 
 
-        //if (Mathf.Abs(distanceToPlayerX) < activateAttackDistance.x && Mathf.Abs(distanceToPlayerY) < activateAttackDistance.y)
-        //{
-        //    Attack();
-        //}
 
         if (Mathf.Abs(rb.velocity.x) > 0)
         {
@@ -177,22 +165,18 @@ public class slimeScript : MonoBehaviour
         RaycastHit2D rightSide = Physics2D.Raycast(transform.position + rightOffset, Vector2.down, .1f, GroundLayer);
         RaycastHit2D leftSide = Physics2D.Raycast(transform.position + leftOffset, Vector2.down, .1f, GroundLayer); // the offsets next to GroundLayer are how long the rays are
 
-        //if (rightSide.collider == null && leftSide.collider == null)
-        //{
-        //}
-        //else
-        //{
-        //}
 
         if (rightSide.collider == null && rb.velocity.y == 0)
         {
             directionMoveX = -1;
             sp.flipX = true;
+            
         }
         else if (leftSide.collider == null && rb.velocity.y == 0)
         {
             directionMoveX = 1;
             sp.flipX = false;
+            
         }
 
     }
@@ -219,42 +203,25 @@ public class slimeScript : MonoBehaviour
     #endregion
 
 
-    //COMBAT
-    #region
-
-
-
-    private void Attack()
-    {
-        // idk just spawn a hurtbox in the direction the player is, make speed 0 while doing so
-        // might need like a bool to keep it from triggering multiple times?
-    }
-    #endregion
 
 
     //Other stuff COROUTINES
     #region
 
-    private void PlayDamagedAnim(float duration)
-    {
-        animator.SetBool("hurt", true);
-        Invoke("CancelDamageAnim", duration);
+    //private void PlayDamagedAnim(float duration)
+    //{
+    //    animator.SetBool("hurt", true);
+    //    Invoke("CancelDamageAnim", duration);
 
-    }
+    //}
 
-    private void CancelDamageAnim()
-    {
-        animator.SetBool("hurt", false);
-    }
+    //private void CancelDamageAnim()
+    //{
+    //    animator.SetBool("hurt", false);
+    //}
 
     #endregion
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            //nothing for now
-        }
-    }
+   
 }
