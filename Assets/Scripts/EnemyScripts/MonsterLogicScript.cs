@@ -116,6 +116,53 @@ public class MonsterLogicScript : MonoBehaviour
 
         }
 
+
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            Debug.Log("COLLIDED");
+            if (Mathf.Abs(collision.gameObject.GetComponentInParent<Rigidbody2D>().velocity.x) > 3.5)
+            {
+                takeDmg(collision);
+                if (!ignoreStun)
+                {
+                    if (CantMoveCoroutine != null)
+                    {
+                        StopCoroutine(CantMoveCoroutine);
+                    }
+                    CantMoveCoroutine = StartCoroutine(EndCantMove(0.08f + playerScript.stunOnHit)); // ends cantMove after 4 frames + how long the hitStun will be
+
+                    Invoke("DmgLaunch", playerScript.stunOnHit); // this should prob be a coroutine thing too lol
+
+                }
+                else { Invoke("ResetColor", 0.1f); }
+
+                collision.gameObject.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
+
+
+            }
+            else if (Mathf.Abs(collision.gameObject.GetComponentInParent<Rigidbody2D>().velocity.y) > 2)
+            {
+                takeDmg(collision);
+
+
+                if (!ignoreStun)
+                {
+                    if (CantMoveCoroutine != null)
+                    {
+                        StopCoroutine(CantMoveCoroutine);
+                    }
+                    CantMoveCoroutine = StartCoroutine(EndCantMove(0.08f + playerScript.stunOnHit)); // ends cantMove after 4 frames + how long the hitStun will be
+
+                    Invoke("DmgLaunch", playerScript.stunOnHit); // this should prob be a coroutine thing too lol
+
+                }
+                else { Invoke("ResetColor", 0.1f); }
+
+                collision.gameObject.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
+
+            }
+        }
+
     }
 
 
@@ -188,6 +235,11 @@ public class MonsterLogicScript : MonoBehaviour
             rb.velocity = new Vector2(-(playerScript.knockbackOnHit), rb.velocity.y);
         }
     }  //Applies the knockback from the players slash
+
+
+
+
+  
 
 
     private IEnumerator EndCantMove(float duration) //TODO: Update the other script to use this cantmove value

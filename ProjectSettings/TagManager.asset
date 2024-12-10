@@ -16,6 +16,7 @@ TagManager:
   - cutscene
   - HealthUp
   - HeavySlash
+  - Rock
   layers:
   - Default
   - TransparentFX

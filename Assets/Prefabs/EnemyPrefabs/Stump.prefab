@@ -209,4 +209,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashPushSpeed: {x: 4, y: 8}
+  slashPushSpeed: {x: 2, y: 8}
+  launchTime: 1.25

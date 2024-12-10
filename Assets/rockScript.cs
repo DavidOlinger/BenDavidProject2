@@ -17,7 +17,17 @@ public class rockScript : MonoBehaviour
 
     }
 
-
+    private void FixedUpdate()
+    {
+        if(rb.velocity.x > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x - 0.08f, rb.velocity.y);
+        }
+        else if (rb.velocity.x < 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x + 0.08f, rb.velocity.y);
+        }
+    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)

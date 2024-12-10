@@ -203,11 +203,11 @@ MonoBehaviour:
   deAggroRadius: 20
   attackRange: 5.5
   chargeSpeed: 8.5
-  attackDuration: 0.3
-  postAttackPause: 0.2
+  attackDuration: 0.32
+  postAttackPause: 0.37
   attackCooldown: 1.7
   attackOnCooldown: 0
-  chargeWarningWindow: 0.18
+  chargeWarningWindow: 0.27
   feetLevel: -0.8
   wallClimbSpeed: 1
   unclimbableHeight: 0
@@ -233,4 +233,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashPushSpeed: {x: 4, y: 8}
+  slashPushSpeed: {x: 2, y: 8}
+  launchTime: 2.7
