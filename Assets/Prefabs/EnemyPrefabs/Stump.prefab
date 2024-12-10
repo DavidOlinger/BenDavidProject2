@@ -139,6 +139,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
       insertIndex: 5
       addedObject: {fileID: -6838315221810577672}
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1593260398769839657}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
 --- !u!1 &9062968029795078145 stripped
 GameObject:
@@ -168,6 +171,10 @@ MonoBehaviour:
   moneyOnKill: 3
   deathParticleNumber: 1
   deathSound: {fileID: 8300000, guid: a9895c330f3f3ba49a00918d5319aae1, type: 3}
+  enemyID: 
+  spawnPos: {x: 0, y: 0}
+  dontRespawn: 0
+  playerKnockback: 1
 --- !u!114 &-6838315221810577672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,3 +197,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   stillGrounded: 0
+--- !u!114 &1593260398769839657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062968029795078145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashPushSpeed: {x: 4, y: 8}

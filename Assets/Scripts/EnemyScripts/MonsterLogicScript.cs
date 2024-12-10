@@ -92,45 +92,7 @@ public class MonsterLogicScript : MonoBehaviour
         if (collision.CompareTag("Slash") || collision.CompareTag("Vault"))
         {
 
-            //float hitLaunch = transform.position.x - collision.transform.position.x;
-
-            playerScript.PlayHitSound(); //TODO: eventually change this to be monster specific
-
-            //playerScript.slashKnockback(hitLaunch);
-
-            hitCounter++;
-            if (hitParticles != null)
-            {
-                ParticleSystem onHitParticles = Instantiate(hitParticles, transform.position, Quaternion.identity);
-                Destroy(onHitParticles.gameObject, 3);
-            }
-
-            PlayDamagedAnim(0.4f);
-            if (hitCounter >= hpMax)
-            {
-                playerScript.hitStop(0.22f, 0.01f);
-                playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.2f, 50f, 0.2f, 0.90f);
-                Invoke("Kill", 0.015f);
-                
-            } else
-            {
-                if (collision.CompareTag("Slash"))
-                {
-                    playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
-                    playerScript.hitStop(0.05f, 0.01f);
-                }
-                else if (collision.CompareTag("Vault"))
-                {
-                    playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
-                    playerScript.hitStop(0.05f, 0.01f);
-                }
-            }
-
-         
-            //rb.gravityScale = 0;
-            //rb.velocity = new Vector2(0, rb.velocity.y);
-
-            sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.5f); // to simulate the white flash for now lol
+            takeDmg(collision);
             
             if (!ignoreStun)
             {
@@ -156,6 +118,58 @@ public class MonsterLogicScript : MonoBehaviour
 
     }
 
+
+    public void takeDmg(Collider2D collision)
+    {
+        playerScript.PlayHitSound(); //TODO: eventually change this to be monster specific
+
+        //playerScript.slashKnockback(hitLaunch);
+
+        hitCounter++;
+        if (hitParticles != null)
+        {
+            ParticleSystem onHitParticles = Instantiate(hitParticles, transform.position, Quaternion.identity);
+            Destroy(onHitParticles.gameObject, 3);
+        }
+
+        PlayDamagedAnim(0.4f);
+        if (hitCounter >= hpMax)
+        {
+            playerScript.hitStop(0.22f, 0.01f);
+            playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.2f, 50f, 0.2f, 0.90f);
+            Invoke("Kill", 0.015f);
+
+        }
+        else
+        {
+            if (collision.CompareTag("Slash"))
+            {
+                playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
+                playerScript.hitStop(0.05f, 0.01f);
+            }
+            else if (collision.CompareTag("Vault"))
+            {
+                playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
+                playerScript.hitStop(0.05f, 0.01f);
+            }
+            else if (collision.CompareTag("HeavySlash"))
+            {
+                playerScript.cam.GetComponent<CameraMovementScript>().CameraShake(0.1f, 50f, 0.08f, 0.90f);
+                playerScript.hitStop(0.05f, 0.01f);
+            }
+        }
+
+
+        //rb.gravityScale = 0;
+        //rb.velocity = new Vector2(0, rb.velocity.y);
+
+        if (!collision.CompareTag("HeavySlash"))
+        {
+            sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.5f); // to simulate the white flash for now lol
+        }
+
+
+    }
 
     private void DmgLaunch() //called by monsterLogic ****************************************
     {

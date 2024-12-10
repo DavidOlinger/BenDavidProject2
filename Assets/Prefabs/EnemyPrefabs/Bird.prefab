@@ -167,6 +167,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
       insertIndex: 5
       addedObject: {fileID: 8591219049810440798}
+    - targetCorrespondingSourceObject: {fileID: 5720031361078525485, guid: a5e64056adef35a4593391e657127eca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3337122598873130942}
   m_SourcePrefab: {fileID: 100100000, guid: a5e64056adef35a4593391e657127eca, type: 3}
 --- !u!1 &773475083807945794 stripped
 GameObject:
@@ -199,6 +202,7 @@ MonoBehaviour:
   enemyID: 
   spawnPos: {x: 0, y: 0}
   dontRespawn: 0
+  playerKnockback: 1
 --- !u!114 &8591219049810440798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +228,16 @@ MonoBehaviour:
   stillGrounded: 0
   Diving: 0
   rightHeight: 0
+--- !u!114 &-3337122598873130942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773475083807945794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashPushSpeed: {x: 4, y: 8}

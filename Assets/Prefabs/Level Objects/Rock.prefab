@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 2174345126109371800}
   - component: {fileID: 5945636097274199028}
   - component: {fileID: 975636492398170380}
-  m_Layer: 7
+  - component: {fileID: 3756465528620364565}
+  - component: {fileID: 4070563879878344506}
+  m_Layer: 14
   m_Name: Rock
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -148,3 +150,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3756465528620364565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684876598575434312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea2e384f5fb9c14cb8dd69323953f0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashPushSpeed: {x: 20, y: 0}
+  vaultPushSpeed: {x: 15, y: -10}
+--- !u!114 &4070563879878344506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684876598575434312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashPushSpeed: {x: 4, y: 40}
