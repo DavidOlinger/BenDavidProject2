@@ -13,11 +13,13 @@ public class SlashScript : MonoBehaviour
     public Vector3 slashPosition;
     public ParticleSystem sparkParticle;
     public ParticleSystem flareParticle;
+    public bool isHeavySlash;
 
 
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         Transform parentTransform = transform.parent;
         player = parentTransform.gameObject;
         sp = gameObject.GetComponent<SpriteRenderer>();
@@ -28,7 +30,6 @@ public class SlashScript : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
     public void DestroySelf() {
-        player.GetComponent<PlayerScript>().StartChargingSlash();
         Destroy(gameObject); 
     }
 

@@ -41,12 +41,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: hpMax
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: moneyOnKill
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
+      propertyPath: hitParticles
+      value: 
+      objectReference: {fileID: 7014590094528914771, guid: 459f993dc52753f449c5a27d1c34853c, type: 3}
+    - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
+      propertyPath: killParticles
+      value: 
+      objectReference: {fileID: 7014590094528914771, guid: c1ee60b5761b7d740ab4ec4ced252d04, type: 3}
     - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: deathParticleNumber
       value: 2
@@ -185,18 +193,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1022ba4f4e4760f4a8a56abf568af0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   stillGrounded: 0
   aggroOnPlayer: 0
   aggroRadius: 10
   deAggroRadius: 20
-  attackRange: 5
-  chargeSpeed: 10
-  attackDuration: 0.4
-  attackCooldown: 1.2
-  chargeWarningWindow: 0.3
+  attackRange: 5.5
+  chargeSpeed: 8.5
+  attackDuration: 0.3
+  postAttackPause: 0.2
+  attackCooldown: 1.7
+  attackOnCooldown: 0
+  chargeWarningWindow: 0.18
   feetLevel: -0.8
-  wallClimbSpeed: 0.4
+  wallClimbSpeed: 1
   unclimbableHeight: 0
   chargeReadyParticles: {fileID: 4933585682783417378, guid: 096a95b39de0dbb4da79da5c09d7919b, type: 3}
   chargeParticles: {fileID: 4933585682783417378, guid: 096a95b39de0dbb4da79da5c09d7919b, type: 3}

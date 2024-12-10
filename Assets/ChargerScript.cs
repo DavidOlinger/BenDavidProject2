@@ -25,7 +25,9 @@ public class ChargerScript : MonoBehaviour
     public float attackRange;
     public float chargeSpeed;
     public float attackDuration;
+    public float postAttackPause;
     public float attackCooldown;
+    public bool attackOnCooldown;
     public float chargeWarningWindow;
     public float feetLevel;
     public float wallClimbSpeed;
@@ -156,9 +158,10 @@ public class ChargerScript : MonoBehaviour
                     }
                 }
 
-                if (!isAttacking && distToPlayer < attackRange) //if close enough to attack
+                if (!isAttacking && !attackOnCooldown && distToPlayer < attackRange) //if close enough to attack
                 {
                     //Debug.Log("ATTACKING");
+                    attackOnCooldown = true;
                     isAttacking = true;
                     monsterLogic.ignoreStun = true;
 
@@ -182,15 +185,19 @@ public class ChargerScript : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
 
         Debug.Log("startingCharge");
-        Destroy(Instantiate(chargeReadyParticles, transform.position, Quaternion.identity), 1); //play warning effect
+        ParticleSystem warningPart = Instantiate(chargeReadyParticles, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        warningPart.transform.parent = transform;
+        Destroy(warningPart, 1); //play warning effect
 
         yield return new WaitForSeconds(chargeWarningWindow);
 
         //change animation to charging
-
+         
         //charge frame 1
         animator.SetTrigger("charge1");
-        Destroy(Instantiate(chargeParticles, transform.position, Quaternion.identity), 1);
+        ParticleSystem chargePart = Instantiate(chargeParticles, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        chargePart.transform.parent = transform;
+        Destroy(chargePart, 1); //play warning effect
 
 
         rb.velocity = new Vector2(moveSpeed * directionToPlayerX * chargeSpeed, rb.velocity.y);
@@ -210,10 +217,17 @@ public class ChargerScript : MonoBehaviour
         animator.SetTrigger("notCharging");
         rb.velocity = new Vector2(0, rb.velocity.y);
 
-        yield return new WaitForSeconds(attackCooldown);
+        Invoke("resetChargeCooldown", attackCooldown);
+        yield return new WaitForSeconds(postAttackPause);
         isAttacking = false;
+        
 
         yield return null;
+    }
+
+    private void resetChargeCooldown()
+    {
+        attackOnCooldown = false;
     }
 
 

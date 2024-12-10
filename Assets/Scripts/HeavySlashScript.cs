@@ -24,14 +24,8 @@ public class HeavySlashScript : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
     public void DestroySelf() {
-        Debug.Log("DESTROY HEAVY SLASH PREFAB");
         Destroy(gameObject); 
     }
 
-    public void TestEvent()
-    {
-        Debug.Log("If you'rereading this it worked.");
-
-    }
 
 }
