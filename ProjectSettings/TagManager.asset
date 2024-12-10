@@ -15,6 +15,7 @@ TagManager:
   - Breakable
   - cutscene
   - HealthUp
+  - HeavySlash
   layers:
   - Default
   - TransparentFX

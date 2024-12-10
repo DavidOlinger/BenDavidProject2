@@ -189,6 +189,7 @@ MonoBehaviour:
   enemyID: 
   spawnPos: {x: 0, y: 0}
   dontRespawn: 0
+  playerKnockback: 1
 --- !u!95 &8418651495282919183
 Animator:
   serializedVersion: 5
@@ -358,8 +359,8 @@ Transform:
   m_GameObject: {fileID: 7487393390257595786}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4, z: 0}
-  m_LocalScale: {x: 0.015, y: 5, z: 1}
+  m_LocalPosition: {x: 0, y: 2.32, z: 0}
+  m_LocalScale: {x: 0.015, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4125404893818134619}

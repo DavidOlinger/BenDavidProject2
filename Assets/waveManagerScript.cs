@@ -4,32 +4,34 @@ using UnityEngine;
 
 public class waveManagerScript : MonoBehaviour
 {
-    [Header("Assign Enemies and Doors")]
-    public GameObject[] enemies; // Array of enemies
-    public GameObject[] doors; // Array of doors
+    public GameObject[] enemies; 
+    public GameObject[] doors; 
 
-    private bool isTriggered = false; // Ensures the trigger works only once
+    private bool isTriggered = false; // so the trigger works only once
 
 
     public bool isCinematic;
 
     private void Start()
     {
-
-        if (doors == null || doors.Length == 0) // NEED BETTER CHECK HERE
-        {
-            Debug.Log("No doors remaining. Destroying WaveManager.");
-            Destroy(gameObject); // Destroy the WaveManager if no doors are left
-            isTriggered = true;
-        }
         foreach (var enemy in enemies)
         {
-            if(!enemy.activeInHierarchy)
+            if (!enemy.activeInHierarchy)
             {
-                enemy.SetActive(true);
+                Destroy(gameObject);
+                isTriggered = true;
             }
             enemy.GetComponent<MonsterLogicScript>().cantMove = true;
         }
+
+
+        //if (doors == null || doors.Length == 0) // NEED BETTER CHECK HERE
+        //{
+        //    Debug.Log("No doors remaining. Destroying WaveManager.");
+        //    Destroy(gameObject); // Destroy the WaveManager if no doors are left
+        //    isTriggered = true;
+        //}
+        
         
     }
 

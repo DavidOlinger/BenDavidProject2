@@ -930,10 +930,14 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+
+    private bool hasBeenSpiked = false;
     public void PlayerDeath(bool trueDeath) //fades to black. 
                                             //on true death, reset hp and load the player back at a save point.
                                             // otherwise, just load them at the last safe point and subtract a hitpoint.
     {
+
+        
         cam.GetComponent<CameraMovementScript>().fadeToBlack(0.15f);
 
 
@@ -944,12 +948,17 @@ public class PlayerScript : MonoBehaviour
         CantMoveCoroutine = StartCoroutine(endCantMove(1.5f));
         vaultCooldown = 1.5f;
 
-        if (!trueDeath && currHP > 1)
+        if (!trueDeath && currHP >= 1.5 && !hasBeenSpiked)
         {
-            currHP--;
+            if (!hasBeenSpiked)
+            {
+                currHP--;
+            }
+            hasBeenSpiked = true;
+
             logicScript.UpdateHealth();
             Invoke("ResetPlayerPos", 0.1f);
-        } else
+        } else if(!hasBeenSpiked)
         {
             Debug.Log("DEAD");
             currHP = maxHP;
@@ -988,7 +997,7 @@ public class PlayerScript : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-
+        hasBeenSpiked = false;
         invincible = false;
         sp.color = Color.white;
     }

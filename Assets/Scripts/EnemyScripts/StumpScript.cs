@@ -86,7 +86,7 @@ public class StumpScript : MonoBehaviour
 
         if (!monsterLogic.cantMove)
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            //rb.velocity = new Vector2(0, rb.velocity.y);
             
             if (isClose)
             {
@@ -159,11 +159,11 @@ public class StumpScript : MonoBehaviour
 
         if (rightSide.collider == null && leftSide.collider == null)
         {
-            animator.SetBool("grounded", false);
+            //animator.SetBool("grounded", false);
         }
         else
         {
-            animator.SetBool("grounded", true);
+          //  animator.SetBool("grounded", true);
         }
 
         if (rightSide.collider == null && rb.velocity.y == 0)

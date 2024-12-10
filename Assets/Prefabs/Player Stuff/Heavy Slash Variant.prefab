@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Heavy Slash Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4776244882254534752, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
+      propertyPath: m_TagString
+      value: HeavySlash
+      objectReference: {fileID: 0}
     - target: {fileID: 4809887925441129397, guid: 3855d61a25e411944bf6092701185c5b, type: 3}
       propertyPath: m_Sprite
       value: 
