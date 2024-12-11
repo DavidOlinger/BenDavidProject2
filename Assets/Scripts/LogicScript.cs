@@ -412,6 +412,7 @@ public class LogicScript : MonoBehaviour
         // Clear the lists in the save data
         saveData.permanentlyBroken.Clear();
         saveData.disabledEnemies.Clear();
+        saveData.dontRespawnEnemies.Clear();
 
         // Write an empty SaveData instance to the JSON file
         string emptyJson = JsonUtility.ToJson(new SaveData(), true);
@@ -420,7 +421,6 @@ public class LogicScript : MonoBehaviour
         if (File.Exists(breakablesSaveFilePath))
         {
             File.WriteAllText(breakablesSaveFilePath, emptyJson);
-            Debug.Log("Breakables save data cleared.");
         }
 
         // Clear the enemies save file
@@ -428,12 +428,20 @@ public class LogicScript : MonoBehaviour
         if (File.Exists(enemiesSaveFilePath))
         {
             File.WriteAllText(enemiesSaveFilePath, emptyJson);
-            Debug.Log("Enemies save data cleared.");
         }
 
-        
 
-        Debug.Log("All game data cleared for a new game.");
+        //string emptyJson2 = JsonUtility.ToJson(new SaveData(), true);
+
+        //// Clear the breakables save file
+        //if (File.Exists())
+        //{
+        //    File.WriteAllText(, emptyJson2);
+        //}
+
+
+
+        //Debug.Log("All game data cleared for a new game.");
     }
 
 }

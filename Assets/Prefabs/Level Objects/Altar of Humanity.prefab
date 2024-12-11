@@ -250,7 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 311599898422195506, guid: a68a4a32c1755ce47be842d7160cd808, type: 3}
       propertyPath: message
-      value: Slash to interact. (for now)
+      value: Pray (E)
       objectReference: {fileID: 0}
     - target: {fileID: 311599898422195506, guid: a68a4a32c1755ce47be842d7160cd808, type: 3}
       propertyPath: displayRadius
