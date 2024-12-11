@@ -1150,7 +1150,8 @@ public class PlayerScript : MonoBehaviour
     public void LoadSavePoint()
     {
         PlaySaveSound();
-        logicScript.loadSavePoint();
+        //logicScript.loadSavePoint();
+        logicScript.gameStartSceneLoad();
         sp.enabled = true;
     }
 

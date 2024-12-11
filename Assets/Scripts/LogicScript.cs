@@ -237,16 +237,17 @@ public class LogicScript : MonoBehaviour
     void Start()
     {
 
-        //if (PlayerPrefs.HasKey("isStartingGame"))
-        //{
-        //    if (PlayerPrefs.GetInt("isStartingGame") > 0)
-        //    {
-        //        ClearAllSaves();
-        //        PlayerPrefs.SetInt("isStartingGame", 0);
-        //    }
-        //}
+        if (PlayerPrefs.HasKey("isStartingGame"))
+        {
+            if (PlayerPrefs.GetInt("isStartingGame") > 0)
+            {
+                ClearAllSaves();
+                PlayerPrefs.SetInt("isStartingGame", 0);
+                gameStartSceneLoad();
+            }
+        }
 
-            foreach (var enemy in FindObjectsOfType<MonsterLogicScript>())
+        foreach (var enemy in FindObjectsOfType<MonsterLogicScript>())
         {
             if (!enemyDictionary.ContainsKey(enemy.enemyID))
             {
@@ -283,6 +284,7 @@ public class LogicScript : MonoBehaviour
             PlayerPrefs.SetInt("Money", 0);
         }
         addMoney(0);
+
     }
 
     #endregion

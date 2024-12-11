@@ -12,8 +12,13 @@ public class waveManagerScript : MonoBehaviour
 
     public bool isCinematic;
 
+    private PlayerScript pScript;
+
     private void Start()
     {
+        pScript = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();
+
+
         foreach (var enemy in enemies)
         {
             if (!enemy.activeInHierarchy)
@@ -22,23 +27,18 @@ public class waveManagerScript : MonoBehaviour
                 isTriggered = true;
             }
             enemy.GetComponent<MonsterLogicScript>().cantMove = true;
+           // enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            //enemy.GetComponent<SpriteRenderer>().enabled = false;
         }
 
 
-        //if (doors == null || doors.Length == 0) // NEED BETTER CHECK HERE
-        //{
-        //    Debug.Log("No doors remaining. Destroying WaveManager.");
-        //    Destroy(gameObject); // Destroy the WaveManager if no doors are left
-        //    isTriggered = true;
-        //}
-        
         
     }
 
-    private void endCantMove()
-    {
-        GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = false;
-    }
+    //private void endCantMove()
+    //{
+    //    GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = false;
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -49,7 +49,7 @@ public class waveManagerScript : MonoBehaviour
             if (isTriggered) return; // Avoid retriggering
             isTriggered = true;
 
-
+            //not using for now
             if (isCinematic)
             {
                 PlayerScript pscript = GameObject.FindWithTag("Player").GetComponent<PlayerScript>();
@@ -61,11 +61,17 @@ public class waveManagerScript : MonoBehaviour
                 //could also change the music here by muting the main music and playing the music attached to the waveManager
             }
 
+
+
+
             foreach (var enemy in enemies)
             {
                 if (enemy.TryGetComponent(out MonsterLogicScript script))
                 {
                     script.cantMove = true;
+                    //enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                    //enemy.GetComponent<SpriteRenderer>().enabled = true;
+
                 }
             }
 
@@ -86,8 +92,10 @@ public class waveManagerScript : MonoBehaviour
 
     private IEnumerator CheckEnemies()
     {
-        while(true)
+        while(true && pScript.currHP >= 1)
         {
+
+
             bool allEnemiesDefeated = true;
 
             foreach (var enemy in enemies)
@@ -107,6 +115,16 @@ public class waveManagerScript : MonoBehaviour
             yield return null; // Wait for the next frame
         }
 
+        if(pScript.currHP < 1)
+        {
+            foreach (var door in doors)
+            {
+                if (door.TryGetComponent(out DoorScript script))
+                {
+                    script.OpenDoor();
+                }
+            }
+        }
 
 
         // All enemies are defeated; open the doors
