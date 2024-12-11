@@ -846,7 +846,7 @@ public class PlayerScript : MonoBehaviour
     public void OnHeavySlash(InputAction.CallbackContext context)
     {
         
-        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting)
+        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting && !isJumping && PlayerPrefs.GetFloat("CanHeavySlash") == 1)
         {
             isAttacking = false;
             animator.SetBool("attacking", false);

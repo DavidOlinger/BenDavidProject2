@@ -61,16 +61,16 @@ public class LogicScript : MonoBehaviour
 
     }
 
-    private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME
+    private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("RESPAWNING ENEMIES");
+          //  Debug.Log("RESPAWNING ENEMIES");
             RespawnEnemies();
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("AHHH CLEARING THE SAVES");
+           // Debug.Log("AHHH CLEARING THE SAVES");
             ClearAllSaves();
         }
         
@@ -89,12 +89,12 @@ public class LogicScript : MonoBehaviour
 
     public void RespawnEnemies()
     {
-        Debug.Log($"RespawnEnemies called. Disabled enemies count: {saveData.disabledEnemies.Count}");
+       // Debug.Log($"RespawnEnemies called. Disabled enemies count: {saveData.disabledEnemies.Count}");
         foreach (var enemyID in saveData.disabledEnemies)
         {
             if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
             {
-                Debug.Log($"Re-enabling enemy with ID: {enemyID}");
+               // Debug.Log($"Re-enabling enemy with ID: {enemyID}");
                 if (!enemy.dontRespawn)
                 {
                     enemy.gameObject.SetActive(true);
@@ -115,7 +115,7 @@ public class LogicScript : MonoBehaviour
 
     public void MarkEnemyAsKilled(string enemyID)
     {
-        Debug.Log($"Marking enemy as killed: {enemyID}");
+       // Debug.Log($"Marking enemy as killed: {enemyID}");
         if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
             enemy.gameObject.SetActive(false);
@@ -145,11 +145,11 @@ public class LogicScript : MonoBehaviour
     {
         if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
-            Debug.Log($"Found enemy in dictionary with ID: {enemyID}");
+            //Debug.Log($"Found enemy in dictionary with ID: {enemyID}");
             return enemy;
         }
 
-        Debug.LogWarning($"No enemy found in dictionary with ID: {enemyID}");
+       // Debug.LogWarning($"No enemy found in dictionary with ID: {enemyID}");
         return null;
     }
 
@@ -409,7 +409,7 @@ public class LogicScript : MonoBehaviour
 
     public void ClearAllSaves()
     {
-        // Clear the lists in the save data
+        // Clear the lists
         saveData.permanentlyBroken.Clear();
         saveData.disabledEnemies.Clear();
         saveData.dontRespawnEnemies.Clear();
@@ -417,13 +417,12 @@ public class LogicScript : MonoBehaviour
         // Write an empty SaveData instance to the JSON file
         string emptyJson = JsonUtility.ToJson(new SaveData(), true);
 
-        // Clear the breakables save file
+        // Clear  save files
         if (File.Exists(breakablesSaveFilePath))
         {
             File.WriteAllText(breakablesSaveFilePath, emptyJson);
         }
 
-        // Clear the enemies save file
         string enemiesSaveFilePath = Path.Combine(Application.persistentDataPath, "saveData.json");
         if (File.Exists(enemiesSaveFilePath))
         {
