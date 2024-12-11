@@ -7,7 +7,7 @@ public class spiderScript : MonoBehaviour
     #region
     //Basic Variables
     private Rigidbody2D rb;
-    private SpriteRenderer sp;
+   // private SpriteRenderer sp;
     Animator animator;
 
     PlayerScript playerScript;
@@ -21,12 +21,12 @@ public class spiderScript : MonoBehaviour
 
 
     //movement privates
-    int directionMoveX;
-    int directionMoveY;
+    //int directionMoveX;
+    //int directionMoveY;
 
     float distanceToPlayerX;
     float distanceToPlayerY;
-    int directionToPlayerX;
+   // int directionToPlayerX;
     //int directionToPlayerY;
 
     //RayCasting
@@ -52,7 +52,7 @@ public class spiderScript : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        sp = GetComponent<SpriteRenderer>();
+       // sp = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
         audioSource = GetComponent<AudioSource>();
@@ -162,26 +162,25 @@ public class spiderScript : MonoBehaviour
     {
         distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
         distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
-        directionMoveX = directionToPlayerX;
-        if (distanceToPlayerX < 0)
-        {
-            directionToPlayerX = -1;
-        }
-        else
-        {
-            directionToPlayerX = 1;
-        }
+        //directionMoveX = directionToPlayerX;
+        //if (distanceToPlayerX < 0)
+        //{
+        //    directionToPlayerX = -1;
+        //}
+        //else
+        //{
+        //    directionToPlayerX = 1;
+        //}
 
-        if (distanceToPlayerY < 0)
-        {
-            directionMoveY = -1;
-        }
-        else
-        {
-            directionMoveY = 1;
-        }
+        //if (distanceToPlayerY < 0)
+        //{
+        //    directionMoveY = -1;
+        //}
+        //else
+        //{
+        //    directionMoveY = 1;
+        //}
 
-        //TODO: make the bird fly to a space above the player, so that it can dive down and hit it
     }
 
 

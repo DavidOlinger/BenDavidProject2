@@ -27,7 +27,7 @@ public class StumpScript : MonoBehaviour
 
     float distanceToPlayerX;
     float distanceToPlayerY;
-    int directionToPlayerX;
+    //int directionToPlayerX;
     //int directionToPlayerY;
 
     //RayCasting
@@ -100,14 +100,14 @@ public class StumpScript : MonoBehaviour
         distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
         distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
 
-        if (distanceToPlayerX < 0)
-        {
-            directionToPlayerX = -1;
-        }
-        else
-        {
-            directionToPlayerX = 1;
-        }
+        //if (distanceToPlayerX < 0)
+        //{
+        //    directionToPlayerX = -1;
+        //}
+        //else
+        //{
+        //    directionToPlayerX = 1;
+        //}
 
         //if (distanceToPlayerY < 0)
         //{

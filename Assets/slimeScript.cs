@@ -5,11 +5,6 @@ using UnityEngine;
 public class slimeScript : MonoBehaviour
 {
 
-
-
-
-
-
     #region
     //Basic Variables
     private Rigidbody2D rb;
@@ -32,7 +27,7 @@ public class slimeScript : MonoBehaviour
 
     float distanceToPlayerX;
     float distanceToPlayerY;
-    int directionToPlayerX;
+   // int directionToPlayerX;
     //int directionToPlayerY;
 
     //RayCasting
@@ -120,23 +115,7 @@ public class slimeScript : MonoBehaviour
         distanceToPlayerX = playerScript.transform.position.x - transform.position.x;
         distanceToPlayerY = playerScript.transform.position.y - transform.position.y;
 
-        if (distanceToPlayerX < 0)
-        {
-            directionToPlayerX = -1;
-        }
-        else
-        {
-            directionToPlayerX = 1;
-        }
-
-        //if (distanceToPlayerY < 0)
-        //{
-        //    directionMoveY = -1;
-        //}
-        //else
-        //{
-        //    directionMoveY = 1;
-        //}
+        
     }
 
 

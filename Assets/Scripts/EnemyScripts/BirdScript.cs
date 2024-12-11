@@ -23,7 +23,7 @@ public class BirdScript : MonoBehaviour
 
     //movement privates
     int directionMoveX;
-    int directionMoveY;
+   // int directionMoveY;
 
     float distanceToPlayerX;
     float distanceToPlayerY;
@@ -172,14 +172,7 @@ public class BirdScript : MonoBehaviour
             directionToPlayerX = 1;
         }
 
-        if (distanceToPlayerY < 0)
-        {
-            directionMoveY = -1;
-        }
-        else
-        {
-            directionMoveY = 1;
-        }
+        
 
         //TODO: make the bird fly to a space above the player, so that it can dive down and hit it
     }
