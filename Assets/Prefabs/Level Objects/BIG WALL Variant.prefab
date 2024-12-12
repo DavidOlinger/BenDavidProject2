@@ -46,11 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5779373515309488724, guid: 7e2d7d64248a18f4e8b8d15ed08b229a, type: 3}
       propertyPath: objectID
-      value: 
+      value: adfgdsg
       objectReference: {fileID: 0}
     - target: {fileID: 5779373515309488724, guid: 7e2d7d64248a18f4e8b8d15ed08b229a, type: 3}
       propertyPath: neverRespawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5779373515309488724, guid: 7e2d7d64248a18f4e8b8d15ed08b229a, type: 3}
       propertyPath: needsHeavySlash
