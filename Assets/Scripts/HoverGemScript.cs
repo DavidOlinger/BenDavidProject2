@@ -35,25 +35,25 @@ public class HoverGemScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<VaultScript>() != null)
-        {
-            hitbox.enabled = false;
-            sp.color = new Color(0.7f, 0.7f, 0.7f, 0.7f);
-            lightningParticles.Stop();
-            auraParticles.Stop();
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.GetComponent<VaultScript>() != null)
+    //    {
+    //        hitbox.enabled = false;
+    //        sp.color = new Color(0.7f, 0.7f, 0.7f, 0.7f);
+    //        lightningParticles.Stop();
+    //        auraParticles.Stop();
 
-            Invoke("Reenable", hitCooldown);
-        }
-    }
+    //        Invoke("Reenable", hitCooldown);
+    //    }
+    //}
 
-    private void Reenable()
-    {
-        hitbox.enabled = true;
-        sp.color = new Color(1, 1, 1, 1);
-        lightningParticles.Play();
-        auraParticles.Play();
+    //private void Reenable()
+    //{
+    //    hitbox.enabled = true;
+    //    sp.color = new Color(1, 1, 1, 1);
+    //    lightningParticles.Play();
+    //    auraParticles.Play();
 
-    }
+    //}
 }
