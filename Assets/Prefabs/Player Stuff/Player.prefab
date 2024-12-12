@@ -242,10 +242,11 @@ MonoBehaviour:
   upSlashPrefab: {fileID: 4776244882254534752, guid: 6792d2d777299ea4bb52a748fc8b32f8, type: 3}
   vaultPrefab: {fileID: 7216549755187832511, guid: 72a1894237e3fca48b4b3f74f1731d51, type: 3}
   heavySlashPrefab: {fileID: 1277187901503284132, guid: def40b1d1cc10b84fb8884e85d2d7a77, type: 3}
-  slashDuration: 0.15
-  maxSlashCoolDown: 0
+  maxSlashCoolDown: 0.32
   attackOnCooldown: 0
   isHeavySlashing: 0
+  heavySlashOnCooldown: 0
+  maxHeavySlashCooldown: 1
   attackQueued: 0
   nextSwingIsDownward: 0
   slashOffX: 0.6
@@ -5451,8 +5452,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1013184447
-  m_SortingLayer: 2
+  m_SortingLayerID: 1587870087
+  m_SortingLayer: 6
   m_SortingOrder: -5
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5860,29 +5861,20 @@ ParticleSystemForceField:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: -0.000002156943
-          value: 2.186626
-          inSlope: -2
-          outSlope: -2
-          tangentMode: 0
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.09171511
-          value: 0.75410515
-          inSlope: -2.061219
-          outSlope: -2.061219
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 1
-          outWeight: 0.19937088
-        - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 0
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -10879,8 +10871,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1013184447
-  m_SortingLayer: 2
+  m_SortingLayerID: 1587870087
+  m_SortingLayer: 6
   m_SortingOrder: -5
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -15772,8 +15764,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 63965337
-  m_SortingLayer: 8
+  m_SortingLayerID: 1587870087
+  m_SortingLayer: 6
   m_SortingOrder: -1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -20606,8 +20598,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1013184447
-  m_SortingLayer: 2
+  m_SortingLayerID: 1587870087
+  m_SortingLayer: 6
   m_SortingOrder: -5
   m_RenderMode: 0
   m_MeshDistribution: 0
