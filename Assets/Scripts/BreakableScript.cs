@@ -27,6 +27,8 @@ public class BreakableScript : MonoBehaviour
     //private bool isBroken;
     public string objectID;
 
+    public bool needsHeavySlash;
+
     private LogicScript logicScript;
 
     void Start()
@@ -58,8 +60,9 @@ public class BreakableScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Slash"))
+        if ((collision.gameObject.CompareTag("Slash") || collision.gameObject.CompareTag("Vault") || collision.gameObject.CompareTag("HeavySlash")) && !needsHeavySlash)
         {
+            
             hitPoints--;
            // Debug.Log("wall hit");
             if (hitPoints > 0)
@@ -74,6 +77,29 @@ public class BreakableScript : MonoBehaviour
                 }
             } else
             { 
+                //Debug.Log("wall broken");
+                audioSource.PlayOneShot(hitSound);
+                BreakMyself();
+            }
+        }
+
+        if(collision.gameObject.CompareTag("HeavySlash") && needsHeavySlash)
+        {
+            hitPoints--;
+            // Debug.Log("wall hit");
+            if (hitPoints > 0)
+            {
+                hitParticles.Play();
+                audioSource.PlayOneShot(hitSound);
+                StartCoroutine(ShakeMyselfCoroutine());
+                if (moneyParticles != null)
+                {
+                    ParticleSystem moneyDropParticles = Instantiate(moneyParticles, transform.position, Quaternion.identity);
+                    moneyDropParticles.GetComponent<MoneyParticleScript>().SpawnMoney(moneyOnHit);
+                }
+            }
+            else
+            {
                 //Debug.Log("wall broken");
                 audioSource.PlayOneShot(hitSound);
                 BreakMyself();

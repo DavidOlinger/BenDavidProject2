@@ -118,8 +118,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4963502655946797745}
-  - {fileID: 3095672666347785179}
   - {fileID: 3818532650181569083}
+  - {fileID: 7249381317599235255}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7309810081055392738
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 3
-  hitParticles: {fileID: 6416896345164488791}
+  hitParticles: {fileID: 1684791835447846715}
   breakParticles: {fileID: 798431324222732112}
   moneyParticles: {fileID: 0}
   ambientParticles: {fileID: 0}
@@ -343,7 +343,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &4749576075555630034
+--- !u!1001 &1118320165595851966
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -400,15 +400,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 199316db1009cc943b1ff0e0b60f3892, type: 3}
---- !u!4 &3095672666347785179 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7719147383252328457, guid: 199316db1009cc943b1ff0e0b60f3892, type: 3}
-  m_PrefabInstance: {fileID: 4749576075555630034}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6416896345164488791 stripped
+--- !u!198 &1684791835447846715 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1793707520647744389, guid: 199316db1009cc943b1ff0e0b60f3892, type: 3}
-  m_PrefabInstance: {fileID: 4749576075555630034}
+  m_PrefabInstance: {fileID: 1118320165595851966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7249381317599235255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7719147383252328457, guid: 199316db1009cc943b1ff0e0b60f3892, type: 3}
+  m_PrefabInstance: {fileID: 1118320165595851966}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7989431893753336755
 PrefabInstance:
