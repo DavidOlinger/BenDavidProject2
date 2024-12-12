@@ -84,11 +84,12 @@ public class PlayerScript : MonoBehaviour
     public GameObject vaultPrefab; //idk if we are doing this right but it should work for now
     public GameObject heavySlashPrefab;
 
-    public float slashDuration = 0.3f;
     public float maxSlashCoolDown;
-
+    public bool attackOnCooldown;
 
     public bool isHeavySlashing;
+    public bool heavySlashOnCooldown;
+    public float maxHeavySlashCooldown;
 
     public bool attackQueued;
     public bool nextSwingIsDownward = true;
@@ -184,7 +185,11 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
 
-
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            PlayerPrefs.SetFloat("CanVault", 1);
+            PlayerPrefs.SetFloat("CanHeavySlash", 1);
+        }
 
 
         CheckForGround();
@@ -754,7 +759,7 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && (isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping)
+        if (context.started && (isGrounded || (wasGroundedCoyote() && rb.velocity.y <= 0)) && !cantMove && !isJumping && !isHeavySlashing)
         {
             isJumping = true;
             shortHop = false;
@@ -828,14 +833,15 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started && !logicScript.isPaused)
         {
-            if (isAttacking)
-            {
-                //could add a conditional here
-                attackQueued = true;
-            } else
+
+            if (!attackOnCooldown)
             {
                 StartAttack();
+            } else
+            {
+                attackQueued = true;
             }
+
         }
         else if (context.canceled)
         {
@@ -846,7 +852,7 @@ public class PlayerScript : MonoBehaviour
     public void OnHeavySlash(InputAction.CallbackContext context)
     {
         
-        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting && !isJumping && PlayerPrefs.GetFloat("CanHeavySlash") == 1)
+        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting && !isJumping && PlayerPrefs.GetFloat("CanHeavySlash") == 1 && !heavySlashOnCooldown)
         {
             isAttacking = false;
             animator.SetBool("attacking", false);
@@ -1002,6 +1008,29 @@ public class PlayerScript : MonoBehaviour
         sp.color = Color.white;
     }
 
+    private IEnumerator attackDelay(float duration)
+    {
+        attackOnCooldown = true;
+        yield return new WaitForSeconds(duration);
+        attackOnCooldown = false;
+        if (attackQueued)
+        {
+            nextSwingIsDownward = !nextSwingIsDownward;
+            StartAttack();
+            attackQueued = false;
+        } else
+        {
+            nextSwingIsDownward = true;
+        }
+    }
+
+    private IEnumerator HeavySlashDelay(float duration)
+    {
+        heavySlashOnCooldown = true;
+        yield return new WaitForSeconds(duration);
+        heavySlashOnCooldown = false;
+    }
+
     public IEnumerator endCantMove(float duration)
     {
         cantMove = true;
@@ -1061,17 +1090,11 @@ public class PlayerScript : MonoBehaviour
     public void StartAttack()
     {
         if (!isAttacking && !isVaulting && !animator.GetBool("injured"))
-        {
+        {  
             isAttacking = true;
             animator.SetBool("attacking", true);
-            //if (nextSwingIsDownward)
-            //{
-            //    Debug.Log("Swing Down");
-            //} else
-            //{
-            //    Debug.Log("Swing Up");
-            //}
             animator.SetBool("swingingDown", nextSwingIsDownward);
+            StartCoroutine(attackDelay(maxSlashCoolDown));
         }
         
     }
@@ -1081,29 +1104,24 @@ public class PlayerScript : MonoBehaviour
         //Debug.Log("Up Animation Played");
         isAttacking = false;
         animator.SetBool("attacking", false);
-        nextSwingIsDownward = true;
 
-        if (attackQueued)
-        {
-            nextSwingIsDownward = true;
-            attackQueued = false;
-            StartAttack();
-            
-        }
+        //if (attackQueued)
+        //{
+        //    attackQueued = false;
+        //    StartAttack();
+        //}
     }
     public void EndDownAttack()
     {
         //Debug.Log("down Animation Played");
         isAttacking = false;
         animator.SetBool("attacking", false);
-        nextSwingIsDownward = true;
 
-        if (attackQueued)
-        {
-            nextSwingIsDownward = false;
-            attackQueued = false;
-            StartAttack();
-        }
+        //if (attackQueued)
+        //{
+        //    attackQueued = false;
+        //    StartAttack();
+        //}
     }
 
     public void StartVault()
@@ -1168,7 +1186,7 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("Heavy Slash Started");
             isHeavySlashing = true;
             animator.SetBool("heavySlashing", true);
-
+            StartCoroutine(HeavySlashDelay(maxHeavySlashCooldown));
         }
     }
 
@@ -1189,6 +1207,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     #endregion
+
 
 
     //SOUNDS

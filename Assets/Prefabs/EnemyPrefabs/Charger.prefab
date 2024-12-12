@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: moneyOnKill
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2386367256090228502, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: hitParticles
@@ -102,6 +102,10 @@ PrefabInstance:
     - target: {fileID: 6115358921059890561, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7459045025838649128, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
+      propertyPath: m_GravityScale
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7803982407145508161, guid: d3c9eb65abc969645b473165c88cc95b, type: 3}
       propertyPath: m_LocalScale.x
@@ -197,13 +201,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1022ba4f4e4760f4a8a56abf568af0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 3.5
   stillGrounded: 0
   aggroOnPlayer: 0
   aggroRadius: 10
   deAggroRadius: 20
   attackRange: 5.5
-  chargeSpeed: 8.5
+  chargeSpeed: 7
   attackDuration: 0.32
   postAttackPause: 0.37
   attackCooldown: 1.7
@@ -234,5 +238,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af27bf4910040744ba68eed4638e24b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashPushSpeed: {x: 2, y: 8}
-  launchTime: 2.7
+  slashPushSpeed: {x: 4, y: 12}
+  launchTime: 1

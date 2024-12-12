@@ -244,6 +244,7 @@ MonoBehaviour:
   heavySlashPrefab: {fileID: 1277187901503284132, guid: def40b1d1cc10b84fb8884e85d2d7a77, type: 3}
   slashDuration: 0.15
   maxSlashCoolDown: 0
+  attackOnCooldown: 0
   isHeavySlashing: 0
   attackQueued: 0
   nextSwingIsDownward: 0

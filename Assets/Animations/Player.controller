@@ -991,6 +991,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: vaulting
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: heavySlashing
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2598238002796240937}
   m_Solo: 0
