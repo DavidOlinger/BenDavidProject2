@@ -35,10 +35,7 @@ public class waveManagerScript : MonoBehaviour
         
     }
 
-    //private void endCantMove()
-    //{
-    //    GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = false;
-    //}
+   
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -56,7 +53,7 @@ public class waveManagerScript : MonoBehaviour
                 pscript.cantMove = true;
                 pscript.rb.velocity = Vector2.zero;
                 
-                Invoke("endCantMove", 1.7f);
+                Invoke("endCantMove", 2f);
 
                 //could also change the music here by muting the main music and playing the music attached to the waveManager
             }
@@ -69,8 +66,8 @@ public class waveManagerScript : MonoBehaviour
                 if (enemy.TryGetComponent(out MonsterLogicScript script))
                 {
                     script.cantMove = true;
-                    //enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                    //enemy.GetComponent<SpriteRenderer>().enabled = true;
+                  //  script.waveStart();
+
 
                 }
             }
@@ -88,6 +85,24 @@ public class waveManagerScript : MonoBehaviour
             // Start monitoring enemy states
             StartCoroutine(CheckEnemies());
         }
+    }
+
+    private void endCantMove()
+    {
+        Debug.Log("endingCantMove");
+        GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = false;
+
+
+        foreach (var enemy in enemies)
+        {
+            if (enemy.TryGetComponent(out MonsterLogicScript script))
+            {
+                script.waveStart();
+
+
+            }
+        }
+
     }
 
     private IEnumerator CheckEnemies()

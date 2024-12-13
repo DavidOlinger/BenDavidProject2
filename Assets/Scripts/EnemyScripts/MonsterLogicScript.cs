@@ -80,9 +80,19 @@ public class MonsterLogicScript : MonoBehaviour
 
     
 
-    private void FixedUpdate()
+    public void waveStart()
     {
 
+        
+            if (CantMoveCoroutine != null)
+            {
+                StopCoroutine(CantMoveCoroutine);
+            }
+            CantMoveCoroutine = StartCoroutine(EndCantMove(0.08f + playerScript.stunOnHit)); // ends cantMove after 4 frames + how long the hitStun will be
+
+            Invoke("DmgLaunch", playerScript.stunOnHit); // this should prob be a coroutine thing too lol
+        
+        
     }
 
 
