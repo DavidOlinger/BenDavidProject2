@@ -25,6 +25,8 @@ public class launchableScript : MonoBehaviour
 
         if (collision.CompareTag("HeavySlash"))
         {
+            GameObject.FindWithTag("Player").GetComponent<PlayerScript>().PlayHitSound();
+
             rb.velocity = Vector2.zero; //to make it launch the same every time
 
             if (collision.transform.position.x - gameObject.transform.position.x <= 0)

@@ -89,7 +89,6 @@ public class LogicScript : MonoBehaviour
 
     public void RespawnEnemies()
     {
-       // Debug.Log($"RespawnEnemies called. Disabled enemies count: {saveData.disabledEnemies.Count}");
         foreach (var enemyID in saveData.disabledEnemies)
         {
             if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
@@ -118,7 +117,7 @@ public class LogicScript : MonoBehaviour
        // Debug.Log($"Marking enemy as killed: {enemyID}");
         if (enemyDictionary.TryGetValue(enemyID, out MonsterLogicScript enemy))
         {
-            enemy.gameObject.SetActive(false);
+            //enemy.gameObject.SetActive(false);
 
             if (enemy.dontRespawn)
             {
@@ -252,7 +251,6 @@ public class LogicScript : MonoBehaviour
             if (!enemyDictionary.ContainsKey(enemy.enemyID))
             {
                 enemyDictionary[enemy.enemyID] = enemy;
-                Debug.Log($"Registered enemy with ID: {enemy.enemyID}");
             }
         }
 

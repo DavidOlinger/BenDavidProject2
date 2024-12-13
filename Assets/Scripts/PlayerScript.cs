@@ -940,7 +940,12 @@ public class PlayerScript : MonoBehaviour
     #region
     void SetGroundPoint()
     {
-        if (isGrounded && !invincible && !hasBeenSpiked) { lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
+        if (isGrounded && !invincible && !hasBeenSpiked) {
+            if(!invincible && !hasBeenSpiked)
+            {
+                lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0);
+            }
+        }
 
     }
 
@@ -1056,7 +1061,10 @@ public class PlayerScript : MonoBehaviour
     {
         for (int i = 0; i < duration * 50; i++)
         {
-
+            if (hasBeenSpiked)
+            {
+                yield return null;
+            }
             yield return new WaitForSeconds(0.02f);
             if (vel.x > 0) // if travelling right
             {

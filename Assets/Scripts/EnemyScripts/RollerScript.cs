@@ -130,12 +130,12 @@ public class NewBehaviourScript : MonoBehaviour
 
         if(downHit1.collider != null || downHit2.collider != null)
         {
-            Debug.Log("DOWNN");
+            //Debug.Log("DOWNN");
             rb.velocity = new Vector2(-moveSpeed, 0);
         }
         else if (rightHit1.collider != null || rightHit2.collider != null)
         {
-            Debug.Log("AHHH");
+           // Debug.Log("AHHH");
             rb.velocity = new Vector2(0, -moveSpeed);
         }
         else if (upHit1.collider != null || upHit2.collider != null)
