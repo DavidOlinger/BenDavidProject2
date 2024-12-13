@@ -42,6 +42,9 @@ public class unlockVault : MonoBehaviour
 
     public void VaultUnlock()
     {
+
+        logicScript.isPaused = true;
+
         PlayerPrefs.SetFloat("CanVault", 1);
         vaultText.enabled = true;
         cover.enabled = true;
@@ -50,7 +53,7 @@ public class unlockVault : MonoBehaviour
         slashImage.enabled = true;
 
         isUnlocked = true;
-        logicScript.isPaused = true;
+
     }
 
     private bool isTriggered = false;
@@ -70,7 +73,7 @@ public class unlockVault : MonoBehaviour
         }
 
         
-            if (Input.GetKeyDown(KeyCode.P) && isUnlocked)
+            if (logicScript.isPaused == false && isUnlocked)
             {
                 vaultText.enabled = false;
                 cover.enabled = false;

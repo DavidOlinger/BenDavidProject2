@@ -47643,66 +47643,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.minMaxState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_MultiplyDragByParticleSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[0].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[0].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].inWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[0].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 1829566977844384194, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: m_Parameters.m_DragCurve.maxCurve.m_Curve.Array.data[1].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
     - target: {fileID: 4715007861208846210, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.3
@@ -47751,30 +47691,6 @@ PrefabInstance:
       propertyPath: logicScript
       value: 
       objectReference: {fileID: 1662822227}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: vaultDistance
-      value: 10.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: interactAction
-      value: 
-      objectReference: {fileID: 8162108323592524481, guid: a8a36a2e45de7264899507f47bed5437, type: 3}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: interactAction.m_Name
-      value: Interact
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: interactAction.m_SingletonActionBindings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: interactAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 8c5af00a-6d9b-4ec7-851d-59eed75a5375
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000981431108293191, guid: a4160197c2e68c4428af898f36a9a703, type: 3}
-      propertyPath: interactAction.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Interact
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

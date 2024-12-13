@@ -922,7 +922,15 @@ public class PlayerScript : MonoBehaviour
         //}
     }
 
-
+    //public void OnPro(InputAction.CallbackContext context)
+    //{
+    //    if (context.started)
+    //    {
+    //        Debug.Log("PRO CONTROLLER");
+            
+    //    }
+       
+    //}
 
 
     #endregion
@@ -932,7 +940,7 @@ public class PlayerScript : MonoBehaviour
     #region
     void SetGroundPoint()
     {
-        if (isGrounded && !invincible) { lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
+        if (isGrounded && !invincible && !hasBeenSpiked) { lastGroundPoint = transform.position + new Vector3(0, 0.2f, 0); }
 
     }
 
