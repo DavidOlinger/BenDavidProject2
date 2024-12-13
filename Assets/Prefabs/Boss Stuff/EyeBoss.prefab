@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3954927138131281140}
   - component: {fileID: 928273389447364158}
   - component: {fileID: 7205354743782956761}
+  - component: {fileID: 3773770771124224330}
   m_Layer: 0
   m_Name: Fire Beam
   m_TagString: Untagged
@@ -4843,6 +4844,21 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &3773770771124224330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582660299360330908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1d9b23bde30114f8e1220180d09945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgHitStun: 0.5
+  playerKnockback: 1
+  damage: 1
 --- !u!1 &5857955252615200656
 GameObject:
   m_ObjectHideFlags: 0
@@ -9769,6 +9785,8 @@ GameObject:
   - component: {fileID: 4107288479410844823}
   - component: {fileID: 4446090237250183619}
   - component: {fileID: 1707139061277578563}
+  - component: {fileID: 3414566277696020989}
+  - component: {fileID: 5160885828207859562}
   m_Layer: 0
   m_Name: EyeBoss
   m_TagString: Untagged
@@ -9875,7 +9893,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.000000008214471, y: 0.06890798}
@@ -9894,4 +9912,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireBeam: {fileID: 928273389447364158}
-  sweepTime: 5
+  sweepTime: 2
+  fireballPrefab: {fileID: 0}
+  fireballXVel: 0
+  fireballYVel: 0
+  distanceMod: 20
+  pullForce: 1
+  targetTL: {fileID: 0}
+  targetTR: {fileID: 0}
+  targetBL: {fileID: 0}
+  targetBR: {fileID: 0}
+  targetCenter: {fileID: 0}
+--- !u!114 &3414566277696020989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623900498348831975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1d9b23bde30114f8e1220180d09945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgHitStun: 0.05
+  playerKnockback: 1
+  damage: 1
+--- !u!50 &5160885828207859562
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623900498348831975}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

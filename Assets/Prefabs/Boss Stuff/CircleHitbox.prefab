@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5483196612966981205}
   - component: {fileID: 104973663632833557}
   - component: {fileID: 2764358290877623440}
+  - component: {fileID: -6944544870266793576}
   m_Layer: 0
   m_Name: CircleHitbox
   m_TagString: Enemy
@@ -120,3 +121,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!114 &-6944544870266793576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7955704117770052063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1d9b23bde30114f8e1220180d09945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgHitStun: 0.05
+  playerKnockback: 1
+  damage: 1

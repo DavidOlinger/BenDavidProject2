@@ -12,7 +12,6 @@ public class FireballScript : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(1, 1);
     }
 
     // Update is called once per frame
