@@ -55,7 +55,7 @@ public class unlockVault : MonoBehaviour
 
         else
         {
-            PlayerPrefs.SetFloat("HeavySlash", 1);
+            PlayerPrefs.SetFloat("CanHeavySlash", 1);
         }
         vaultText.enabled = true;
         cover.enabled = true;
