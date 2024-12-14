@@ -44,7 +44,7 @@ public class CutsceneScript : MonoBehaviour
         text[counter].enabled = false;
         counter = counter + 1;
 
-        if (counter == 9)
+        if (counter == 5)
         {
             PlayerPrefs.SetInt("Scene", 1);
             SceneManager.LoadScene(1);

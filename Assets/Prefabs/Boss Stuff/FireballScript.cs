@@ -42,7 +42,7 @@ public class FireballScript : MonoBehaviour
         Destroy(Instantiate(hitboxPrefab, transform.position, Quaternion.identity), 0.2f);
         gameObject.SetActive(false);
         audioSource.PlayOneShot(boomSound);
-        Destroy(gameObject);
+        Destroy(gameObject, 5);
     }
 
 }

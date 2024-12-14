@@ -17,6 +17,7 @@ TagManager:
   - HealthUp
   - HeavySlash
   - Rock
+  - MusicManager
   layers:
   - Default
   - TransparentFX

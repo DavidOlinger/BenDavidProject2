@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EyeBossScript : MonoBehaviour
 {
-
+    public GameObject triggerEnemy;
     // Attacks
     public ParticleSystem fireBeam;
     public float sweepTime;
@@ -230,6 +230,7 @@ public class EyeBossScript : MonoBehaviour
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
+        triggerEnemy.SetActive(false);
 
     }
 
