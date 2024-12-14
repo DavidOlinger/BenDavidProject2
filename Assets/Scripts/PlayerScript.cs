@@ -18,8 +18,8 @@ public class PlayerScript : MonoBehaviour
     public bool momentLock;
     public bool cantMove;
 
-    public float moveSpeed;
-    public float normalMoveSpeed;
+    public float moveSpeed = 5.85f;
+    public float normalMoveSpeed = 5.85f;
     public float jumpForce;
 
     public float wallJumpXForce;
@@ -184,8 +184,17 @@ public class PlayerScript : MonoBehaviour
     private float maxSpeedHorizontalAllowed = 5.85f;
     private void FixedUpdate()
     {
+        if(PlayerPrefs.GetInt("Boon2") == 1)
+        {
+            moveSpeed = 6.8f;
+            normalMoveSpeed = 6.8f;
 
-        if (Input.GetKeyDown(KeyCode.G))
+            vaultSpeed = 13.5f;
+
+        }
+        
+
+if (Input.GetKeyDown(KeyCode.G))
         {
             PlayerPrefs.SetFloat("CanVault", 1);
             PlayerPrefs.SetFloat("CanHeavySlash", 1);
@@ -726,6 +735,7 @@ public class PlayerScript : MonoBehaviour
     public float boomerangCooldown;
     public void OnBoomerang(InputAction.CallbackContext context) 
     {
+        Debug.Log("AHHHHH BOOMERANG");
 
         if (context.performed && PlayerPrefs.GetInt("Bless1") == 1)
         {

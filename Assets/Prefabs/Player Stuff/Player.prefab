@@ -291,6 +291,8 @@ MonoBehaviour:
   saveSound: {fileID: 8300000, guid: 68660143555bc5644988603b6e17366d, type: 3}
   moneySound: {fileID: 0}
   wallVaultRaycastDistance: 1.85
+  boomerang: {fileID: 5546978805176707600, guid: 14aa28d0c177df14e95834796430bdc6, type: 3}
+  boomerangCooldown: 1.5
 --- !u!114 &8608152268744990662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +430,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ac0890c2-c8c9-4219-b970-357d182b42ee
     m_ActionName: Player/UpperCut[/Keyboard/h]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6000981431108293191}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnBoomerang
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 57629aef-8363-486d-87de-ce622c14a377
+    m_ActionName: Player/Boomerang[/Keyboard/k,/SwitchProControllerHID/leftTrigger,/XInputControllerWindows/leftTrigger,/SwitchProControllerHID/leftShoulder,/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

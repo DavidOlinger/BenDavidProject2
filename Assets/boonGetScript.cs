@@ -12,6 +12,9 @@ public class boonGetScript : MonoBehaviour
     private BreakableScript breakScript;
 
 
+    public GameObject textToDestroy;
+
+
     
     private void Start()
     {
@@ -26,6 +29,7 @@ public class boonGetScript : MonoBehaviour
 
     public void BoonUnlock()
     {
+        Destroy(textToDestroy);
 
 
         if(breakScript.objectID == "Alter1")
@@ -62,7 +66,7 @@ public class boonGetScript : MonoBehaviour
     private void Update()
     {
 
-        if (breakScript.hitPoints == 0 && !isTriggered)
+        if (breakScript.hitPoints <= 0 && !isTriggered)
         {
             BoonUnlock();
             //play a sound

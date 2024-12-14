@@ -60,7 +60,7 @@ public class MonsterLogicScript : MonoBehaviour
 
         if (string.IsNullOrEmpty(enemyID))
         {
-            enemyID = System.Guid.NewGuid().ToString(); // Assign a unique ID using GUID
+            enemyID = System.Guid.NewGuid().ToString(); // Assign a unique ID
         }
 
 
@@ -182,7 +182,14 @@ public class MonsterLogicScript : MonoBehaviour
 
         //playerScript.slashKnockback(hitLaunch);
 
-        hitCounter++;
+        if(PlayerPrefs.GetInt("Boon1") == 1)
+        {
+            hitCounter = hitCounter + 2;
+        }
+        else
+        {
+            hitCounter++;
+        }
         if (hitParticles != null)
         {
             ParticleSystem onHitParticles = Instantiate(hitParticles, transform.position, Quaternion.identity);

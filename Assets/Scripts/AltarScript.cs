@@ -67,14 +67,20 @@ public class AltarScript : MonoBehaviour
                 Destroy(particles, particles.main.startLifetime.constantMax);
                 isActivatable = false;
 
+                Debug.Log("AHHHHH");
+
                 if(AlterNum == 1)
                 {
                     PlayerPrefs.SetInt("Bless1", 1);
+                    PlayerPrefs.SetInt("Boon1", 0);
 
+                    Debug.Log("KILLL ME");
                 }
                 else if(AlterNum == 2)
                 {
                     PlayerPrefs.SetInt("Bless2", 1);
+                    PlayerPrefs.SetInt("Boon2", 0);
+
                 }
             }
             if (!interactionScript.activated) 

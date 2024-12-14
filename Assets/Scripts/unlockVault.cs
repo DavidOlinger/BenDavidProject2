@@ -18,10 +18,13 @@ public class unlockVault : MonoBehaviour
     public GameObject frontCover;
     private Image thickCover;
 
-    public GameObject vaultImage;
-    public GameObject vaultSlashImage;
-    private Image vImage;
-    private Image slashImage;
+    //public GameObject vaultImage;
+    //public GameObject vaultSlashImage;
+    //private Image vImage;
+    //private Image slashImage;
+
+
+    public bool isVault;
     private void Start()
     {
         logicScript = GameObject.FindWithTag("TimeManager").GetComponent<LogicScript>();
@@ -33,8 +36,8 @@ public class unlockVault : MonoBehaviour
 
         cover = backCover.GetComponent<Image>();
         thickCover = frontCover.GetComponent<Image>();
-        vImage = vaultImage.GetComponent<Image>();
-        slashImage = vaultSlashImage.GetComponent<Image>();
+        //vImage = vaultImage.GetComponent<Image>();
+        //slashImage = vaultSlashImage.GetComponent<Image>();
 
 
 
@@ -45,12 +48,20 @@ public class unlockVault : MonoBehaviour
 
         logicScript.isPaused = true;
 
-        PlayerPrefs.SetFloat("CanVault", 1);
+        if (isVault)
+        {
+            PlayerPrefs.SetFloat("CanVault", 1);
+        }
+
+        else
+        {
+            PlayerPrefs.SetFloat("HeavySlash", 1);
+        }
         vaultText.enabled = true;
         cover.enabled = true;
         thickCover.enabled = true;
-        vImage.enabled = true;
-        slashImage.enabled = true;
+        //vImage.enabled = true;
+        //slashImage.enabled = true;
 
         isUnlocked = true;
 
@@ -64,7 +75,6 @@ public class unlockVault : MonoBehaviour
         if (breakScript.hitPoints == 0 && !isTriggered)
         {
             Invoke("VaultUnlock", 2);
-            GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = true;
 
             //play a sound
             //play a particle effect, prob just steal the one from the alters
@@ -78,10 +88,9 @@ public class unlockVault : MonoBehaviour
                 vaultText.enabled = false;
                 cover.enabled = false;
                 thickCover.enabled = false;
-                vImage.enabled = false;
-                slashImage.enabled = false;
+                //vImage.enabled = false;
+                //slashImage.enabled = false;
 
-            GameObject.FindWithTag("Player").GetComponent<PlayerScript>().cantMove = false;
 
         }
 

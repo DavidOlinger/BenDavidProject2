@@ -62,8 +62,14 @@ public class BreakableScript : MonoBehaviour
     {
         if ((collision.gameObject.CompareTag("Slash") || collision.gameObject.CompareTag("Vault") || collision.gameObject.CompareTag("HeavySlash")) && !needsHeavySlash)
         {
-            
-            hitPoints--;
+            if (PlayerPrefs.GetInt("Boon1") == 1)
+            {
+                hitPoints = hitPoints - 5;
+            }
+            else
+            {
+                hitPoints--;
+            }
            // Debug.Log("wall hit");
             if (hitPoints > 0)
             {

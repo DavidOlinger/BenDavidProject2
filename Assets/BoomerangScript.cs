@@ -57,13 +57,6 @@ public class BoomerangScript : MonoBehaviour
         timeAlive += 0.02f;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Destroy(gameObject);
-        }
-    }
-
+    
 
 }
