@@ -66,7 +66,11 @@ public class waveManagerScript : MonoBehaviour
                 if (enemy.TryGetComponent(out MonsterLogicScript script))
                 {
                     script.cantMove = true;
-                  //  script.waveStart();
+                    //  script.waveStart();
+                    if (!isCinematic)
+                    {
+                        script.waveStart();
+                    }
 
 
                 }
