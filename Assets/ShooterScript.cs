@@ -44,6 +44,7 @@ public class ShooterScript : MonoBehaviour
     public float maxYVel;
 
     AudioSource audioSource; //in case movement sound effects are necessary
+    
     [SerializeField] GameObject fireballPrefab;
     bool amShooting;
 
@@ -74,6 +75,7 @@ public class ShooterScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         SetDirections();
         CheckForGround();
         CheckForWalls();
@@ -86,6 +88,7 @@ public class ShooterScript : MonoBehaviour
 
     IEnumerator ShootFireball()
     {
+        animator.SetTrigger("shoot");
         amShooting = true;
         GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
         float distanceX = player.transform.position.x - transform.position.x;

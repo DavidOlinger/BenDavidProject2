@@ -7,11 +7,14 @@ public class FireballScript : MonoBehaviour
     [SerializeField] ParticleSystem flameParticles;
     [SerializeField] ParticleSystem sparkParticles;
     [SerializeField] GameObject hitboxPrefab;
+    AudioSource audioSource;
+    public AudioClip boomSound;
     Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        audioSource = rb.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,7 @@ public class FireballScript : MonoBehaviour
         Destroy(Instantiate(sparkParticles, transform.position, Quaternion.identity), 6);
         Destroy(Instantiate(hitboxPrefab, transform.position, Quaternion.identity), 0.2f);
         gameObject.SetActive(false);
+        audioSource.PlayOneShot(boomSound);
         Destroy(gameObject);
     }
 

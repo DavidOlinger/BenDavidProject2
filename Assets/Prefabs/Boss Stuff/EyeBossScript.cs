@@ -50,7 +50,11 @@ public class EyeBossScript : MonoBehaviour
     private Coroutine mainCR;
     public GameObject player;
     public GameObject myEye;
-
+    public AudioClip hitSound;
+    public AudioClip wakeSound;
+    public AudioClip deathSound;
+    public AudioClip chargeSound;
+    public AudioClip beamSound;
  
 
 
@@ -59,6 +63,7 @@ public class EyeBossScript : MonoBehaviour
     SpriteRenderer sp;
     SpriteRenderer spEye;
     Animator animator;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +73,7 @@ public class EyeBossScript : MonoBehaviour
         spEye = myEye.GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -108,12 +114,22 @@ public class EyeBossScript : MonoBehaviour
                 if (hp > 0)
                 {
                     animator.SetTrigger("hurt");
-                    hp--;
+                    audioSource.PlayOneShot(hitSound);
+                    if (PlayerPrefs.GetInt("Boon1") == 1)
+                    {
+                        hp = hp - 2;
+                    }
+                    else
+                    {
+                        hp--;
+                    }
                     isInvincible = true;
                     sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.9f);
                     
                     Invoke("endInvincible", invincibleTime);
                     Destroy(Instantiate(hitParticles, transform.position, Quaternion.identity), 2);
+
+                    
                 } else
                 {
                     Die();
@@ -205,6 +221,7 @@ public class EyeBossScript : MonoBehaviour
         yield return new WaitForSeconds(expectedMoveTime);
         //any death dialogue or particles
         deathSuckParticles.Play();
+        audioSource.PlayOneShot(deathSound);
         yield return new WaitForSeconds(4.5f);
         //die
         deathBurstParticles.Play();
@@ -224,6 +241,7 @@ public class EyeBossScript : MonoBehaviour
         //any opening dialogue or particles
         animator.SetBool("awakened", true);
         yield return new WaitForSeconds(1);
+        audioSource.PlayOneShot(wakeSound);
         awakenRoarParticles.Play();
         yield return new WaitForSeconds(4);
         isInvincible = false;
@@ -247,6 +265,7 @@ public class EyeBossScript : MonoBehaviour
         moveSpeed = dashSpeed;
         smoothTime = 0.01f;
         currentTarget = target2;
+        audioSource.PlayOneShot(chargeSound);
 
         ParticleSystem dashPart = Instantiate(dashParticles, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
         dashPart.transform.parent = transform;
@@ -263,6 +282,7 @@ public class EyeBossScript : MonoBehaviour
     {
         animator.SetTrigger("triggerBeam");
         yield return new WaitForSeconds(0.5f);
+        audioSource.PlayOneShot(beamSound);
         fireBeam.Play();
         fireBeam.GetComponent<BoxCollider2D>().enabled = true;
         
