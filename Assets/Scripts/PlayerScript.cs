@@ -490,9 +490,36 @@ public class PlayerScript : MonoBehaviour
 
     public void takeDamage(GameObject other, float duration, int damage, bool willLaunch)
     {
-        currHP -= damage;
-        PlayHPLossSound();
-        logicScript.UpdateHealth();
+        if(PlayerPrefs.GetInt("Bless2") == 1)
+        {
+            if (Random.Range(0f, 1f) < 0.2f)
+            {
+                Debug.Log("HE WAS LUCKY!!!!");
+                //PLAY A SOUND EFFECT HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+            else
+            {
+                if(currHP < 1.9f && Random.Range(0f, 1f) < 0.2f)
+                {
+                    Debug.Log("HE WAS LUCKY!!!!");
+
+                }
+                else
+                {
+                    currHP -= damage;
+                    PlayHPLossSound();
+                    logicScript.UpdateHealth();
+                }
+                
+            }
+        }
+        else
+        {
+            currHP -= damage;
+            PlayHPLossSound();
+            logicScript.UpdateHealth();
+        }
+        
         if (currHP <= 0)
         {
             PlayerDeath(true);
@@ -694,7 +721,34 @@ public class PlayerScript : MonoBehaviour
     #region
     //INPUTS
 
-    public void OnMove(InputAction.CallbackContext context) // Might want to remove the Vector2.zero part from this and put it somewhere else, could cause problems maybe
+    private bool canBoomer = true;
+    public GameObject boomerang;
+    public float boomerangCooldown;
+    public void OnBoomerang(InputAction.CallbackContext context) 
+    {
+
+        if (context.performed && PlayerPrefs.GetInt("Bless1") == 1)
+        {
+            //spawn a prefab
+            Debug.Log("boomer is thrown");
+            if(canBoomer)
+            {
+                canBoomer = false;
+                GameObject boomer = Instantiate(boomerang, transform.position, Quaternion.identity);
+                boomer.GetComponent<BoomerangScript>().isFacingRight = !sp.flipX;
+                Invoke("resetBoomer", boomerangCooldown);
+            }
+        }
+       
+    }
+
+
+    public void resetBoomer()
+    {
+        canBoomer = true;
+    }
+
+    public void OnMove(InputAction.CallbackContext context) 
     {
         if (context.performed)
         {
