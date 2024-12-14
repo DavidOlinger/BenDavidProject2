@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class MonsterLogicScript : MonoBehaviour
