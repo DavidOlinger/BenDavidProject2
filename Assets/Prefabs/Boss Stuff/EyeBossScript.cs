@@ -31,8 +31,8 @@ public class EyeBossScript : MonoBehaviour
     public float invincibleTime = 0.1f;
     [SerializeField] ParticleSystem awakenRoarParticles;
     [SerializeField] ParticleSystem hitParticles;
-    [SerializeField] ParticleSystem deathAuraParticles;
-    [SerializeField] ParticleSystem deathLightningParticles;
+    [SerializeField] ParticleSystem deathSuckParticles;
+    [SerializeField] ParticleSystem deathBurstParticles;
 
 
     private Vector3 velocity = Vector3.zero;
@@ -58,6 +58,7 @@ public class EyeBossScript : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sp;
     SpriteRenderer spEye;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,7 @@ public class EyeBossScript : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         spEye = myEye.GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -105,10 +107,11 @@ public class EyeBossScript : MonoBehaviour
             {
                 if (hp > 0)
                 {
+                    animator.SetTrigger("hurt");
                     hp--;
                     isInvincible = true;
-                    sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.8f);
-                    spEye.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.8f);
+                    sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 0.9f);
+                    
                     Invoke("endInvincible", invincibleTime);
                     Destroy(Instantiate(hitParticles, transform.position, Quaternion.identity), 2);
                 } else
@@ -125,7 +128,7 @@ public class EyeBossScript : MonoBehaviour
     {
         isInvincible = false;
         sp.color = new Color(sp.color.r, sp.color.g, sp.color.b, 1f);
-        spEye.color = new Color(sp.color.r, sp.color.g, sp.color.b, 1f);
+        
 
 
     }
@@ -133,7 +136,28 @@ public class EyeBossScript : MonoBehaviour
     public void Die()
     {
         StopAllCoroutines();
+        Destroy(fireBeam);
         StartCoroutine(DeathSequence());
+    }
+
+    public void EyeColorRed()
+    {
+        spEye.color = new Color(1, 0.4f, 0.4f, 1);
+    }
+
+    public void EyeColorBlack()
+    {
+        spEye.color = new Color(0.5f, 0f, 0.5f, 1);
+    }
+
+    public void EyeColorOrange()
+    {
+        spEye.color = new Color(1, 0.6f, 0.1f, 1);
+    }
+
+    public void EyeColorReset()
+    {
+        spEye.color = new Color(1, 1, 1, 1);
     }
 
 
@@ -151,7 +175,7 @@ public class EyeBossScript : MonoBehaviour
 
 
             StartCoroutine(DarkDash(targetBL, targetBR));
-            yield return new WaitForSeconds(2.5f * expectedMoveTime);
+            yield return new WaitForSeconds(3.5f * expectedMoveTime);
 
 
 
@@ -165,25 +189,29 @@ public class EyeBossScript : MonoBehaviour
             yield return new WaitForSeconds(expectedMoveTime);
 
             //15 ball barrage
-            StartCoroutine(Barrage(15, 0.33f));
-            yield return new WaitForSeconds(6);
+            StartCoroutine(Barrage(25, 0.25f));
+            yield return new WaitForSeconds(6.25f);
 
             StartCoroutine(DarkDash(targetBR, targetBL));
             yield return new WaitForSeconds(2.5f*expectedMoveTime);
-
-
 
         }
 
     }
     private IEnumerator DeathSequence()
     {
+        animator.SetBool("dying", true);
         currentTarget = targetCenter;
         yield return new WaitForSeconds(expectedMoveTime);
         //any death dialogue or particles
-        yield return new WaitForSeconds(5);
+        deathSuckParticles.Play();
+        yield return new WaitForSeconds(4.5f);
         //die
-        yield return new WaitForSeconds(1);
+        deathBurstParticles.Play();
+        sp.enabled = false;
+        spEye.enabled = false;
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+        yield return new WaitForSeconds(2f);
         Destroy(gameObject);
 
     }
@@ -194,8 +222,10 @@ public class EyeBossScript : MonoBehaviour
         currentTarget = targetCenter;
         yield return new WaitForSeconds(expectedMoveTime);
         //any opening dialogue or particles
-        Destroy(Instantiate(awakenRoarParticles, transform.position, Quaternion.identity), 5);
-        yield return new WaitForSeconds(5);
+        animator.SetBool("awakened", true);
+        yield return new WaitForSeconds(1);
+        awakenRoarParticles.Play();
+        yield return new WaitForSeconds(4);
         isInvincible = false;
         StartCoroutine(MainLoop());
     }
@@ -204,6 +234,8 @@ public class EyeBossScript : MonoBehaviour
 
     private IEnumerator DarkDash(GameObject target1, GameObject target2)
     {
+        animator.SetTrigger("triggerCharge");
+        yield return new WaitForSeconds(0.5f);
         float savedMoveSpeed = moveSpeed;
         float savedSmoothTime = smoothTime;
         currentTarget = target1;
@@ -220,13 +252,17 @@ public class EyeBossScript : MonoBehaviour
         dashPart.transform.parent = transform;
         Destroy(dashPart, 1);
 
-        yield return new WaitForSeconds(expectedMoveTime / 2);
+        yield return new WaitForSeconds(expectedMoveTime);
         moveSpeed = savedMoveSpeed;
         smoothTime = savedSmoothTime;
+        yield return new WaitForSeconds(1f);
+        animator.SetTrigger("triggerEydle");
     }
 
     private IEnumerator BeamSweep(float angle)
     {
+        animator.SetTrigger("triggerBeam");
+        yield return new WaitForSeconds(0.5f);
         fireBeam.Play();
         fireBeam.GetComponent<BoxCollider2D>().enabled = true;
         
@@ -244,10 +280,14 @@ public class EyeBossScript : MonoBehaviour
         fireBeam.transform.rotation = targetRotation;
         fireBeam.Stop();
         fireBeam.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        animator.SetTrigger("triggerEydle");
     }
 
     private IEnumerator Barrage(int numFireballs, float delay)
     {
+        animator.SetTrigger("triggerBarrage");
+        yield return new WaitForSeconds(0.5f);
         for (int i = 0; i < numFireballs; i++)
         {
             yield return new WaitForSeconds(delay);
@@ -258,5 +298,8 @@ public class EyeBossScript : MonoBehaviour
                 fireballYVel
             );
         }
+        yield return new WaitForSeconds(0.5f);
+        animator.SetTrigger("triggerEydle");
+
     }
 }
