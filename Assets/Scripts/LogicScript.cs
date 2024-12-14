@@ -63,16 +63,16 @@ public class LogicScript : MonoBehaviour
 
     private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-          //  Debug.Log("RESPAWNING ENEMIES");
-            RespawnEnemies();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-           // Debug.Log("AHHH CLEARING THE SAVES");
-            ClearAllSaves();
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //  //  Debug.Log("RESPAWNING ENEMIES");
+        //    RespawnEnemies();
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //   // Debug.Log("AHHH CLEARING THE SAVES");
+        //    ClearAllSaves();
+        //}
         
     }
 

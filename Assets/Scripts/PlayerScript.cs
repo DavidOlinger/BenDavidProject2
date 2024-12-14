@@ -194,11 +194,11 @@ public class PlayerScript : MonoBehaviour
         }
         
 
-if (Input.GetKeyDown(KeyCode.G))
-        {
-            PlayerPrefs.SetFloat("CanVault", 1);
-            PlayerPrefs.SetFloat("CanHeavySlash", 1);
-        }
+//if (Input.GetKeyDown(KeyCode.G))
+//        {
+//            PlayerPrefs.SetFloat("CanVault", 1);
+//            PlayerPrefs.SetFloat("CanHeavySlash", 1);
+//        }
 
 
         CheckForGround();

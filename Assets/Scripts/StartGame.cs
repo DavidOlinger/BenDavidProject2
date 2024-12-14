@@ -17,7 +17,7 @@ public class StartGame : MonoBehaviour
         PlayerPrefs.SetInt("Money", 0);
         PlayerPrefs.SetFloat("CanVault", 0);
         PlayerPrefs.SetInt("WallJump", 0);
-        PlayerPrefs.SetFloat("CanHeavySlash", 0);
+        PlayerPrefs.SetFloat("CanHeavySlash", 1);
 
         PlayerPrefs.SetInt("MaxHP", 4);
         PlayerPrefs.SetInt("CurrHP", 4);
