@@ -865,7 +865,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -5699,7 +5699,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -10534,7 +10534,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -14534,6 +14534,7 @@ Transform:
   - {fileID: 883037643018945836}
   - {fileID: 4856600039860211708}
   - {fileID: 3970778234927244537}
+  - {fileID: 808862785267431926}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6403262596387432192
@@ -14600,6 +14601,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947e69c5eb9812e468f3c8dd913cb504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  interaction: {fileID: 2352647011381674554}
+  isLit: 0
+  id: 
+  flames: {fileID: 8543374317576986756}
+  smoke: {fileID: 6925090649574537583}
+  sparks: {fileID: 3470192934258213970}
+  interactionTrigger: {fileID: 0}
 --- !u!61 &7028366586436199272
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14645,3 +14654,82 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.88, y: 0.58}
   m_EdgeRadius: 0
+--- !u!1001 &3902426277639339886
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5255901548259051475}
+    m_Modifications:
+    - target: {fileID: -2595243914679411909, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_Radius
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625364041622732116, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_Name
+      value: InteractionTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614270793539850905, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: renderHighlight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614270793539850905, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: activationRadius
+      value: 1.2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e524c24f6b735f24286745da38b53365, type: 3}
+--- !u!4 &808862785267431926 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
+  m_PrefabInstance: {fileID: 3902426277639339886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2352647011381674554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1625364041622732116, guid: e524c24f6b735f24286745da38b53365, type: 3}
+  m_PrefabInstance: {fileID: 3902426277639339886}
+  m_PrefabAsset: {fileID: 0}

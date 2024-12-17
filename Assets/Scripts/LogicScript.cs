@@ -56,24 +56,24 @@ public class LogicScript : MonoBehaviour
         breakablesSaveFilePath = Path.Combine(Application.persistentDataPath, "breakables.json");
         // Initialize paths and load save data
         enemiesSaveFilePath = Path.Combine(Application.persistentDataPath, "enemies.json");
-
+        Debug.Log(Application.persistentDataPath);
         LoadData();
 
     }
 
     private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //  //  Debug.Log("RESPAWNING ENEMIES");
-        //    RespawnEnemies();
-        //}
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //   // Debug.Log("AHHH CLEARING THE SAVES");
-        //    ClearAllSaves();
-        //}
-        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //  Debug.Log("RESPAWNING ENEMIES");
+            RespawnEnemies();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("AHHH CLEARING THE SAVES");
+            ClearAllSaves();
+        }
+
     }
 
     //Enemy Death Saving
@@ -254,6 +254,42 @@ public class LogicScript : MonoBehaviour
             }
         }
 
+        //to load a saved campfire
+        string lastCampfireID = PlayerPrefs.GetString("LastCampfireID", "");
+
+        if (!string.IsNullOrEmpty(lastCampfireID))
+        {
+            // Find the campfire with the matching ID
+            GameObject[] campfires = GameObject.FindGameObjectsWithTag("SavePoint");
+            GameObject savedCampfire = null;
+
+            foreach (GameObject campfire in campfires)
+            {
+                CampfireParticleScript campfireScript = campfire.GetComponent<CampfireParticleScript>();
+                if (campfireScript != null && campfireScript.id == lastCampfireID)
+                {
+                    savedCampfire = campfire;
+                    break;
+                }
+            }
+
+            if (savedCampfire != null)
+            {
+                Debug.Log($"Found saved campfire with ID: {lastCampfireID}");
+
+                CampfireParticleScript campfireScript = savedCampfire.GetComponent<CampfireParticleScript>();
+                if (campfireScript != null)
+                {
+                    // Safely attempt to light the campfire
+                    campfireScript.Light();
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No campfire found with ID: {lastCampfireID}");
+            }
+        }
+
 
 
         //GameObject.FindWithTag("MainCamera").GetComponent<CameraMovementScript>().fadeToBlack(0);
@@ -304,8 +340,13 @@ public class LogicScript : MonoBehaviour
 
 
 
-    public void savePoint(Vector2 spawnPoint)
+    public void savePoint(GameObject savepoint)
     {
+        if (savepoint.GetComponent<CampfireParticleScript>() != null) 
+        {
+            PlayerPrefs.SetString("LastCampfireID", savepoint.GetComponent<CampfireParticleScript>().id);
+        }
+        Vector3 spawnPoint = savepoint.transform.position;
         PlayerPrefs.SetFloat("SavePointX", spawnPoint.x);
         PlayerPrefs.SetFloat("SavePointY", spawnPoint.y);
 
@@ -438,7 +479,7 @@ public class LogicScript : MonoBehaviour
 
 
 
-        //Debug.Log("All game data cleared for a new game.");
+        Debug.Log("All game data cleared for a new game.");
     }
 
 }

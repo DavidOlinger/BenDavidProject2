@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -108,6 +106,8 @@ public class PlayerScript : MonoBehaviour
     public int maxHP; 
     public bool invincible;
     public float pickupRadius;
+
+    public GameObject lastCampfire; //CAN BE NULL
 
     //Other
     public float hitLaunch = 0; // this is so we don't have to pass it through parameters
@@ -991,9 +991,9 @@ public class PlayerScript : MonoBehaviour
     //    if (context.started)
     //    {
     //        Debug.Log("PRO CONTROLLER");
-            
+
     //    }
-       
+
     //}
 
 
@@ -1002,6 +1002,26 @@ public class PlayerScript : MonoBehaviour
 
     // RESPAWNING
     #region
+
+    public void SetNewCampfire(GameObject newCampfire)
+    {
+  
+        // Check if the last campfire exists before trying to put it out
+        if (lastCampfire != null)
+        {
+            var lastCampfireScript = lastCampfire.GetComponent<CampfireParticleScript>();
+            if (lastCampfireScript != null)
+            {
+                lastCampfireScript.PutOut();
+            }
+        }
+
+        lastCampfire = newCampfire;
+
+        logicScript.savePoint(newCampfire);
+        
+    }
+
     void SetGroundPoint()
     {
         if (isGrounded && !invincible && !hasBeenSpiked) {
@@ -1066,7 +1086,7 @@ public class PlayerScript : MonoBehaviour
     {
         cantMove = true;
         transform.position = lastGroundPoint;
-        Invoke("enableSprite", 0.5f);
+        Invoke("EnableSprite", 0.5f);
     }
 
     #endregion
@@ -1162,7 +1182,7 @@ public class PlayerScript : MonoBehaviour
 
     //UTILITIES
     #region
-    void enableSprite()
+    void EnableSprite()
     {
         sp.enabled = true;
     }
@@ -1341,17 +1361,22 @@ public class PlayerScript : MonoBehaviour
 
     //SAVING + Money
     #region
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("SavePoint"))
-        {
-            logicScript.savePoint(collision.transform.position);
-        }
-        else if (collision.gameObject.CompareTag("money"))
-        {
-            logicScript.addMoney(1);
-            Destroy(collision.gameObject);
-        }
+        //Unnecessary due to campfire Changes
+        //if (collision.gameObject.CompareTag("SavePoint"))
+        //{
+        //    logicScript.savePoint(collision.transform.position);
+        //} else
+
+        //Obsolete!
+        //if (collision.gameObject.CompareTag("money"))
+        //{
+        //    logicScript.addMoney(1);
+        //    Destroy(collision.gameObject);
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

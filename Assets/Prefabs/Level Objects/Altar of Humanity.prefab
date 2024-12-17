@@ -103,6 +103,7 @@ MonoBehaviour:
   interactionParticles: {fileID: 4933585682783417378, guid: 80b687bd5edfa3a4da81a9664e6bc19e, type: 3}
   interactionSound: {fileID: 8300000, guid: 1497bce5ccc187b43a107f18d67a2f8d, type: 3}
   interactionTrigger: {fileID: 7155334533642589434}
+  AlterNum: 0
   isActivatable: 0
 --- !u!82 &814949967568743414
 AudioSource:
@@ -286,6 +287,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7455742638699062641}
     m_Modifications:
+    - target: {fileID: -2595243914679411909, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: m_Radius
+      value: 2.21
+      objectReference: {fileID: 0}
     - target: {fileID: 1625364041622732116, guid: e524c24f6b735f24286745da38b53365, type: 3}
       propertyPath: m_Name
       value: InteractionTrigger
@@ -329,6 +334,10 @@ PrefabInstance:
     - target: {fileID: 4400470302399809176, guid: e524c24f6b735f24286745da38b53365, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614270793539850905, guid: e524c24f6b735f24286745da38b53365, type: 3}
+      propertyPath: activationRadius
+      value: 2.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
