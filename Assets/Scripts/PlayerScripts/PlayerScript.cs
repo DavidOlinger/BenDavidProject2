@@ -5,75 +5,72 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-    //testcomment
+
 
     //VARIABLES
     #region
     //Movement
-    public Rigidbody2D rb;
-    private SpriteRenderer sp;
-
-    [SerializeField] bool momentLock;
-    public bool cantMove;
-
-    [SerializeField] float moveSpeed = 5.85f;
-    [SerializeField] float normalMoveSpeed = 5.85f;
-    [SerializeField] float jumpForce;
-
-    [SerializeField] float wallJumpXForce;
-    [SerializeField] float wallJumpYForce;
+    [Header("Movement")]
+    [SerializeField] public bool momentLock;
+    [SerializeField] public float moveSpeed = 5.85f;
+    [SerializeField] public float normalMoveSpeed = 5.85f;
+    [SerializeField] public float jumpForce;
+    [SerializeField] public float wallJumpXForce;
+    [SerializeField] public float wallJumpYForce;
+    [SerializeField] public float groundingCountDown;
 
     private Vector2 lastStoredVelocity;
-
-
     private Vector2 moveDirection = Vector2.zero;
-    Vector2 moveVector;
-
+    private Vector2 moveVector;
     private bool isGrounded = true;
     private bool isLeftWallTouching;
     private bool isRightWallTouching;
     private bool firstTouchWall;
-
     private float groundingTimer;
-    [SerializeField] float groundingCountDown;
+    private SpriteRenderer sp;
+
+    public Rigidbody2D rb;
+    public bool cantMove;
+
+
 
     //Animation
     private Animator animator;
-    [SerializeField] bool isAttacking;
-    [SerializeField] bool isVaulting;
-    [SerializeField] bool flipLock;
+    [SerializeField] public bool isAttacking;
+    [SerializeField] public bool isVaulting;
+    [SerializeField] public bool flipLock;
 
     //RayCasting
     private float xRayDistance;
-    public LayerMask WallLayer;
-    public LayerMask GroundLayer;
-    public float lastGroundY;
-    public Vector3 lastGroundPoint;
+    [SerializeField] public LayerMask WallLayer;
+    [SerializeField] public LayerMask GroundLayer;
+    [SerializeField] public float lastGroundY;
+    [SerializeField] public Vector3 lastGroundPoint;
     Vector3 leftOffset;
     Vector3 rightOffset;
     Vector3 middleOffset;
-    public float groundCheckDist;
+    [SerializeField] public float groundCheckDist;
     private float lastTimeGrounded;
-    public float coyoteTime;
+    [SerializeField] public float coyoteTime;
 
     //Vault Variables
-    public float vaultRise;
-    public float vaultSpeed;
-    public float vaultTime;
-    public float vaultCooldown;
-    public float maxVaultCooldown;
+    [SerializeField] public float vaultRise;
+    [SerializeField] public float vaultSpeed;
+    [SerializeField] public float vaultTime;
+    [SerializeField] public float vaultCooldown;
+    [SerializeField] public float maxVaultCooldown;
 
 
     //CAMERA
-    public GameObject cam;
-    public bool updateCamera;
-    public bool lookingRight;
-    public float maxLookAhead;
-    public float lookSpeed;
-    public float lookTurnDampening;
-    public Vector2 playerLookAhead;
-
-    public float lookDown; //FOR TESTING
+    [Header("Camera")]
+    [SerializeField] public GameObject cam;
+    [SerializeField] public bool updateCamera;
+    [SerializeField] public bool lookingRight;
+    [SerializeField] public float maxLookAhead;
+    [SerializeField] public float lookSpeed;
+    [SerializeField] public float lookTurnDampening;
+    [SerializeField] public Vector2 playerLookAhead;
+    [SerializeField] public float lookDown; //FOR TESTING
 
 
     //Slash
@@ -142,9 +139,29 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] AudioClip playerGotHitSound;
     [SerializeField] AudioClip saveSound;
     [SerializeField] AudioClip moneySound;
+
+
+
+
+
+
+    private bool canBoomer = true;
+    public GameObject boomerang;
+    public float boomerangCooldown;
+
+    public float wallVaultRaycastDistance;
+    private bool RIGHTisNearWallVault = false;
+    private bool LEFTisNearWallVault = false;
+
+    [HideInInspector] public bool showMovementSettings = true;
+    [HideInInspector] public bool showCameraSettings = true;
+    [HideInInspector] public bool showSlashSettings = true;
+    [HideInInspector] public bool showHealthSettings = true;
+    [HideInInspector] public bool showSoundSettings = true;
+    [HideInInspector] public bool showMiscellaneousSettings = true;
     #endregion
 
-    
+
 
 
     //General Starting and Update
@@ -696,9 +713,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public float wallVaultRaycastDistance;
-    private bool RIGHTisNearWallVault = false;
-    private bool LEFTisNearWallVault = false;
+   
 
     private void CheckForNearWallsVault()
     {
@@ -730,9 +745,7 @@ public class PlayerScript : MonoBehaviour
     #region
     //INPUTS
 
-    private bool canBoomer = true;
-    public GameObject boomerang;
-    public float boomerangCooldown;
+   
     public void OnBoomerang(InputAction.CallbackContext context) 
     {
         Debug.Log("AHHHHH BOOMERANG");
