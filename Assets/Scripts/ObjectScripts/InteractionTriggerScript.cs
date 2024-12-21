@@ -39,7 +39,7 @@ public class InteractionTriggerScript : MonoBehaviour
                 sp.enabled = true;
             } else
             {
-                sp.enabled = false;
+              //  sp.enabled = false;
             }
 
             if (ps.isInteracting)
@@ -56,7 +56,7 @@ public class InteractionTriggerScript : MonoBehaviour
         {
             if (sp.enabled)
             {
-                sp.enabled = false;
+                //sp.enabled = false;
             }
         }
     }
@@ -67,4 +67,20 @@ public class InteractionTriggerScript : MonoBehaviour
         
     }
 
+
+    public void freezePlayer()
+    {
+        ps.cantMove = true;
+    }
+
+    public void unFreezePlayer()
+    {
+        ps.cantMove = false;
+    }
+
+
+    public void stopPlayerInteracting()
+    {
+        ps.isInteracting = false;
+    }
 }

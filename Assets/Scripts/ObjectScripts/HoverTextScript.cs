@@ -6,6 +6,9 @@ using TMPro;
 public class HoverTextScript : MonoBehaviour
 {
     public TMP_Text hoverTextTMP;
+  //  public GameObject background;
+
+
     public string message;
     public float displayRadius;
     public float fadeInDistance;
@@ -13,6 +16,8 @@ public class HoverTextScript : MonoBehaviour
     public float yOffset;
     private bool isDisplaying;
     private GameObject player;
+
+    public bool notInteracting;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +27,7 @@ public class HoverTextScript : MonoBehaviour
         if (hoverTextTMP != null)
         {
             hoverTextTMP.gameObject.SetActive(false);
+          //  background.gameObject.SetActive(false);
         }
     }
 
@@ -32,12 +38,13 @@ public class HoverTextScript : MonoBehaviour
         {
             float distance = Vector2.Distance(transform.position, player.transform.position);
 
-            if (distance <= displayRadius + fadeInDistance)
+            if (distance <= displayRadius + fadeInDistance && (notInteracting == false))
             {
                 if (!isDisplaying) //turn on text 
                 {
                     isDisplaying = true;
                     hoverTextTMP.gameObject.SetActive(true);
+                  //  background.gameObject.SetActive(true);
                     hoverTextTMP.text = message;
                 }
 
@@ -65,6 +72,7 @@ public class HoverTextScript : MonoBehaviour
             {
                 isDisplaying = false;
                 hoverTextTMP.gameObject.SetActive(false);
+              //  background.gameObject.SetActive(false);
             }
 
             if (isDisplaying) //keep text on correct part of screen

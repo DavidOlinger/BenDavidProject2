@@ -280,12 +280,12 @@ public class PlayerScript : MonoBehaviour
 
         #region
 
-        if (moveDirection.x > 0 && !flipLock && !animator.GetBool("injured"))
+        if (moveDirection.x > 0 && !flipLock && !animator.GetBool("injured") && !cantMove)
         {
             sp.flipX = false;
             lookingRight = true;
         }
-        else if (moveDirection.x < 0 && !flipLock && !animator.GetBool("injured"))
+        else if (moveDirection.x < 0 && !flipLock && !animator.GetBool("injured") && !cantMove)
         {
             sp.flipX = true;
             lookingRight = false;
@@ -300,7 +300,12 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        animator.SetFloat("speed", Mathf.Abs(moveDirection.x));
+        if (!cantMove)
+        {
+            animator.SetFloat("speed", Mathf.Abs(moveDirection.x));
+
+        }
+
         if (animator.GetBool("ascending") && rb.velocity.y < 0)
         {
             animator.SetBool("ascending", false);
@@ -750,7 +755,7 @@ public class PlayerScript : MonoBehaviour
     {
         Debug.Log("AHHHHH BOOMERANG");
 
-        if (context.performed && PlayerPrefs.GetInt("Bless1") == 1)
+        if (context.performed && PlayerPrefs.GetInt("Bless1") == 1 && !cantMove)
         {
             //spawn a prefab
             Debug.Log("boomer is thrown");
@@ -908,7 +913,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnSlash(InputAction.CallbackContext context)
     {
-        if (context.started && !logicScript.isPaused)
+        if (context.started && !logicScript.isPaused && !cantMove)
         {
 
             if (!attackOnCooldown)
@@ -929,7 +934,7 @@ public class PlayerScript : MonoBehaviour
     public void OnHeavySlash(InputAction.CallbackContext context)
     {
         
-        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting && !isJumping && PlayerPrefs.GetFloat("CanHeavySlash") == 1 && !heavySlashOnCooldown)
+        if (context.started && !logicScript.isPaused && isGrounded && !isVaulting && !isJumping && PlayerPrefs.GetFloat("CanHeavySlash") == 1 && !heavySlashOnCooldown && !cantMove)
         {
             isAttacking = false;
             animator.SetBool("attacking", false);
@@ -948,7 +953,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (PlayerPrefs.GetFloat("CanVault") == 1)
             {
-                if (context.started && !logicScript.isPaused)
+                if (context.started && !logicScript.isPaused && !cantMove)
                 {
                     if (!isVaulting && vaultCooldown <= 0)
                     {
@@ -989,7 +994,7 @@ public class PlayerScript : MonoBehaviour
 
             interactFlash.Play();
 
-            Debug.Log("Interacting");
+           // Debug.Log("Interacting");
             isInteracting = true;
             Invoke("StopInteracting", 0.1f);
         }
@@ -1066,6 +1071,9 @@ public class PlayerScript : MonoBehaviour
 
         if (!trueDeath && currHP >= 1.5 && !hasBeenSpiked)
         {
+            moveDirection = Vector2.zero;
+            animator.SetFloat("speed", Mathf.Abs(moveDirection.x));
+
             if (!hasBeenSpiked)
             {
                 currHP--;
@@ -1090,7 +1098,7 @@ public class PlayerScript : MonoBehaviour
         {
             StopCoroutine(InvincibleCoroutine);
         }
-        InvincibleCoroutine = StartCoroutine(endInvincible(2f));
+        InvincibleCoroutine = StartCoroutine(endInvincible(1.5f));
 
 
     }
