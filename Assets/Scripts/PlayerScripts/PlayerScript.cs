@@ -1030,7 +1030,7 @@ public class PlayerScript : MonoBehaviour
             var lastCampfireScript = lastCampfire.GetComponent<CampfireParticleScript>();
             if (lastCampfireScript != null)
             {
-                lastCampfireScript.PutOut();
+                //lastCampfireScript.PutOut();
             }
         }
 

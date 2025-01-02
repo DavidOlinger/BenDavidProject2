@@ -61,20 +61,20 @@ public class LogicScript : MonoBehaviour
 
     }
 
-    //private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-    //{
-    //    if (Input.GetKeyDown(KeyCode.R))
-    //    {
-    //        //  Debug.Log("RESPAWNING ENEMIES");
-    //        RespawnEnemies();
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.C))
-    //    {
-    //        Debug.Log("AHHH CLEARING THE SAVES");
-    //        ClearAllSaves();
-    //    }
+    private void Update()  //THIS IS JUST FOR TESTING, REMOVE FOR FULL GAME AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //  Debug.Log("RESPAWNING ENEMIES");
+            RespawnEnemies();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("AHHH CLEARING THE SAVES");
+            ClearAllSaves();
+        }
 
-    //}
+    }
 
     //Enemy Death Saving
     #region
@@ -443,43 +443,106 @@ public class LogicScript : MonoBehaviour
     }
 
 
-
-
-
     public void ClearAllSaves()
     {
+
+        Debug.Log($"PermanentlyBroken list BEFORE clearing: {string.Join(", ", saveData.permanentlyBroken)}");
         // Clear the lists
         saveData.permanentlyBroken.Clear();
+        // *** DEBUG: Log the contents of permanentlyBroken after clearing ***
+        Debug.Log($"PermanentlyBroken list after clearing: {string.Join(", ", saveData.permanentlyBroken)}");
+
+
+
+        Debug.Log($"DisabledEnemies list BEFORE clearing: {string.Join(", ", saveData.disabledEnemies)}");
         saveData.disabledEnemies.Clear();
+        // *** DEBUG: Log the contents of disabledEnemies after clearing ***
+        Debug.Log($"DisabledEnemies list after clearing: {string.Join(", ", saveData.disabledEnemies)}");
+
+
+
+        Debug.Log($"DontRespawnEnemies list BEFORE clearing: {string.Join(", ", saveData.dontRespawnEnemies)}");
         saveData.dontRespawnEnemies.Clear();
+        // *** DEBUG: Log the contents of dontRespawnEnemies after clearing ***
+        Debug.Log($"DontRespawnEnemies list after clearing: {string.Join(", ", saveData.dontRespawnEnemies)}");
+
+
+
 
         // Write an empty SaveData instance to the JSON file
         string emptyJson = JsonUtility.ToJson(new SaveData(), true);
 
-        // Clear  save files
+        // Clear the breakables save file
         if (File.Exists(breakablesSaveFilePath))
         {
             File.WriteAllText(breakablesSaveFilePath, emptyJson);
+            // *** DEBUG: Log confirmation that the breakables save file was cleared ***
+            Debug.Log($"Breakables save file cleared at path: {breakablesSaveFilePath}");
+        }
+        else
+        {
+            // *** DEBUG: Log if the breakables save file does not exist ***
+            Debug.LogWarning($"Breakables save file does not exist at path: {breakablesSaveFilePath}");
         }
 
-        string enemiesSaveFilePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+        // Clear the enemies save file
         if (File.Exists(enemiesSaveFilePath))
         {
             File.WriteAllText(enemiesSaveFilePath, emptyJson);
+            // *** DEBUG: Log confirmation that the enemies save file was cleared ***
+            Debug.Log($"Enemies save file cleared at path: {enemiesSaveFilePath}");
+        }
+        else
+        {
+            // *** DEBUG: Log if the enemies save file does not exist ***
+            Debug.LogWarning($"Enemies save file does not exist at path: {enemiesSaveFilePath}");
         }
 
-
-        //string emptyJson2 = JsonUtility.ToJson(new SaveData(), true);
-
-        //// Clear the breakables save file
-        //if (File.Exists())
-        //{
-        //    File.WriteAllText(, emptyJson2);
-        //}
-
-
-
+        // *** DEBUG: Final confirmation of save clearing ***
         Debug.Log("All game data cleared for a new game.");
     }
+
+
+    //public void ClearAllSaves()
+    //{
+    //    // Clear the lists
+    //    saveData.permanentlyBroken.Clear();
+    //    Debug.Log(saveData.permanentlyBroken);
+
+    //    saveData.disabledEnemies.Clear();
+    //    Debug.Log(saveData.disabledEnemies);
+
+    //    saveData.dontRespawnEnemies.Clear();
+    //    Debug.Log(saveData.dontRespawnEnemies);
+
+
+    //    // Write an empty SaveData instance to the JSON file
+    //    string emptyJson = JsonUtility.ToJson(new SaveData(), true);
+
+    //    // Clear  save files
+    //    if (File.Exists(breakablesSaveFilePath))
+    //    {
+    //        File.WriteAllText(breakablesSaveFilePath, emptyJson);
+    //    }
+
+    //    string enemiesSaveFilePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+    //    if (File.Exists(enemiesSaveFilePath))
+    //    {
+    //        File.WriteAllText(enemiesSaveFilePath, emptyJson);
+    //    }
+
+
+    //    //string emptyJson2 = JsonUtility.ToJson(new SaveData(), true);
+
+    //    //// Clear the breakables save file
+    //    //if (File.Exists())
+    //    //{
+    //    //    File.WriteAllText(, emptyJson2);
+    //    //}
+
+
+
+    //    Debug.Log("All game data cleared for a new game.");
+    //}
 
 }

@@ -55,12 +55,12 @@ public class CampfireParticleScript : MonoBehaviour
 
         if (interactionTrigger.activated)
         {
-            if (!isLit)
-            {
+            //if (!isLit)
+            //{
                 Debug.Log("attempting to light");
                 Light();
                 player.SetNewCampfire(gameObject);
-            }
+            //}
         }
 
         interactionTrigger.renderHighlight = !isLit;
@@ -69,7 +69,7 @@ public class CampfireParticleScript : MonoBehaviour
     public void Light()
     {
         // If the fire is already lit, do nothing
-        if (isLit) return;
+       // if (isLit) return;
 
         
         // Enable emission for all particle systems
